@@ -42,10 +42,13 @@ jobs:
           dfx build
       - name: Run perf
         run: |
-          ic-repl collections/tests/perf.sh
+          cd collections
+          mkdir perf
+          cd perf
+          ic-repl ../tests/perf.sh
       - name: Upload report
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: collections/tests/ # The folder the action should deploy.
+          FOLDER: collections/perf/ # The folder the action should deploy.
