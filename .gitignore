@@ -1,0 +1,8 @@
+**/*.svg
+.DS_Store
+.dfx
+.history
+target
+build
+.vessel
+

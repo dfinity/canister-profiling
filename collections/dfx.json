@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "hashmap": {
+      "type": "motoko",
+      "main": "src/hashmap.mo"
+    },
+    "triemap" : {
+      "type": "motoko",
+      "main": "src/triemap.mo"
+    },
+    "rbtree" : {
+      "type": "motoko",
+      "main": "src/rbtree.mo"
+    },
+    "splay" : {
+      "type": "motoko",
+      "main": "src/splay.mo"
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "vessel sources",
+      "args": ""
+    }
+  }
+}
