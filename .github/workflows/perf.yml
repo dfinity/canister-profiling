@@ -45,22 +45,20 @@ jobs:
           dfx start --background
       - name: Build collections
         run: |
-          cd collections/motoko
-          dfx canister create --all
-          dfx build
-          cd ../rust
-          dfx canister create --all
-          dfx build
+          pushd collections
+          make build
+          popd
       - name: Run perf
         run: |
-          mkdir perf
-          cd perf
-          ic-repl ../collections/collections.sh
+          pushd collections
+          make perf
+          ic-repl collections.sh
+          popd
       - name: Upload report
         if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: perf/
+          FOLDER: collections/_out/
           SINGLE_COMMIT: true
