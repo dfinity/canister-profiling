@@ -2,21 +2,21 @@
 all: perf
 
 motoko:
-	pushd motoko; \
+	cd motoko; \
 	dfx canister create --all; \
 	dfx build; \
-	popd
+	cd ..
 
 rust:
-	pushd rust; \
+	cd rust; \
 	dfx canister create --all; \
 	dfx build; \
-	popd
+	cd ..
 
 build: motoko rust
 
 perf: build
 	mkdir -p _out; \
-	pushd _out; \
+	cd _out; \
 	ic-repl ../collections.sh; \
-	popd
+	cd ..
