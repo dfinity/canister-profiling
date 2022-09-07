@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "canisters": {
+    "hashmap": {
+      "type": "custom",
+      "candid": "collection.did",
+      "wasm": "target/wasm32-unknown-unknown/release/hashmap.wasm",
+      "build": 
+         ["cargo build --target wasm32-unknown-unknown --release --package hashmap"]
+    },
+    "btreemap": {
+      "type": "custom",
+      "candid": "collection.did",
+      "wasm": "target/wasm32-unknown-unknown/release/btreemap.wasm",
+      "build":
+         ["cargo build --target wasm32-unknown-unknown --release --package btreemap"]
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "",
+      "args": ""
+    }
+  }
+}
