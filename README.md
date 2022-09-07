@@ -7,9 +7,8 @@ Community contributions are strongly encouraged.
 ## How to reproduce performance report
 
 ```
-cd collections
 dfx start --clean
-dfx canister create --all
-dfx build
-ic-repl tests/perf.sh
+cd collections
+make build
+make perf
 ```
