@@ -1,5 +1,5 @@
 .PHONY: all motoko rust build perf
-all: perf
+all: build
 
 motoko:
 	cd motoko; \
@@ -15,7 +15,7 @@ rust:
 
 build: motoko rust
 
-perf: build
+perf:
 	mkdir -p _out; \
 	cd _out; \
 	ic-repl ../collections.sh; \

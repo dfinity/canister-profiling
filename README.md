@@ -9,5 +9,6 @@ Community contributions are strongly encouraged.
 ```
 dfx start --clean
 cd collections
-make
+make build
+make perf
 ```
