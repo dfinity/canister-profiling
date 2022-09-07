@@ -1,0 +1,45 @@
+name: Perf
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    env:
+      DFX_VERSION: 0.11.2
+      VESSEL_VERSION: v0.6.4
+      IC_REPL_VERSION: 0.3.2
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: wasm32-unknown-unknown
+      - name: Install dfx
+        run: |
+          echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
+          wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-linux64
+          cp ./ic-repl-linux64 /usr/local/bin/ic-repl
+          chmod a+x /usr/local/bin/ic-repl
+          wget https://github.com/dfinity/vessel/releases/download/$VESSEL_VERSION/vessel-linux64
+          cp ./vessel-linux64 /usr/local/bin/vessel
+          chmod a+x /usr/local/bin/vessel
+      - name: Start dfx
+        run: |
+          dfx cache install
+          dfx start --background
+      - name: Build collections
+        run: |
+          cd collections
+          dfx canister create --all
+          dfx build
+      - name: Run perf
+        run: |
+          ic-repl collections/tests/perf.sh
