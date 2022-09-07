@@ -4,20 +4,16 @@
     "hashmap": {
       "type": "custom",
       "candid": "collection.did",
-      "wasm": "target/wasm32-unknown-unknown/release/hashmap_opt.wasm",
+      "wasm": "target/wasm32-unknown-unknown/release/hashmap.wasm",
       "build": 
-         ["cargo build --target wasm32-unknown-unknown --release --package hashmap",
-          "ic-wasm target/wasm32-unknown-unknown/release/hashmap.wasm -o target/wasm32-unknown-unknown/release/hashmap_opt.wasm shrink"
-         ]
+         ["cargo build --target wasm32-unknown-unknown --release --package hashmap"]
     },
     "btreemap": {
       "type": "custom",
       "candid": "collection.did",
-      "wasm": "target/wasm32-unknown-unknown/release/btreemap_opt.wasm",
+      "wasm": "target/wasm32-unknown-unknown/release/btreemap.wasm",
       "build":
-         ["cargo build --target wasm32-unknown-unknown --release --package btreemap",
-          "ic-wasm target/wasm32-unknown-unknown/release/btreemap.wasm -o target/wasm32-unknown-unknown/release/btreemap_opt.wasm shrink"
-         ]
+         ["cargo build --target wasm32-unknown-unknown --release --package btreemap"]
     }
   },
   "defaults": {
