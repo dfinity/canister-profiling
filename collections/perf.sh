@@ -8,7 +8,18 @@ let splay = install(wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm
 let hashmap_rs = install(wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"), encode (), null);
 let btreemap_rs = install(wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm"), encode (), null);
 
-function perf(cid) {
+function perf_mo(cid) {
+  call cid.__toggle_tracing();
+  call cid.generate(50000);
+  call cid.get_mem();
+  call cid.__toggle_tracing();
+  call cid.batch_get(50);
+  call cid.batch_put(50);
+  call cid.get_mem();
+  call cid.batch_remove(50);
+};
+
+function perf_rs(cid) {
   call cid.__toggle_tracing();
   call cid.generate(50000);
   let _ = get_memory(cid);
@@ -19,9 +30,9 @@ function perf(cid) {
   call cid.batch_remove(50);
 };
 
-perf(hashmap);
-perf(triemap);
-perf(rbtree);
-perf(splay);
-perf(hashmap_rs);
-perf(btreemap_rs);
+perf_mo(hashmap);
+perf_mo(triemap);
+perf_mo(rbtree);
+perf_mo(splay);
+perf_rs(hashmap_rs);
+perf_rs(btreemap_rs);

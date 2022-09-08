@@ -1,5 +1,6 @@
 import Nat = "mo:base/Nat";
 import Nat32 = "mo:base/Nat32";
+import Prim "mo:⛔";
 
 module {
     public class new(size: ?Nat, seed: Nat32) {
@@ -20,5 +21,8 @@ module {
           state := Nat32.fromNat(Nat32.toNat(state) * 48271 % modulus);
           ?state;
       };
-    }
+    };
+    public func get_memory(): (Nat,Nat,Nat) {
+        (Prim.rts_memory_size(), Prim.rts_heap_size(), Prim.rts_max_live_size())
+    };
 };

@@ -26,6 +26,9 @@ actor {
     public func remove(x : Nat32) : async () {
         map.remove((x, ""))
     };
+    public query func get_mem() : async (Nat,Nat,Nat) {
+        Random.get_memory()
+    };    
     public func batch_get(n : Nat) : async () {
         for (_ in Iter.range(1, n)) {
             ignore map.find((Option.get<Nat32>(rand.next(), 0), ""));
