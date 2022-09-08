@@ -16,7 +16,6 @@ rust:
 build: motoko rust
 
 perf:
-	mkdir -p _out; \
-	cd _out; \
-	ic-repl ../perf.sh; \
-	cd ..
+	mkdir -p ../_out/collections; \
+	cd ../_out/collections; \
+	ic-repl ../../collections/perf.sh
