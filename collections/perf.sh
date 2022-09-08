@@ -1,12 +1,12 @@
 #!ic-repl
 load "../prelude.sh";
 
-let hashmap = install(wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm"), null, null);
-let triemap = install(wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm"), null, null);
-let rbtree = install(wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm"), null, null);
-let splay = install(wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm"), null, null);
-let hashmap_rs = install(wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"), null, null);
-let btreemap_rs = install(wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm"), null, null);
+let hashmap = install(wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm"), encode (), null);
+let triemap = install(wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm"), encode (), null);
+let rbtree = install(wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm"), encode (), null);
+let splay = install(wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm"), encode (), null);
+let hashmap_rs = install(wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"), encode (), null);
+let btreemap_rs = install(wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm"), encode (), null);
 
 function perf(cid) {
   call cid.__toggle_tracing();
