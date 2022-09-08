@@ -43,15 +43,15 @@ jobs:
         run: |
           dfx cache install
           dfx start --background
-      - name: Build collections
+      - name: collections
         run: |
           pushd collections
-          make build
+          make
           popd
-      - name: Run perf
+      - name: basic_dao
         run: |
-          pushd collections
-          make perf
+          pushd basic_dao
+          make
           popd
       - name: Upload report
         if: github.ref == 'refs/heads/main'
@@ -59,5 +59,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: collections/_out/
+          FOLDER: _out/
           SINGLE_COMMIT: true

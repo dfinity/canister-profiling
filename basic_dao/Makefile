@@ -16,6 +16,6 @@ rust:
 build: motoko rust
 
 perf:
-	mkdir -p ../_out/collections; \
-	cd ../_out/collections; \
-	ic-repl ../../collections/perf.sh
+	mkdir -p ../_out/basic_dao; \
+	cd ../_out/basic_dao; \
+	ic-repl ../../basic_dao/perf.sh

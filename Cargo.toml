@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "collections/rust/src/hashmap",
+    "collections/rust/src/btreemap",
+    "basic_dao/rust",
+]
