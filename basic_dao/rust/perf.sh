@@ -31,10 +31,11 @@ let init = encode fake.__init_args(
 
 let DAO = install(wasm_profiling(".dfx/local/canisters/basic_dao/basic_dao.wasm"), init, null);
 call DAO.__get_cycles();
+output(file, stringify("|Rust|", _, "|"));
 
 // transfer tokens
 let _ = call DAO.transfer(record { to = dory; amount = record { amount_e8s = 400 } });
-output(file, stringify("|Rust|", __cost__, "|"));
+output(file, stringify("[", __cost__, "](rust_transfer.svg)|"));
 flamegraph(DAO, "DAO.transfer", "rust_transfer");
 
 // alice makes a proposal
@@ -48,11 +49,11 @@ call DAO.submit_proposal(
   },
 );
 let alice_id = _.Ok;
-output(file, stringify(__cost__, "|"));
+output(file, stringify("[", __cost__, "](rust_submit_proposal.svg)|"));
 flamegraph(DAO, "DAO.submit_proposal", "rust_submit_proposal");
 
 // voting
 identity bob;
 call DAO.vote(record { proposal_id = alice_id; vote = variant { Yes } });
-output(file, stringify(__cost__, "|\n"));
+output(file, stringify("[", __cost__, "](rust_vote.svg)|\n"));
 flamegraph(DAO, "DAO.vote", "rust_vote");

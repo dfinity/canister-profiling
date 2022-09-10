@@ -11,7 +11,7 @@ identity dory;
 identity genesis;
 
 let file = "README.md";
-output(file, "\n# Basic_DAO\n\n| |transfer_token|submit_proposal|vote_proposal|\n|--:|--:|--:|--:|\n");
+output(file, "\n# Basic DAO\n\n| |init|transfer_token|submit_proposal|vote_proposal|\n|--|--:|--:|--:|--:|\n");
 
 let init = encode fake.__init_args(
   record {
@@ -32,10 +32,11 @@ let init = encode fake.__init_args(
 
 let DAO = install(wasm_profiling(".dfx/local/canisters/basic_dao/basic_dao.wasm"), init, null);
 call DAO.__get_cycles();
+output(file, stringify("|Motoko|", _, "|"));
 
 // transfer tokens
 let _ = call DAO.transfer(record { to = dory; amount = record { amount_e8s = 400 } });
-output(file, stringify("|Motoko|", __cost__, "|"));
+output(file, stringify("[", __cost__, "](motoko_transfer.svg)|"));
 flamegraph(DAO, "DAO.transfer", "motoko_transfer");
 
 // alice makes a proposal
@@ -49,11 +50,11 @@ call DAO.submit_proposal(
   },
 );
 let alice_id = _.ok;
-output(file, stringify(__cost__, "|"));
+output(file, stringify("[", __cost__, "](motoko_submit_proposal.svg)|"));
 flamegraph(DAO, "DAO.submit_proposal", "motoko_submit_proposal");
 
 // voting
 identity bob;
 call DAO.vote(record { proposal_id = alice_id; vote = variant { yes } });
-output(file, stringify(__cost__, "|\n"));
+output(file, stringify("[", __cost__, "](motoko_vote.svg)|\n"));
 flamegraph(DAO, "DAO.vote", "motoko_vote");
