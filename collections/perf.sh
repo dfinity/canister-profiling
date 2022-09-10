@@ -9,7 +9,7 @@ let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm");
 
 let file = "README.md";
-output(file, "| |generate|mem|batch_get|batch_put|batch_remove|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n# Collection libraries\n\n| |generate 50k|mem|batch_get|batch_put|batch_remove|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title) {
   let cid = install(wasm, encode (), null);
@@ -23,17 +23,20 @@ function perf_mo(wasm, title) {
   
   call cid.__toggle_tracing();
   call cid.batch_get(50);
-  output(file, stringify(__cost__, "|"));
-  flamegraph(cid, stringify(title, ".batch_get"), stringify(title, "_get"));
+  let svg = stringify(title, "_get.svg");
+  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".batch_get"), svg);
   
   call cid.batch_put(50);
-  output(file, stringify(__cost__, "|"));
-  flamegraph(cid, stringify(title, ".batch_put"), stringify(title, "_put"));
+  let svg = stringify(title, "_put.svg");
+  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".batch_put"), svg);
   call cid.get_mem();
   
   call cid.batch_remove(50);
-  output(file, stringify(__cost__, "|\n"));
-  flamegraph(cid, stringify(title, ".batch_remove"), stringify(title, "_remove"));
+  let svg = stringify(title, "_remove.svg");
+  output(file, stringify("[", __cost__, "](",svg, ")|\n"));
+  flamegraph(cid, stringify(title, ".batch_remove"), svg);
 };
 
 function perf_rs(wasm, title) {
@@ -48,23 +51,25 @@ function perf_rs(wasm, title) {
   
   call cid.__toggle_tracing();
   call cid.batch_get(50);
-  output(file, stringify(__cost__, "|"));
-  flamegraph(cid, stringify(title, ".batch_get"), stringify(title, "_get"));
+  let svg = stringify(title, "_get.svg");  
+  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".batch_get"), svg);
   
   call cid.batch_put(50);
-  output(file, stringify(__cost__, "|"));
-  flamegraph(cid, stringify(title, ".batch_put"), stringify(title, "_put"));
+  let svg = stringify(title, "_put.svg");
+  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".batch_put"), svg);
   let _ = get_memory(cid);
 
   call cid.batch_remove(50);
-  output(file, stringify(__cost__, "|\n"));
-  flamegraph(cid, stringify(title, ".batch_remove"), stringify(title, "_remove"));
+  let svg = stringify(title, "_remove.svg");
+  output(file, stringify("[", __cost__, "](", svg, ")|\n"));
+  flamegraph(cid, stringify(title, ".batch_remove"), svg);
 };
 
 perf_mo(hashmap, "hashmap");
 perf_mo(triemap, "triemap");
 perf_mo(rbtree, "rbtree");
 perf_mo(splay, "splay");
-perf_rs(hashmap_rs, "hashmap_rs");
 perf_rs(btreemap_rs, "btreemap_rs");
-
+perf_rs(hashmap_rs, "hashmap_rs");

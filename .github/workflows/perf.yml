@@ -53,6 +53,34 @@ jobs:
           pushd basic_dao
           make
           popd
+      - name: Generate table
+        if: github.event_name == 'pull_request'
+        run: find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
+      - name: Read table
+        if: github.event_name == 'pull_request'
+        id: perf
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./TABLE.md
+      - name: Find performance comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v2 
+        id: fc                            
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- perf comment -->'
+      - name: Create or update performance comment
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            <!-- perf comment -->
+            Note: the flamegraph link only works after you merge.
+            ${{ steps.perf.outputs.content }}
+          edit-mode: replace
       - name: Upload report
         if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@releases/v3
