@@ -10,6 +10,8 @@ identity cathy;
 identity dory;
 identity genesis;
 
+let file = "README.md";
+
 let init = encode fake.__init_args(
   record {
     accounts = vec {
@@ -32,6 +34,8 @@ call DAO.__get_cycles();
 
 // transfer tokens
 let _ = call DAO.transfer(record { to = dory; amount = record { amount_e8s = 400 } });
+output(file, stringify("|rust|", __cost__, "|"));
+flamegraph(DAO, "DAO.transfer", "rust_transfer");
 
 // alice makes a proposal
 identity alice;
@@ -44,7 +48,11 @@ call DAO.submit_proposal(
   },
 );
 let alice_id = _.Ok;
+output(file, stringify(__cost__, "|"));
+flamegraph(DAO, "DAO.submit_proposal", "rust_submit_proposal");
 
 // voting
 identity bob;
 call DAO.vote(record { proposal_id = alice_id; vote = variant { Yes } });
+output(file, stringify(__cost__, "|\n"));
+flamegraph(DAO, "DAO.vote", "rust_vote");

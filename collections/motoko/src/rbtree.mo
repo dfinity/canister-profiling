@@ -8,6 +8,15 @@ actor {
     var map = RBTree.RBTree<Nat32, Text>(Nat32.compare);
     let rand = Random.new(null, 42);
 
+    stable var stable_map : RBTree.Tree<Nat32, Text> = #leaf;
+
+    system func preupgrade() {
+        stable_map := map.share();
+    };
+    system func postupgrade() {
+        // unshare is missing, if it exists, it will be one assignment
+    };
+    
     public func generate(size: Nat) : async () {
         let rand = Random.new(?size, 1);
         let iter = Iter.map<Nat32, (Nat32, Text)>(rand, func x = (x, debug_show x));
