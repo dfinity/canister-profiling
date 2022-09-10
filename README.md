@@ -8,8 +8,8 @@ Community contributions are strongly encouraged.
 
 Performance reports are generated in `gh-pages` branch.
 
-* [Basic DAO](dfinity.github.io/basic_dao)
-* [Collection libraries](dfinity.github.io/collections)
+* [Basic DAO](http://dfinity.github.io/canister-profiling/basic_dao)
+* [Collection libraries](http://dfinity.github.io/canister-profiling/collections)
 
 ## How to reproduce performance report
 
