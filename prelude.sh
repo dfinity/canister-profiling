@@ -12,6 +12,17 @@ function install(wasm, args, cycle) {
   S
 };
 
+function upgrade(id, wasm, args) {
+  call ic.install_code(
+    record {
+      arg = args;
+      wasm_module = wasm;
+      mode = variant { upgrade };
+      canister_id = id;
+    }
+  );
+};
+
 function get_memory(cid) {
   let _ = call ic.canister_status(record { canister_id = cid });
   _.memory_size

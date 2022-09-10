@@ -10,6 +10,15 @@ actor {
     var map = Splay.Splay<(Nat32, Text)>(compare);
     let rand = Random.new(null, 42);
 
+    stable var stable_map : [(Nat32, Text)] = [];
+
+    system func preupgrade() {
+        stable_map := Iter.toArray(map.entries());
+    };
+    system func postupgrade() {
+        map.fromArray(stable_map);
+    };
+    
     public func generate(size: Nat) : async () {
         let rand = Random.new(?size, 1);
         let iter = Iter.map<Nat32, (Nat32, Text)>(rand, func x = (x, debug_show x));
