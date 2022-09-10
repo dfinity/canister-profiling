@@ -57,7 +57,7 @@ function perf_rs(wasm, title) {
   let _ = get_memory(cid);
 
   call cid.batch_remove(50);
-  output(file, stringify(__cost__, "|"));
+  output(file, stringify(__cost__, "|\n"));
   flamegraph(cid, stringify(title, ".batch_remove"), stringify(title, "_remove"));
 };
 
