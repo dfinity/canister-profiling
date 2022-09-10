@@ -9,7 +9,7 @@ let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm");
 
 let file = "README.md";
-output(file, "| |generate|mem|batch_get|batch_put|batch_remove|\n|--|--|--|--|--|--|\n");
+output(file, "| |generate|mem|batch_get|batch_put|batch_remove|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title) {
   let cid = install(wasm, encode (), null);

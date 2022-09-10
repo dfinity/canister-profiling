@@ -34,7 +34,7 @@ call DAO.__get_cycles();
 
 // transfer tokens
 let _ = call DAO.transfer(record { to = dory; amount = record { amount_e8s = 400 } });
-output(file, stringify("|rust|", __cost__, "|"));
+output(file, stringify("|Rust|", __cost__, "|"));
 flamegraph(DAO, "DAO.transfer", "rust_transfer");
 
 // alice makes a proposal
