@@ -11,7 +11,7 @@ identity dory;
 identity genesis;
 
 let file = "README.md";
-output(file, "| |transfer_token|submit_proposal|vote_proposal|\n|--:|--:|--:|--:|\n");
+output(file, "\n# Basic_DAO\n\n| |transfer_token|submit_proposal|vote_proposal|\n|--:|--:|--:|--:|\n");
 
 let init = encode fake.__init_args(
   record {
