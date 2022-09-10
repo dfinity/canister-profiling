@@ -78,6 +78,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             <!-- perf comment -->
+            Note: the flamegraph link only works after you merge.
             ${{ steps.perf.outputs.content }}
           edit-mode: replace
       - name: Upload report
