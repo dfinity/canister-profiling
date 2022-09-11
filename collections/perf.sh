@@ -5,8 +5,10 @@ let hashmap = wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm")
 let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm");
 let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm");
 let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm");
+let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm");
 let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm");
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm");
+let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm");
 
 let file = "README.md";
 output(file, "\n# Collection libraries\n\n| |generate 50k|mem|batch_get|batch_put|batch_remove|\n|--:|--:|--:|--:|--:|--:|\n");
@@ -71,5 +73,7 @@ perf_mo(hashmap, "hashmap");
 perf_mo(triemap, "triemap");
 perf_mo(rbtree, "rbtree");
 perf_mo(splay, "splay");
+perf_mo(heap, "heap");
+perf_rs(heap_rs, "heap_rs");
 perf_rs(btreemap_rs, "btreemap_rs");
 perf_rs(hashmap_rs, "hashmap_rs");

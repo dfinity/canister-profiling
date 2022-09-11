@@ -15,6 +15,10 @@
     "splay" : {
       "type": "motoko",
       "main": "src/splay.mo"
+    },
+    "heap": {
+      "type": "motoko",
+      "main": "src/heap.mo"
     }
   },
   "defaults": {
