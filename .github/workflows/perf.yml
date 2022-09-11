@@ -59,18 +59,20 @@ jobs:
           make
           popd
       - name: Generate table
-        if: github.event_name == 'pull_request'
-        run: find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
+        run: |
+          pushd _out
+          find . -name 'README.md' -exec cat {} \; > README.md
+          popd
       - name: Read table
         if: github.event_name == 'pull_request'
         id: perf
         uses: juliangruber/read-file-action@v1
         with:
-          path: ./TABLE.md
+          path: _out/README.md
       - name: Find performance comment
         if: github.event_name == 'pull_request'
         uses: peter-evans/find-comment@v2 
-        id: fc                            
+        id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'

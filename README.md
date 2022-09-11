@@ -6,7 +6,7 @@ Community contributions are strongly encouraged.
 
 ## Performance report
 
-Performance reports are generated in `gh-pages` branch.
+[Performance reports](http://dfinity.github.io/canister-profiling) are generated in `gh-pages` branch.
 
 * [Basic DAO](http://dfinity.github.io/canister-profiling/basic_dao)
 * [Collection libraries](http://dfinity.github.io/canister-profiling/collections)
