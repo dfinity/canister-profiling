@@ -5,7 +5,7 @@ let pub = install(wasm_profiling(".dfx/local/canisters/pub/pub.wasm"), encode ()
 let sub = install(wasm_profiling(".dfx/local/canisters/sub/sub.wasm"), encode (), null);
 
 let file = "README.md";
-output(file, "\n# Publisher Subscriber\n\n| |subscribe|publish|\n|--|--:|--:|\n");
+output(file, "\n# Publisher & Subscriber\n\n| |subscribe|publish|\n|--|--:|--:|\n");
 
 call sub.init(stringify(pub), "Apples");
 output(file, stringify("|Motoko|[caller (", __cost__, ")](mo_subscribe.svg) / [callee](mo_pub_register.svg)|"));
