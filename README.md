@@ -10,6 +10,7 @@ Performance reports are generated in `gh-pages` branch.
 
 * [Basic DAO](http://dfinity.github.io/canister-profiling/basic_dao)
 * [Collection libraries](http://dfinity.github.io/canister-profiling/collections)
+* [Publisher & Subscriber](http://dfinity.github.io/canister-profiling/pub-sub)
 
 ## How to reproduce performance report
 

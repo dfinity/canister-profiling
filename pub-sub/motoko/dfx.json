@@ -1,0 +1,10 @@
+{
+  "canisters": {
+    "pub": {
+      "main": "src/pub/Main.mo"
+    },
+    "sub": {
+      "main": "src/sub/Main.mo"
+    }
+  }
+}
