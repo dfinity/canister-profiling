@@ -26,24 +26,18 @@ impl Iterator for Random {
     }
 }
 
-#[derive(PartialOrd, Ord, PartialEq, Eq)]
-struct Item {
-    k: u32,
-    v: String,
-}
-
 thread_local! {
-    static MAP: RefCell<BinaryHeap<Reverse<(u32, String)>>> = RefCell::default();
+    static MAP: RefCell<BinaryHeap<Reverse<u32>>> = RefCell::default();
     static RAND: RefCell<Random> = RefCell::new(Random::new(None, 42));
 }
 
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
     let rand = Random::new(Some(size), 1);
-    let iter = rand.map(|x| Reverse((x, x.to_string())));
+    let iter = rand.map(|x| Reverse(x));
     MAP.with(|map| {
         let mut map = map.borrow_mut();
-        *map = iter.collect::<BinaryHeap<Reverse<(u32, String)>>>();
+        *map = iter.collect::<BinaryHeap<Reverse<u32>>>();
     });
 }
 
@@ -51,13 +45,9 @@ fn generate(size: u32) {
 fn batch_get(n: u32) {
     MAP.with(|map| {
         let mut map = map.borrow_mut();
-        RAND.with(|rand| {
-            let mut rand = rand.borrow_mut();
-            for _ in 0..n {
-                let _k = rand.next().unwrap();
-                map.pop();
-            }
-        })
+        for _ in 0..n {
+            map.pop();
+        }
     })
 }
 
@@ -69,7 +59,7 @@ fn batch_put(n: u32) {
             let mut rand = rand.borrow_mut();
             for _ in 0..n {
                 let k = rand.next().unwrap();
-                map.push(Reverse((k, k.to_string())));
+                map.push(Reverse(k));
             }
         })
     })
@@ -79,12 +69,8 @@ fn batch_put(n: u32) {
 fn batch_remove(n: u32) {
     MAP.with(|map| {
         let mut map = map.borrow_mut();
-        RAND.with(|rand| {
-            let mut rand = rand.borrow_mut();
-            for _ in 0..n {
-                let _k = rand.next().unwrap();
-                map.pop();
-            }
-        })
+        for _ in 0..n {
+            map.pop();
+        }
     })
 }
