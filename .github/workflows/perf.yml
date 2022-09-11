@@ -53,6 +53,11 @@ jobs:
           pushd basic_dao
           make
           popd
+      - name: pub-sub
+        run: |
+          pushd pub-sub
+          make
+          popd
       - name: Generate table
         if: github.event_name == 'pull_request'
         run: find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
