@@ -73,7 +73,9 @@ perf_mo(hashmap, "hashmap");
 perf_mo(triemap, "triemap");
 perf_mo(rbtree, "rbtree");
 perf_mo(splay, "splay");
-perf_mo(heap, "heap");
-perf_rs(heap_rs, "heap_rs");
 perf_rs(btreemap_rs, "btreemap_rs");
 perf_rs(hashmap_rs, "hashmap_rs");
+
+output(file, "\n## Priority queue\n\n| |heapify 50k|mem|pop_min|put|\n|--:|--:|--:|--:|--:|\n");
+perf_mo(heap, "heap");
+perf_rs(heap_rs, "heap_rs");
