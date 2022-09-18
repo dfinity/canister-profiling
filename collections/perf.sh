@@ -9,6 +9,7 @@ let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm");
 let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm");
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm");
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm");
+let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 
 let file = "README.md";
 output(file, "\n# Collection libraries\n\n| |generate 50k|mem|batch_get|batch_put|batch_remove|\n|--:|--:|--:|--:|--:|--:|\n");
@@ -75,6 +76,7 @@ perf_mo(rbtree, "rbtree");
 perf_mo(splay, "splay");
 perf_rs(btreemap_rs, "btreemap_rs");
 perf_rs(hashmap_rs, "hashmap_rs");
+perf_rs(movm_rs, "movm_rs");
 
 output(file, "\n## Priority queue\n\n| |heapify 50k|mem|pop_min|put|\n|--:|--:|--:|--:|--:|\n");
 perf_mo(heap, "heap");
