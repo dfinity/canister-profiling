@@ -59,24 +59,33 @@ fn generate(size: u32) {
       }};
       for (x in j) {{
         map := prim \"HashMapPut\" (map, x, x);
-      }}",
+      }}
+      ",
         size
     ))
-    .expect("oops");
+    .expect("generate");
 }
 
 #[ic_cdk_macros::update]
 fn get(x: u32) -> Option<String> {
-    todo!()
+    match core_eval(&format!("prim \"hashMapGet\" (map, {})", x)).expect("get") {
+        Value::Option(v) => match *v {
+            Value::Nat(n) => Some(n.to_string()),
+            Value::Text(t) => Some(format!("{:?}", t)),
+            _ => todo!("get error"),
+        },
+        _ => todo!("get error"),
+    }
 }
 
 #[ic_cdk_macros::update]
 fn put(k: u32, v: String) {
-    todo!()
+    core_eval(&format!("prim \"hashMapPut\" (map, {}, {})", k, v)).expect("put");
 }
 
 #[ic_cdk_macros::update]
 fn remove(x: u32) {
+    // to do -- support hashMapRemove
     todo!()
 }
 
