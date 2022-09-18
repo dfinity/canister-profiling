@@ -1,4 +1,11 @@
+use candid::Nat;
 use fxhash::FxHashMap;
+use motoko::{
+    ast::Delim,
+    check::parse,
+    value::Value,
+    vm_types::{Core, Interruption, Limit, Limits},
+};
 use std::cell::RefCell;
 
 struct Random {
@@ -8,7 +15,11 @@ struct Random {
 }
 impl Random {
     pub fn new(size: Option<u32>, seed: u32) -> Self {
-        Random { state: seed, size, ind: 0 }
+        Random {
+            state: seed,
+            size,
+            ind: 0,
+        }
     }
 }
 impl Iterator for Random {
@@ -26,81 +37,60 @@ impl Iterator for Random {
 }
 
 thread_local! {
-    // FxHashMap uses the same std::collections::HashMap with a deterministic hasher
-    static MAP: RefCell<FxHashMap<u32, String>> = RefCell::default();
-    static RAND: RefCell<Random> = RefCell::new(Random::new(None, 42));
+    static CORE: RefCell<Core> = RefCell::new(Core::new(Delim::new()));
 }
 
-#[ic_cdk_macros::query]
-fn eval(prog: String) -> String {
-    format!("{:?}", motoko::vm::eval(&prog))
+fn core_eval(prog: &str) -> Result<Value, Interruption> {
+    CORE.with(|core| (*core.borrow_mut()).eval(prog))
 }
 
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
-    let rand = Random::new(Some(size), 1);
-    let iter = rand.map(|x| (x, x.to_string()));
-    MAP.with(|map| {
-        let mut map = map.borrow_mut();
-        for (k,v) in iter {
-            map.insert(k,v);
-        }
-    });
+    let _ = core_eval(&format!(
+        "
+      var map = prim \"hashMapNew\" ();
+      let i = prim \"fastRandIterNew\" (?{}, 1);
+      var j = object {{
+        next = func () {{
+          let (n, i) = prim \"fastRandIterNext\" ();
+          j := i;
+          n
+        }}
+      }};
+      for (x in j) {{
+        map := prim \"HashMapPut\" (map, x, x);
+      }}",
+        size
+    ))
+    .expect("oops");
 }
 
 #[ic_cdk_macros::update]
 fn get(x: u32) -> Option<String> {
-    MAP.with(|map| map.borrow().get(&x).cloned())
+    todo!()
 }
 
 #[ic_cdk_macros::update]
 fn put(k: u32, v: String) {
-    MAP.with(|map| map.borrow_mut().insert(k, v));
+    todo!()
 }
 
 #[ic_cdk_macros::update]
 fn remove(x: u32) {
-    MAP.with(|map| map.borrow_mut().remove(&x));
+    todo!()
 }
 
 #[ic_cdk_macros::update]
 fn batch_get(n: u32) {
-    MAP.with(|map| {
-        let map = map.borrow();
-        RAND.with(|rand| {
-            let mut rand = rand.borrow_mut();
-            for _ in 0..n {
-                let k = rand.next().unwrap();
-                map.get(&k);
-            }
-        })
-    })
+    todo!()
 }
 
 #[ic_cdk_macros::update]
 fn batch_put(n: u32) {
-    MAP.with(|map| {
-        let mut map = map.borrow_mut();
-        RAND.with(|rand| {
-            let mut rand = rand.borrow_mut();
-            for _ in 0..n {
-                let k = rand.next().unwrap();
-                map.insert(k, k.to_string());
-            }
-        })
-    })
+    todo!()
 }
 
 #[ic_cdk_macros::update]
 fn batch_remove(n: u32) {
-    MAP.with(|map| {
-        let mut map = map.borrow_mut();
-        RAND.with(|rand| {
-            let mut rand = rand.borrow_mut();
-            for _ in 0..n {
-                let k = rand.next().unwrap();
-                map.remove(&k);
-            }
-        })
-    })
+    todo!()
 }
