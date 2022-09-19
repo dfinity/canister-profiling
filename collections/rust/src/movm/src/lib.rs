@@ -68,14 +68,10 @@ fn generate(size: u32) {
 
 #[ic_cdk_macros::update]
 fn get(x: u32) -> Option<String> {
-    match core_eval(&format!("prim \"hashMapGet\" (map, {})", x)).expect("get") {
-        Value::Option(v) => match *v {
-            Value::Nat(n) => Some(n.to_string()),
-            Value::Text(t) => Some(format!("{:?}", t)),
-            _ => todo!("get error"),
-        },
-        _ => todo!("get error"),
-    }
+    core_eval(&format!("prim \"hashMapGet\" (map, {})", x))
+        .expect("get")
+        .convert()
+        .expect("not a ?Text value")
 }
 
 #[ic_cdk_macros::update]
