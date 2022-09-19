@@ -23,11 +23,9 @@
          ["cargo build --target wasm32-unknown-unknown --release --package heap"]
     },
     "movm": {
-      "type": "custom",
+      "type": "rust",
       "candid": "collection.did",
-      "wasm": "../../target/wasm32-unknown-unknown/release/movm.wasm",
-      "build":
-         ["cargo build --target wasm32-unknown-unknown --release --package movm"]
+      "package": "movm"
     }
   },
   "defaults": {
