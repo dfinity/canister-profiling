@@ -40,12 +40,22 @@ thread_local! {
     static CORE: RefCell<Core> = RefCell::new(Core::new(Delim::new()));
 }
 
+/*
 fn core_eval(prog: &str) -> Result<Value, Interruption> {
     CORE.with(|core| (*core.borrow_mut()).eval(prog))
 }
 
+*/
+
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
+    CORE.with(|core| 
+              
+              (*core.borrow_mut())
+              .step(&Limits::none()).unwrap() 
+    );
+    todo!()
+/*
     let _ = core_eval(&format!(
         "
       var map = prim \"hashMapNew\" ();
@@ -64,19 +74,27 @@ fn generate(size: u32) {
         size
     ))
     .expect("generate");
+*/
+//    todo!()
 }
 
 #[ic_cdk_macros::update]
 fn get(x: u32) -> Option<String> {
+/*
     core_eval(&format!("prim \"hashMapGet\" (map, {})", x))
         .expect("get")
         .convert()
         .expect("not a ?Text value")
+*/
+todo!()
 }
 
 #[ic_cdk_macros::update]
 fn put(k: u32, v: String) {
+/*
     core_eval(&format!("prim \"hashMapPut\" (map, {}, {})", k, v)).expect("put");
+*/
+todo!()
 }
 
 #[ic_cdk_macros::update]
