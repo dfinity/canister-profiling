@@ -49,12 +49,12 @@ fn core_eval(prog: &str) -> Result<Value, Interruption> {
 
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
+    let p = motoko_proc_macro::parse_static!("123");
+    
     CORE.with(|core| 
               
-              (*core.borrow_mut())
-              .step(&Limits::none()).unwrap() 
+              *core.borrow_mut() = Core::new(p.clone())
     );
-    todo!()
 /*
     let _ = core_eval(&format!(
         "
