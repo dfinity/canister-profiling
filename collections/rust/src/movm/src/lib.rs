@@ -51,9 +51,10 @@ fn core_eval(prog: &str) -> Result<Value, Interruption> {
 fn generate(size: u32) {
     let p = motoko_proc_macro::parse_static!("123");
     
-    CORE.with(|core| 
-              
-              *core.borrow_mut() = Core::new(p.clone())
+    CORE.with(|core| {
+        let _ = (*core.borrow_mut()).step(&Limits::none());
+        *core.borrow_mut() = Core::new(p.clone())
+    }
     );
 /*
     let _ = core_eval(&format!(
