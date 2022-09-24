@@ -20,5 +20,5 @@ candid = "0.7.14"
 ic-cdk = "0.5.2"
 ic-cdk-macros = "0.5.2"
 fxhash = "0.2.1"
-motoko = { path = "../../../../../motoko.rs/crates/motoko" }
-motoko_proc_macro = { path = "../../../../../motoko.rs/crates/motoko_proc_macro" }
+motoko = "0.0.15"
+motoko_proc_macro = "0.0.15"

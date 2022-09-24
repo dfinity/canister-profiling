@@ -613,6 +613,8 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 [[package]]
 name = "motoko"
 version = "0.0.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d443c42e34878f4d00ee19c0117af1f19b4d3b1bc88cf66317b30461a787a2df"
 dependencies = [
  "env_logger",
  "im-rc",
@@ -634,7 +636,9 @@ dependencies = [
 
 [[package]]
 name = "motoko_proc_macro"
-version = "0.0.14"
+version = "0.0.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9ac90b8be0ac33114a673f34c78b80c1a74a475128cd5756013027220cbf5024"
 dependencies = [
  "motoko",
  "proc-macro2",

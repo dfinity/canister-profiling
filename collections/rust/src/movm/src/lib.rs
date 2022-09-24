@@ -7,45 +7,10 @@ use motoko::{
     vm_types::{Core, Interruption, Limit, Limits},
 };
 use std::cell::RefCell;
-
-struct Random {
-    state: u32,
-    size: Option<u32>,
-    ind: u32,
-}
-impl Random {
-    pub fn new(size: Option<u32>, seed: u32) -> Self {
-        Random {
-            state: seed,
-            size,
-            ind: 0,
-        }
-    }
-}
-impl Iterator for Random {
-    type Item = u32;
-    fn next(&mut self) -> Option<Self::Item> {
-        if let Some(size) = self.size {
-            self.ind += 1;
-            if self.ind > size {
-                return None;
-            }
-        }
-        self.state = self.state * 48271 % 0x7fffffff;
-        Some(self.state)
-    }
-}
-
+ 
 thread_local! {
     static CORE: RefCell<Core> = RefCell::new(Core::new(Delim::new()));
 }
-
-/*
-fn core_eval(prog: &str) -> Result<Value, Interruption> {
-    CORE.with(|core| (*core.borrow_mut()).eval(prog))
-}
-
-*/
 
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
