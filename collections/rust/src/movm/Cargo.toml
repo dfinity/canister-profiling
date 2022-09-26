@@ -20,6 +20,8 @@ candid = "0.7.14"
 ic-cdk = "0.5.2"
 ic-cdk-macros = "0.5.2"
 fxhash = "0.2.1"
-motoko = { path = "../../../../../motoko.rs/crates/motoko", default-features = false }
-motoko_proc_macro = { path = "../../../../../motoko.rs/crates/motoko_proc_macro" }
+motoko = { git = "https://github.com/dfinity/motoko.rs", branch = "2022-09-26-profiling" }
+motoko_proc_macro = { git = "https://github.com/dfinity/motoko.rs", branch = "2022-09-26-profiling" }
+#motoko = { path = "../../../../../motoko.rs/crates/motoko", default-features = false }
+#motoko_proc_macro = { path = "../../../../../motoko.rs/crates/motoko_proc_macro" }
 #num-bigint = { version = "0.4.3" }
