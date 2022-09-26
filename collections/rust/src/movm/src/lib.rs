@@ -2,7 +2,6 @@ use candid::Nat;
 use fxhash::FxHashMap;
 use motoko::{
     ast::{Delim, Literal},
-    check::parse,
     value::Value,
     vm_types::{Core, Interruption, Limit, Limits},
 };
