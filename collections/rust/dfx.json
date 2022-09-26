@@ -22,7 +22,7 @@
       "build":
          ["cargo build --target wasm32-unknown-unknown --release --package heap"]
     },
-    "imrc_hashmap_": {
+    "imrc_hashmap": {
       "type": "rust",
       "candid": "collection.did",
       "package": "imrc_hashmap"
