@@ -3,6 +3,7 @@ members = [
     "collections/rust/src/hashmap",
     "collections/rust/src/btreemap",
     "collections/rust/src/heap",
+    "collections/rust/src/imrc_hashmap",
     "collections/rust/src/movm",
     "basic_dao/rust",
     "pub-sub/rust/publisher",

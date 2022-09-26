@@ -497,6 +497,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "imrc_hashmap"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-cdk-macros",
+ "im-rc",
+]
+
+[[package]]
 name = "indexmap"
 version = "1.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
