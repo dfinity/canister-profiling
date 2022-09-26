@@ -30,25 +30,25 @@ fn generate(size: u32) {
             .eval_open_block(
                 vec![("size", val_from_u32(size))],
                 parse_static!(
-                    "
-      var i = prim \"fastRandIterNew\" (?size, 1);
-      var j = {
-        next = func () {
-          let (n, i_) = prim \"fastRandIterNext\" i;
-          i := i_;
-          n
-        }
-      };
-      for (x in j) {
-        let s = prim \"natToText\" x;
-        let (m, _) = prim \"hashMapPut\" (map, x, s);
-        map := m;
-      }
-    "
+                 "
+                 var i = prim \"fastRandIterNew\" (?size, 1);
+                 var j = {
+                   next = func () {
+                     let (n, i_) = prim \"fastRandIterNext\" i;
+                     i := i_;
+                     n
+                   }
+                 };
+                 for (x in j) {
+                   let s = prim \"natToText\" x;
+                   let (m, _) = prim \"hashMapPut\" (map, x, s);
+                   map := m;
+                 }"
                 )
                 .clone(),
             )
             .unwrap();
+        println!("{:?}", &(core.borrow()));
     })
 }
 
