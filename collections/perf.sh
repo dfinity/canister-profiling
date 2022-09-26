@@ -9,7 +9,7 @@ let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm");
 let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm");
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm");
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm");
-let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/imrc_hashmap.wasm");
+let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm");
 let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 
 let file = "README.md";
