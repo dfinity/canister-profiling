@@ -6,66 +6,62 @@ use motoko::{
     value::Value,
     vm_types::{Core, Interruption, Limit, Limits},
 };
+use motoko_proc_macro::parse_static;
+use num_bigint::BigUint;
 use std::cell::RefCell;
- 
+
 thread_local! {
-    static CORE: RefCell<Core> = RefCell::new(Core::new(Delim::new()));
+    static CORE: RefCell<Core> = RefCell::new(Core::new(
+        parse_static!(
+            "
+      var map = prim \"hashMapNew\" ();
+   "
+        )
+        .clone()
+    ));
 }
 
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
-    let p = motoko_proc_macro::parse_static!("123");
-    
     CORE.with(|core| {
-        let _ = (*core.borrow_mut()).step(&Limits::none());
-        *core.borrow_mut() = Core::new(p.clone())
-    }
-    );
-/*
-    let _ = core_eval(&format!(
-        "
-      var map = prim \"hashMapNew\" ();
-      let i = prim \"fastRandIterNew\" (?{}, 1);
-      var j = object {{
-        next = func () {{
-          let (n, i) = prim \"fastRandIterNext\" ();
-          j := i;
+        (core.borrow_mut())
+            .eval_open_block(
+                vec![("size", Value::Nat(BigUint::from(size)))],
+                parse_static!(
+                    "
+      var i = prim \"fastRandIterNew\" (?size, 1);
+      var j = {
+        next = func () {
+          let (n, i_) = prim \"fastRandIterNext\" i;
+          i := i_;
           n
-        }}
-      }};
-      for (x in j) {{
-        map := prim \"HashMapPut\" (map, x, x);
-      }}
-      ",
-        size
-    ))
-    .expect("generate");
-*/
-//    todo!()
+        }
+      };
+      for (x in j) {
+        let s = prim \"natToText\" x;
+        let (m, _) = prim \"hashMapPut\" (map, x, s);
+        map := m;
+      }
+    "
+                )
+                .clone(),
+            )
+            .unwrap();
+    })
 }
 
 #[ic_cdk_macros::update]
 fn get(x: u32) -> Option<String> {
-/*
-    core_eval(&format!("prim \"hashMapGet\" (map, {})", x))
-        .expect("get")
-        .convert()
-        .expect("not a ?Text value")
-*/
-todo!()
+    todo!()
 }
 
 #[ic_cdk_macros::update]
 fn put(k: u32, v: String) {
-/*
-    core_eval(&format!("prim \"hashMapPut\" (map, {}, {})", k, v)).expect("put");
-*/
-todo!()
+    todo!()
 }
 
 #[ic_cdk_macros::update]
 fn remove(x: u32) {
-    // to do -- support hashMapRemove
     todo!()
 }
 
