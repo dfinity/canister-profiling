@@ -5,10 +5,12 @@ use motoko_proc_macro::parse_static;
 use std::cell::RefCell;
 
 thread_local! {
-    static CORE: RefCell<Core> = RefCell::new(Core::new(
-        parse_static!("var map = prim \"hashMapNew\" ()")
-        .clone()
-    ));
+    static CORE: RefCell<Core> = RefCell::new(
+        Core::new(
+            parse_static!("var map = prim \"hashMapNew\" ()")
+                .clone()
+        )
+    );
 }
 
 fn val_from_u32(x: u32) -> Value {
