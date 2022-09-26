@@ -681,7 +681,6 @@ dependencies = [
  "ic-cdk-macros",
  "motoko 0.0.16",
  "motoko_proc_macro",
- "num-bigint",
 ]
 
 [[package]]

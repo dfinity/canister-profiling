@@ -1,13 +1,12 @@
 use candid::Nat;
 use fxhash::FxHashMap;
 use motoko::{
-    ast::Delim,
+    ast::{Delim, Literal},
     check::parse,
     value::Value,
     vm_types::{Core, Interruption, Limit, Limits},
 };
 use motoko_proc_macro::parse_static;
-use num_bigint::BigUint;
 use std::cell::RefCell;
 
 thread_local! {
@@ -21,12 +20,16 @@ thread_local! {
     ));
 }
 
+fn val_from_u32(x: u32) -> Value {
+    Value::from_literal(Literal::Nat(format!("{}", x))).unwrap()
+}
+
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
     CORE.with(|core| {
         (core.borrow_mut())
             .eval_open_block(
-                vec![("size", Value::Nat(BigUint::from(size)))],
+                vec![("size", val_from_u32(size))],
                 parse_static!(
                     "
       var i = prim \"fastRandIterNew\" (?size, 1);
