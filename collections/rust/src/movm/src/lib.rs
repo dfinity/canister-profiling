@@ -101,7 +101,7 @@ fn remove(x: u32) {
 fn batch_get(n: u32) {
     CORE.with(|core| {
         (core.borrow_mut()).eval_open_block(
-            vec![("n", val_from_u32(n))],
+            vec![("size", val_from_u32(n))],
             parse_static!(
                 "
                 var i = prim \"fastRandIterNew\" (?size, 1);
@@ -126,7 +126,7 @@ fn batch_get(n: u32) {
 fn batch_put(n: u32) {
     CORE.with(|core| {
         (core.borrow_mut()).eval_open_block(
-            vec![("n", val_from_u32(n))],
+            vec![("size", val_from_u32(n))],
             parse_static!(
                 "
                  var i = prim \"fastRandIterNew\" (?size, 1);
@@ -153,7 +153,7 @@ fn batch_put(n: u32) {
 fn batch_remove(n: u32) {
     CORE.with(|core| {
         (core.borrow_mut()).eval_open_block(
-            vec![("n", val_from_u32(n))],
+            vec![("size", val_from_u32(n))],
             parse_static!(
                 "
                  var i = prim \"fastRandIterNew\" (?size, 1);
