@@ -20,6 +20,6 @@ candid = "0.7.14"
 ic-cdk = "0.5.2"
 ic-cdk-macros = "0.5.2"
 fxhash = "0.2.1"
-motoko = "0.0.16"
-motoko_proc_macro = "0.0.16"
+motoko = { path = "../../../../../motoko.rs/crates/motoko", default-features = false }
+motoko_proc_macro = { path = "../../../../../motoko.rs/crates/motoko_proc_macro" }
 #num-bigint = { version = "0.4.3" }

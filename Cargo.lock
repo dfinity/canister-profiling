@@ -613,32 +613,6 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 [[package]]
 name = "motoko"
 version = "0.0.15"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d443c42e34878f4d00ee19c0117af1f19b4d3b1bc88cf66317b30461a787a2df"
-dependencies = [
- "env_logger",
- "im-rc",
- "lalrpop",
- "lalrpop-util",
- "line-col",
- "log",
- "logos",
- "num-bigint",
- "num-traits",
- "ordered-float",
- "pretty 0.11.3",
- "regex",
- "serde",
- "serde_json",
- "structopt",
- "test-log",
-]
-
-[[package]]
-name = "motoko"
-version = "0.0.16"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bcc52d877f88284770ba63db70f98f2fe4118dba5a14090db87c11736d250e9e"
 dependencies = [
  "env_logger",
  "im-rc",
@@ -660,11 +634,9 @@ dependencies = [
 
 [[package]]
 name = "motoko_proc_macro"
-version = "0.0.16"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f016529a0d36f08144ad6000de0a4a0b80d2e5fb0385b69c4ee88e2728e41bd7"
+version = "0.0.15"
 dependencies = [
- "motoko 0.0.15",
+ "motoko",
  "proc-macro2",
  "quote",
  "serde",
@@ -679,7 +651,7 @@ dependencies = [
  "fxhash",
  "ic-cdk",
  "ic-cdk-macros",
- "motoko 0.0.16",
+ "motoko",
  "motoko_proc_macro",
 ]
 
