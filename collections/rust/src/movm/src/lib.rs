@@ -1,16 +1,12 @@
 //use candid::Nat;
 //use fxhash::FxHashMap;
-use motoko::{ast::Literal, value::Value, vm_types::Core};
+use motoko::{ast::Literal, value::Value, vm_types::{Core, Limits}};
 use motoko_proc_macro::parse_static;
 use std::cell::RefCell;
 
 thread_local! {
     static CORE: RefCell<Core> = RefCell::new(Core::new(
-        parse_static!(
-            "
-      var map = prim \"hashMapNew\" ();
-   "
-        )
+        parse_static!("var map = prim \"hashMapNew\" ()")
         .clone()
     ));
 }
@@ -26,6 +22,7 @@ fn val_from_string(s: String) -> Value {
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
     CORE.with(|core| {
+        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
         (core.borrow_mut())
             .eval_open_block(
                 vec![("size", val_from_u32(size))],
@@ -56,6 +53,7 @@ fn generate(size: u32) {
 fn get(x: u32) -> Option<String> {
     let _r = CORE
         .with(|core| {
+            (core.borrow_mut()).continue_(&Limits::none()).unwrap();
             (core.borrow_mut()).eval_open_block(
                 vec![("x", val_from_u32(x))],
                 parse_static!("prim \"hashMapGet\" (map, x)").clone(),
@@ -68,6 +66,7 @@ fn get(x: u32) -> Option<String> {
 #[ic_cdk_macros::update]
 fn put(k: u32, v: String) {
     CORE.with(|core| {
+        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
         (core.borrow_mut()).eval_open_block(
             vec![("k", val_from_u32(k)), ("v", val_from_string(v))],
             parse_static!(
@@ -84,6 +83,7 @@ fn put(k: u32, v: String) {
 #[ic_cdk_macros::update]
 fn remove(x: u32) {
     CORE.with(|core| {
+        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
         (core.borrow_mut()).eval_open_block(
             vec![("x", val_from_u32(x))],
             parse_static!(
@@ -100,6 +100,7 @@ fn remove(x: u32) {
 #[ic_cdk_macros::update]
 fn batch_get(n: u32) {
     CORE.with(|core| {
+        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
         (core.borrow_mut()).eval_open_block(
             vec![("size", val_from_u32(n))],
             parse_static!(
@@ -125,6 +126,7 @@ fn batch_get(n: u32) {
 #[ic_cdk_macros::update]
 fn batch_put(n: u32) {
     CORE.with(|core| {
+        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
         (core.borrow_mut()).eval_open_block(
             vec![("size", val_from_u32(n))],
             parse_static!(
@@ -152,6 +154,7 @@ fn batch_put(n: u32) {
 #[ic_cdk_macros::update]
 fn batch_remove(n: u32) {
     CORE.with(|core| {
+        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
         (core.borrow_mut()).eval_open_block(
             vec![("size", val_from_u32(n))],
             parse_static!(
