@@ -1,0 +1,27 @@
+[package]
+name = "movm"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[profile.release]
+opt-level = 'z'     # Optimize for size.
+lto = true          # Enable Link Time Optimization
+codegen-units = 1   # Reduce number of codegen units to increase optimizations.
+panic = 'abort'     # Abort on panic
+strip = true        # Strip symbols from binary*
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+candid = "0.7.14"
+ic-cdk = "0.5.2"
+ic-cdk-macros = "0.5.2"
+fxhash = "0.2.1"
+motoko = { git = "https://github.com/dfinity/motoko.rs", branch = "2022-09-26-profiling" }
+motoko_proc_macro = { git = "https://github.com/dfinity/motoko.rs", branch = "2022-09-26-profiling" }
+#motoko = { path = "../../../../../motoko.rs/crates/motoko", default-features = false }
+#motoko_proc_macro = { path = "../../../../../motoko.rs/crates/motoko_proc_macro" }
+#num-bigint = { version = "0.4.3" }

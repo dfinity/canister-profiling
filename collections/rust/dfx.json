@@ -21,6 +21,16 @@
       "wasm": "../../target/wasm32-unknown-unknown/release/heap.wasm",
       "build":
          ["cargo build --target wasm32-unknown-unknown --release --package heap"]
+    },
+    "imrc_hashmap": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "imrc_hashmap"
+    },
+    "movm": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "movm"
     }
   },
   "defaults": {
