@@ -7,32 +7,24 @@
       "package": "hashmap"
     },
     "btreemap": {
-      "type": "custom",
+      "type": "rust",
       "candid": "collection.did",
-      "wasm": "../../target/wasm32-unknown-unknown/release/btreemap.wasm",
-      "build":
-         ["cargo build --target wasm32-unknown-unknown --release --package btreemap"]
+      "package": "btreemap"
     },
     "heap": {
-      "type": "custom",
+      "type": "rust",
       "candid": "collection.did",
-      "wasm": "../../target/wasm32-unknown-unknown/release/heap.wasm",
-      "build":
-         ["cargo build --target wasm32-unknown-unknown --release --package heap"]
+      "package": "heap"
     },
     "imrc_hashmap": {
-      "type": "custom",
+      "type": "rust",
       "candid": "collection.did",
-      "wasm": "../../target/wasm32-unknown-unknown/release/imrc_hashmap.wasm",
-      "build":
-         ["cargo build --target wasm32-unknown-unknown --release --package imrc_hashmap"]
+      "package": "imrc_hashmap"
     },
     "movm": {
-      "type": "custom",
+      "type": "rust",
       "candid": "collection.did",
-      "wasm": "../../target/wasm32-unknown-unknown/release/movm.wasm",
-      "build":
-         ["cargo build --target wasm32-unknown-unknown --release --package movm"]
+      "package": "movm"
     }
   },
   "defaults": {
