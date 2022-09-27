@@ -23,14 +23,18 @@
          ["cargo build --target wasm32-unknown-unknown --release --package heap"]
     },
     "imrc_hashmap": {
-      "type": "rust",
+      "type": "custom",
       "candid": "collection.did",
-      "package": "imrc_hashmap"
+      "wasm": "../../target/wasm32-unknown-unknown/release/imrc_hashmap.wasm",
+      "build":
+         ["cargo build --target wasm32-unknown-unknown --release --package imrc_hashmap"]
     },
     "movm": {
-      "type": "rust",
+      "type": "custom",
       "candid": "collection.did",
-      "package": "movm"
+      "wasm": "../../target/wasm32-unknown-unknown/release/movm.wasm",
+      "build":
+         ["cargo build --target wasm32-unknown-unknown --release --package movm"]
     }
   },
   "defaults": {
