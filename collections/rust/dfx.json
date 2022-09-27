@@ -2,11 +2,9 @@
   "version": 1,
   "canisters": {
     "hashmap": {
-      "type": "custom",
+      "type": "rust",
       "candid": "collection.did",
-      "wasm": "../../target/wasm32-unknown-unknown/release/hashmap.wasm",
-      "build": 
-         ["cargo build --target wasm32-unknown-unknown --release --package hashmap"]
+      "package": "hashmap"
     },
     "btreemap": {
       "type": "custom",
