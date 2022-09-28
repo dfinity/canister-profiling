@@ -7,7 +7,23 @@ use std::cell::RefCell;
 thread_local! {
     static CORE: RefCell<Core> = RefCell::new(
         Core::new(
-            parse_static!("var map = prim \"hashMapNew\" ()")
+            parse_static!("
+            var map = prim \"hashMapNew\" ();
+            var rand_ = prim \"fastRandIterNew\" (null, 42);
+            rands = func(count){
+              var c = 0;
+              { next = func() {
+                 if (cs == count) {
+                   null
+                 } else {
+                   c := c + 1;
+                   let (n, i) = prim \"fastRandIterNext\" rand_;
+                   rand_ := i;
+                   n
+                 }
+                }
+              }
+            };")
                 .clone()
         )
     );
@@ -47,7 +63,6 @@ fn generate(size: u32) {
                 .clone(),
             )
             .unwrap();
-        println!("{:?}", &(core.borrow()));
     })
 }
 
@@ -107,14 +122,7 @@ fn batch_get(n: u32) {
             vec![("size", val_from_u32(n))],
             parse_static!(
                 "
-                var i = prim \"fastRandIterNew\" (?size, 1);
-                var j = {
-                  next = func () {
-                    let (n, i_) = prim \"fastRandIterNext\" i;
-                    i := i_;
-                    n
-                  }
-                 };
+                 let j = rands(size);
                  for (x in j) {
                    let _ = prim \"hashMapGet\" (map, x);
                  }"
@@ -133,14 +141,7 @@ fn batch_put(n: u32) {
             vec![("size", val_from_u32(n))],
             parse_static!(
                 "
-                 var i = prim \"fastRandIterNew\" (?size, 1);
-                 var j = {
-                   next = func () {
-                     let (n, i_) = prim \"fastRandIterNext\" i;
-                     i := i_;
-                     n
-                   }
-                 };
+                 let j = rands(size);
                  for (x in j) {
                    let s = prim \"natToText\" x;
                    let (m, _) = prim \"hashMapPut\" (map, x, s);
@@ -161,14 +162,7 @@ fn batch_remove(n: u32) {
             vec![("size", val_from_u32(n))],
             parse_static!(
                 "
-                 var i = prim \"fastRandIterNew\" (?size, 1);
-                 var j = {
-                   next = func () {
-                     let (n, i_) = prim \"fastRandIterNext\" i;
-                     i := i_;
-                     n
-                   }
-                 };
+                 let j = rands(size);
                  for (x in j) {
                    let (m, _) = prim \"hashMapRemove\" (map, x);
                    map := m;
