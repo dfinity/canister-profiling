@@ -637,8 +637,8 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 
 [[package]]
 name = "motoko"
-version = "0.0.15"
-source = "git+https://github.com/dfinity/motoko.rs?branch=2022-09-26-profiling#097d459059d40f0c111e1fe4d1137b2cfbb71b7f"
+version = "0.0.17"
+source = "git+https://github.com/dfinity/motoko.rs?branch=avoid-clone#6fe5e39b783e7ae8fc9649214e0cdb5be79ad6cf"
 dependencies = [
  "env_logger",
  "im-rc",
@@ -660,8 +660,8 @@ dependencies = [
 
 [[package]]
 name = "motoko_proc_macro"
-version = "0.0.15"
-source = "git+https://github.com/dfinity/motoko.rs?branch=2022-09-26-profiling#097d459059d40f0c111e1fe4d1137b2cfbb71b7f"
+version = "0.0.17"
+source = "git+https://github.com/dfinity/motoko.rs?branch=avoid-clone#6fe5e39b783e7ae8fc9649214e0cdb5be79ad6cf"
 dependencies = [
  "motoko",
  "proc-macro2",
