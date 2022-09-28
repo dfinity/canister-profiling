@@ -10,7 +10,7 @@ thread_local! {
             parse_static!("
             var map = prim \"hashMapNew\" ();
             var rand_ = prim \"fastRandIterNew\" (null, 42);
-            rands = func(count){
+            let rands = func(count){
               var c = 0;
               { next = func() {
                  if (cs == count) {
