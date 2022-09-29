@@ -13,7 +13,7 @@ thread_local! {
             let rands = func(count){
               var c = 0;
               { next = func() {
-                 if (cs == count) {
+                 if (c == count) {
                    null
                  } else {
                    c := c + 1;
@@ -23,7 +23,7 @@ thread_local! {
                  }
                 }
               }
-            };")
+            };s")
                 .clone()
         )
     );
