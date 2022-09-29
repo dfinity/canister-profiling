@@ -48,7 +48,7 @@ function perf_rs(wasm, title) {
 
   output(file, stringify("|", title, "|"));
   call cid.__toggle_tracing();
-  call cid.generate(50000);
+  call cid.generate(1000);
   output(file, stringify(__cost__, "|"));
   let _ = get_memory(cid);
   output(file, stringify(_, "|"));
