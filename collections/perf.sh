@@ -20,7 +20,7 @@ function perf_mo(wasm, title) {
   
   output(file, stringify("|", title, "|"));
   call cid.__toggle_tracing();
-  call cid.generate(50000);
+  call cid.generate(1000);
   output(file, stringify(__cost__, "|"));
   call cid.get_mem();
   output(file, stringify(_[2], "|"));
