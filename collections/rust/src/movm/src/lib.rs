@@ -23,7 +23,7 @@ thread_local! {
                  }
                 }
               }
-            };s")
+            };")
                 .clone()
         )
     );
