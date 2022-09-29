@@ -13,7 +13,7 @@ let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imr
 let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 
 let file = "README.md";
-output(file, "\n# Collection libraries\n\n| |generate 50k|mem|batch_get|batch_put|batch_remove|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n# Collection libraries\n\n| |generate 1k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title) {
   let cid = install(wasm, encode (), null);
