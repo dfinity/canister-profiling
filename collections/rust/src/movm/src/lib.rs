@@ -1,6 +1,6 @@
 //use candid::Nat;
 //use fxhash::FxHashMap;
-use motoko::{ast::Literal, value::Value, vm_types::{Core, Limits}};
+use motoko::{ast::Literal, value::{Value, Value_}, vm_types::{Core, Limits}, shared::Share};
 use motoko_proc_macro::parse_static;
 use std::cell::RefCell;
 
@@ -29,12 +29,12 @@ thread_local! {
     );
 }
 
-fn val_from_u32(x: u32) -> Value {
-    Value::from_literal(Literal::Nat(format!("{}", x))).unwrap()
+fn val_from_u32(x: u32) -> Value_ {
+    Value::from_literal(Literal::Nat(format!("{}", x))).unwrap().share()
 }
 
-fn val_from_string(s: String) -> Value {
-    Value::from_literal(Literal::Text(s)).unwrap()
+fn val_from_string(s: String) -> Value_ {
+    Value::from_literal(Literal::Text(s)).unwrap().share()
 }
 
 #[ic_cdk_macros::update]
