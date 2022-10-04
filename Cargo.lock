@@ -583,9 +583,9 @@ checksum = "884e2677b40cc8c339eaefcb701c32ef1fd2493d71118dc0ca4b6a736c93bd67"
 
 [[package]]
 name = "libc"
-version = "0.2.133"
+version = "0.2.134"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c0f80d65747a3e43d1596c7c5492d95d5edddaabd45a7fcdb02b95f644164966"
+checksum = "329c933548736bc49fd575ee68c89e8be4d260064184389a5b77517cddd99ffb"
 
 [[package]]
 name = "line-col"
@@ -644,7 +644,7 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 [[package]]
 name = "motoko"
 version = "0.0.18"
-source = "git+https://github.com/dfinity/motoko.rs?branch=shared-values#70967769e5753f74285a3299f8132d7b450926ce"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#46adc54aa13e0bb24eeb37cc04198076e7c344e3"
 dependencies = [
  "dyn-clone",
  "env_logger",
@@ -668,7 +668,7 @@ dependencies = [
 [[package]]
 name = "motoko_proc_macro"
 version = "0.0.18"
-source = "git+https://github.com/dfinity/motoko.rs?branch=shared-values#70967769e5753f74285a3299f8132d7b450926ce"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#46adc54aa13e0bb24eeb37cc04198076e7c344e3"
 dependencies = [
  "motoko",
  "proc-macro2",
@@ -755,9 +755,9 @@ checksum = "e82dad04139b71a90c080c8463fe0dc7902db5192d939bd0950f074d014339e1"
 
 [[package]]
 name = "ordered-float"
-version = "3.1.0"
+version = "3.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "98ffdb14730ed2ef599c65810c15b000896e21e8776b512de0db0c3d7335cc2a"
+checksum = "129d36517b53c461acc6e1580aeb919c8ae6708a4b1eae61c4463a615d4f0411"
 dependencies = [
  "num-traits",
  "serde",
@@ -1059,9 +1059,9 @@ dependencies = [
 
 [[package]]
 name = "smallvec"
-version = "1.9.0"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2fd0db749597d91ff862fd1d55ea87f7855a744a8425a64695b6fca237d1dad1"
+checksum = "a507befe795404456341dfab10cef66ead4c041f62b8b11bbb92bffe5d0953e0"
 
 [[package]]
 name = "string_cache"

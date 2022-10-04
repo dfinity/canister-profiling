@@ -30,11 +30,11 @@ thread_local! {
 }
 
 fn val_from_u32(x: u32) -> Value_ {
-    Value::from_literal(Literal::Nat(format!("{}", x))).unwrap().share()
+    Value::from_literal(&Literal::Nat(format!("{}", x))).unwrap().share()
 }
 
 fn val_from_string(s: String) -> Value_ {
-    Value::from_literal(Literal::Text(s)).unwrap().share()
+    Value::from_literal(&Literal::Text(s)).unwrap().share()
 }
 
 #[ic_cdk_macros::update]
