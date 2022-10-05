@@ -1,7 +1,7 @@
 //use candid::Nat;
 //use fxhash::FxHashMap;
 use motoko::{
-    ast::{Literal, ToId},
+    ast::ToId,
     dynamic::Dynamic,
     shared::{FastClone, Share},
     value::{ToMotoko, Value, Value_},
