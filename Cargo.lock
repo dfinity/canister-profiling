@@ -644,7 +644,7 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 [[package]]
 name = "motoko"
 version = "0.0.18"
-source = "git+https://github.com/dfinity/motoko.rs?branch=main#cbecd6e721b2a7eecc17d829dee1eacd028754a6"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#0583767ee7a8a3ffddf3509ffa64001a246baf27"
 dependencies = [
  "dyn-clone",
  "env_logger",
@@ -668,7 +668,7 @@ dependencies = [
 [[package]]
 name = "motoko_proc_macro"
 version = "0.0.18"
-source = "git+https://github.com/dfinity/motoko.rs?branch=main#cbecd6e721b2a7eecc17d829dee1eacd028754a6"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#0583767ee7a8a3ffddf3509ffa64001a246baf27"
 dependencies = [
  "motoko",
  "proc-macro2",
