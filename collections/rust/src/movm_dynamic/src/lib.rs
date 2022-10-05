@@ -78,7 +78,7 @@ thread_local! {
     static CORE: RefCell<Core> = RefCell::new({
         let mut core = Core::empty();
         let ptr = core.alloc(Map::default().into_value().share());
-        core.env.insert("map".to_id(), Value::Pointer(ptr).share()).unwrap();
+        core.env.insert("map".to_id(), Value::Pointer(ptr).share());
         core
     });
 }
@@ -159,7 +159,7 @@ fn batch_get(n: u32) {
                 for (x in { next = rand }) {
                     map[x];
                 }
-                 "
+                "
             )
             .clone(),
         )
@@ -179,7 +179,7 @@ fn batch_put(n: u32) {
                 for (x in { next = rand }) {
                     map[x] := prim \"natToText\" x;
                 }
-                 "
+                "
             )
             .clone(),
         )
