@@ -1,12 +1,8 @@
 //use candid::Nat;
 //use fxhash::FxHashMap;
-use motoko::{
-    ast::Literal,
-    value::Value,
-    vm_types::{Core, Limits},
-};
+use motoko::{ast::Literal, value::Value, vm_types::{Core, Limits}};
 use motoko_proc_macro::parse_static;
-use std::{borrow::BorrowMut, cell::RefCell};
+use std::cell::RefCell;
 
 thread_local! {
     static CORE: RefCell<Core> = RefCell::new(Core::new(
@@ -26,12 +22,12 @@ fn val_from_string(s: String) -> Value {
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
     CORE.with(|core| {
-        let core = core.borrow_mut();
-        core.continue_(&Limits::none()).unwrap();
-        core.eval_open_block(
-            vec![("size", val_from_u32(size))],
-            parse_static!(
-                "
+        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
+        (core.borrow_mut())
+            .eval_open_block(
+                vec![("size", val_from_u32(size))],
+                parse_static!(
+                 "
                  var i = prim \"fastRandIterNew\" (?size, 1);
                  var j = {
                    next = func () {
@@ -45,11 +41,11 @@ fn generate(size: u32) {
                    let (m, _) = prim \"hashMapPut\" (map, x, s);
                    map := m;
                  }"
+                )
+                .clone(),
             )
-            .clone(),
-        )
-        .unwrap();
-        println!("{:?}", &(core));
+            .unwrap();
+        println!("{:?}", &(core.borrow()));
     })
 }
 
@@ -57,9 +53,8 @@ fn generate(size: u32) {
 fn get(x: u32) -> Option<String> {
     let _r = CORE
         .with(|core| {
-            let core = core.borrow_mut();
-            core.continue_(&Limits::none()).unwrap();
-            core.eval_open_block(
+            (core.borrow_mut()).continue_(&Limits::none()).unwrap();
+            (core.borrow_mut()).eval_open_block(
                 vec![("x", val_from_u32(x))],
                 parse_static!("prim \"hashMapGet\" (map, x)").clone(),
             )
@@ -71,8 +66,8 @@ fn get(x: u32) -> Option<String> {
 #[ic_cdk_macros::update]
 fn put(k: u32, v: String) {
     CORE.with(|core| {
-        core.continue_(&Limits::none()).unwrap();
-        core.eval_open_block(
+        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
+        (core.borrow_mut()).eval_open_block(
             vec![("k", val_from_u32(k)), ("v", val_from_string(v))],
             parse_static!(
                 "

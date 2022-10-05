@@ -301,6 +301,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "dyn-clone"
+version = "1.0.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4f94fa09c2aeea5b8839e414b7b841bf429fd25b9c522116ac97ee87856d88b2"
+
+[[package]]
 name = "either"
 version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -637,9 +643,9 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 
 [[package]]
 name = "motoko"
-version = "0.0.15"
-source = "git+https://github.com/dfinity/motoko.rs?branch=2022-09-26-profiling#097d459059d40f0c111e1fe4d1137b2cfbb71b7f"
+version = "0.0.18"
 dependencies = [
+ "dyn-clone",
  "env_logger",
  "im-rc",
  "lalrpop",
@@ -660,8 +666,7 @@ dependencies = [
 
 [[package]]
 name = "motoko_proc_macro"
-version = "0.0.15"
-source = "git+https://github.com/dfinity/motoko.rs?branch=2022-09-26-profiling#097d459059d40f0c111e1fe4d1137b2cfbb71b7f"
+version = "0.0.18"
 dependencies = [
  "motoko",
  "proc-macro2",
@@ -672,6 +677,18 @@ dependencies = [
 
 [[package]]
 name = "movm"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "fxhash",
+ "ic-cdk",
+ "ic-cdk-macros",
+ "motoko",
+ "motoko_proc_macro",
+]
+
+[[package]]
+name = "movm_dynamic"
 version = "0.1.0"
 dependencies = [
  "candid",
