@@ -14,14 +14,14 @@ let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n# Collection libraries\n\n| |generate 50k|mem|batch_get|batch_put|batch_remove|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n# Collection libraries\n\n| |generate 1k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title) {
   let cid = install(wasm, encode (), null);
   
   output(file, stringify("|", title, "|"));
   call cid.__toggle_tracing();
-  call cid.generate(50000);
+  call cid.generate(1000);
   output(file, stringify(__cost__, "|"));
   call cid.get_mem();
   output(file, stringify(_[2], "|"));
@@ -49,7 +49,7 @@ function perf_rs(wasm, title) {
 
   output(file, stringify("|", title, "|"));
   call cid.__toggle_tracing();
-  call cid.generate(50000);
+  call cid.generate(1000);
   output(file, stringify(__cost__, "|"));
   let _ = get_memory(cid);
   output(file, stringify(_, "|"));

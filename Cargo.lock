@@ -155,9 +155,9 @@ checksum = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
 
 [[package]]
 name = "candid"
-version = "0.7.17"
+version = "0.7.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5e129401e8480393ca7060debaf75e07f0b150aa05ef043325515f5353ced57"
+checksum = "d510cc32b8b991acc955dd3d5e0cb6f404069d1dccd9203ee90f5865557c9165"
 dependencies = [
  "anyhow",
  "binread",
@@ -433,9 +433,9 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
 
 [[package]]
 name = "ic-cdk"
-version = "0.5.6"
+version = "0.5.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ebabbd2e082472e93928ec9725a5aeec4572284e07bf399f3e1eb6a358a4ba6"
+checksum = "0554d77b453140eefcb8c8192a342927f8c48cfda911dfa3cd4561a919dbd32f"
 dependencies = [
  "candid",
  "cfg-if",
@@ -444,9 +444,9 @@ dependencies = [
 
 [[package]]
 name = "ic-cdk-macros"
-version = "0.5.6"
+version = "0.5.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d453dcbe269b19ebd9b3a377819c9f32b3c5c99c3dd42bfd6789600aa77b510c"
+checksum = "954a421ace8b8c8e52d2847c4aa68c80101396134c800ecb12f63457937c4ab4"
 dependencies = [
  "candid",
  "ic-cdk",
@@ -583,9 +583,9 @@ checksum = "884e2677b40cc8c339eaefcb701c32ef1fd2493d71118dc0ca4b6a736c93bd67"
 
 [[package]]
 name = "libc"
-version = "0.2.133"
+version = "0.2.134"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c0f80d65747a3e43d1596c7c5492d95d5edddaabd45a7fcdb02b95f644164966"
+checksum = "329c933548736bc49fd575ee68c89e8be4d260064184389a5b77517cddd99ffb"
 
 [[package]]
 name = "line-col"
@@ -665,10 +665,46 @@ dependencies = [
 ]
 
 [[package]]
+name = "motoko"
+version = "0.0.18"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#9acbf66c07de6c1b23b3c06516777b1eae63f434"
+dependencies = [
+ "dyn-clone",
+ "env_logger",
+ "im-rc",
+ "lalrpop",
+ "lalrpop-util",
+ "line-col",
+ "log",
+ "logos",
+ "num-bigint",
+ "num-traits",
+ "ordered-float",
+ "pretty 0.11.3",
+ "regex",
+ "serde",
+ "serde_json",
+ "structopt",
+ "test-log",
+]
+
+[[package]]
 name = "motoko_proc_macro"
 version = "0.0.18"
 dependencies = [
- "motoko",
+ "motoko 0.0.18",
+ "proc-macro2",
+ "quote",
+ "serde",
+ "syn",
+]
+
+[[package]]
+name = "motoko_proc_macro"
+version = "0.0.18"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#9acbf66c07de6c1b23b3c06516777b1eae63f434"
+dependencies = [
+ "motoko 0.0.18 (git+https://github.com/dfinity/motoko.rs?branch=main)",
  "proc-macro2",
  "quote",
  "serde",
@@ -683,8 +719,8 @@ dependencies = [
  "fxhash",
  "ic-cdk",
  "ic-cdk-macros",
- "motoko",
- "motoko_proc_macro",
+ "motoko 0.0.18 (git+https://github.com/dfinity/motoko.rs?branch=main)",
+ "motoko_proc_macro 0.0.18 (git+https://github.com/dfinity/motoko.rs?branch=main)",
 ]
 
 [[package]]
@@ -695,8 +731,8 @@ dependencies = [
  "fxhash",
  "ic-cdk",
  "ic-cdk-macros",
- "motoko",
- "motoko_proc_macro",
+ "motoko 0.0.18",
+ "motoko_proc_macro 0.0.18",
 ]
 
 [[package]]
@@ -765,9 +801,9 @@ checksum = "e82dad04139b71a90c080c8463fe0dc7902db5192d939bd0950f074d014339e1"
 
 [[package]]
 name = "ordered-float"
-version = "3.1.0"
+version = "3.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "98ffdb14730ed2ef599c65810c15b000896e21e8776b512de0db0c3d7335cc2a"
+checksum = "129d36517b53c461acc6e1580aeb919c8ae6708a4b1eae61c4463a615d4f0411"
 dependencies = [
  "num-traits",
  "serde",
@@ -892,9 +928,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.44"
+version = "1.0.46"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7bd7356a8122b6c4a24a82b278680c73357984ca2fc79a0f9fa6dea7dced7c58"
+checksum = "94e2ef8dbfc347b10c094890f778ee2e36ca9bb4262e86dc99cd217e35f3470b"
 dependencies = [
  "unicode-ident",
 ]
@@ -1069,9 +1105,9 @@ dependencies = [
 
 [[package]]
 name = "smallvec"
-version = "1.9.0"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2fd0db749597d91ff862fd1d55ea87f7855a744a8425a64695b6fca237d1dad1"
+checksum = "a507befe795404456341dfab10cef66ead4c041f62b8b11bbb92bffe5d0953e0"
 
 [[package]]
 name = "string_cache"
@@ -1180,18 +1216,18 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "1.0.36"
+version = "1.0.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0a99cb8c4b9a8ef0e7907cd3b617cc8dc04d571c4e73c8ae403d80ac160bb122"
+checksum = "10deb33631e3c9018b9baf9dcbbc4f737320d2b576bac10f6aefa048fa407e3e"
 dependencies = [
  "thiserror-impl",
 ]
 
 [[package]]
 name = "thiserror-impl"
-version = "1.0.36"
+version = "1.0.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a891860d3c8d66fec8e73ddb3765f90082374dbaaa833407b904a94f1a7eb43"
+checksum = "982d17546b47146b28f7c22e3d08465f6b8903d0ea13c1660d9d84a6e7adcdbb"
 dependencies = [
  "proc-macro2",
  "quote",
