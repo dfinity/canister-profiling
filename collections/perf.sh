@@ -10,7 +10,6 @@ let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm");
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm");
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm");
-# let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
@@ -79,7 +78,6 @@ perf_mo(splay, "splay");
 perf_rs(btreemap_rs, "btreemap_rs");
 perf_rs(hashmap_rs, "hashmap_rs");
 perf_rs(imrc_hashmap_rs, "imrc_hashmap_rs");
-# perf_rs(movm_rs, "movm_rs");
 perf_rs(movm_dynamic_rs, "movm_dynamic_rs");
 
 output(file, "\n## Priority queue\n\n| |heapify 50k|mem|pop_min|put|\n|--:|--:|--:|--:|--:|\n");
