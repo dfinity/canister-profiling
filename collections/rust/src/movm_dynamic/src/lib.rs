@@ -39,7 +39,11 @@ impl Iterator for Random {
     }
 }
 impl Dynamic for Random {
-    fn call(&self, _inst: &Option<motoko::ast::Inst>, _args: Value_) -> motoko::dynamic::Result {
+    fn call(
+        &mut self,
+        _inst: &Option<motoko::ast::Inst>,
+        _args: Value_,
+    ) -> motoko::dynamic::Result {
         Ok(self.next().to_motoko().unwrap().share())
     }
 }
@@ -66,8 +70,8 @@ impl Dynamic for Map {
         Ok(())
     }
 
-    fn call(&self, _inst: &Option<motoko::ast::Inst>, _args: Value_) -> motoko::dynamic::Result {
-        
+    fn call(&mut self, _inst: &Option<motoko::ast::Inst>, args: Value_) -> motoko::dynamic::Result {
+        self.0.remove(&args);
         Ok(Value::Unit.share())
     }
 }
@@ -135,13 +139,11 @@ fn put(k: u32, v: String) {
 #[ic_cdk_macros::update]
 fn remove(x: u32) {
     CORE.with(|core| {
-        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
-        (core.borrow_mut()).eval_open_block(
+        let mut core = core.borrow_mut();
+        core.continue_(&Limits::none()).unwrap();
+        core.eval_open_block(
             vec![("x", x.to_motoko().unwrap().share())],
-            parse_static!(
-                "map(x)"
-            )
-            .clone(),
+            parse_static!("map(x)").clone(),
         )
     })
     .unwrap();
@@ -150,15 +152,16 @@ fn remove(x: u32) {
 #[ic_cdk_macros::update]
 fn batch_get(n: u32) {
     CORE.with(|core| {
-        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
-        (core.borrow_mut()).eval_open_block(
-            vec![("size", val_from_u32(n))],
+        let mut core = core.borrow_mut();
+        core.continue_(&Limits::none()).unwrap();
+        core.eval_open_block(
+            vec![("rand", Random::new(Some(n), 1).into_value().share())],
             parse_static!(
                 "
-                 let j = rands(size);
-                 for (x in j) {
-                   let _ = prim \"hashMapGet\" (map, x);
-                 }"
+                for (x in { next = rand }) {
+                    map[x];
+                }
+                 "
             )
             .clone(),
         )
@@ -169,17 +172,16 @@ fn batch_get(n: u32) {
 #[ic_cdk_macros::update]
 fn batch_put(n: u32) {
     CORE.with(|core| {
-        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
-        (core.borrow_mut()).eval_open_block(
-            vec![("size", val_from_u32(n))],
+        let mut core = core.borrow_mut();
+        core.continue_(&Limits::none()).unwrap();
+        core.eval_open_block(
+            vec![("rand", Random::new(Some(n), 1).into_value().share())],
             parse_static!(
                 "
-                 let j = rands(size);
-                 for (x in j) {
-                   let s = prim \"natToText\" x;
-                   let (m, _) = prim \"hashMapPut\" (map, x, s);
-                   map := m;
-                 }"
+                for (x in { next = rand }) {
+                    map[x] := prim \"natToText\" x;
+                }
+                 "
             )
             .clone(),
         )
@@ -190,16 +192,16 @@ fn batch_put(n: u32) {
 #[ic_cdk_macros::update]
 fn batch_remove(n: u32) {
     CORE.with(|core| {
-        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
-        (core.borrow_mut()).eval_open_block(
-            vec![("size", val_from_u32(n))],
+        let mut core = core.borrow_mut();
+        core.continue_(&Limits::none()).unwrap();
+        core.eval_open_block(
+            vec![("rand", Random::new(Some(n), 1).into_value().share())],
             parse_static!(
                 "
-                 let j = rands(size);
-                 for (x in j) {
-                   let (m, _) = prim \"hashMapRemove\" (map, x);
-                   map := m;
-                 }"
+                for (x in { next = rand }) {
+                    map(x);
+                }
+                "
             )
             .clone(),
         )
