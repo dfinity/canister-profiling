@@ -10,7 +10,7 @@ let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm");
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm");
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm");
-let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
+# let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
