@@ -1,5 +1,3 @@
-//use candid::Nat;
-//use fxhash::FxHashMap;
 use motoko::{
     ast::ToId,
     dynamic::Dynamic,

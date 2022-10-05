@@ -644,30 +644,7 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 [[package]]
 name = "motoko"
 version = "0.0.18"
-dependencies = [
- "dyn-clone",
- "env_logger",
- "im-rc",
- "lalrpop",
- "lalrpop-util",
- "line-col",
- "log",
- "logos",
- "num-bigint",
- "num-traits",
- "ordered-float",
- "pretty 0.11.3",
- "regex",
- "serde",
- "serde_json",
- "structopt",
- "test-log",
-]
-
-[[package]]
-name = "motoko"
-version = "0.0.18"
-source = "git+https://github.com/dfinity/motoko.rs?branch=main#9acbf66c07de6c1b23b3c06516777b1eae63f434"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#92cd342ed1b53f8c4651f5df8d633aec994edcc5"
 dependencies = [
  "dyn-clone",
  "env_logger",
@@ -691,20 +668,9 @@ dependencies = [
 [[package]]
 name = "motoko_proc_macro"
 version = "0.0.18"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#92cd342ed1b53f8c4651f5df8d633aec994edcc5"
 dependencies = [
- "motoko 0.0.18",
- "proc-macro2",
- "quote",
- "serde",
- "syn",
-]
-
-[[package]]
-name = "motoko_proc_macro"
-version = "0.0.18"
-source = "git+https://github.com/dfinity/motoko.rs?branch=main#9acbf66c07de6c1b23b3c06516777b1eae63f434"
-dependencies = [
- "motoko 0.0.18 (git+https://github.com/dfinity/motoko.rs?branch=main)",
+ "motoko",
  "proc-macro2",
  "quote",
  "serde",
@@ -719,8 +685,8 @@ dependencies = [
  "fxhash",
  "ic-cdk",
  "ic-cdk-macros",
- "motoko 0.0.18 (git+https://github.com/dfinity/motoko.rs?branch=main)",
- "motoko_proc_macro 0.0.18 (git+https://github.com/dfinity/motoko.rs?branch=main)",
+ "motoko",
+ "motoko_proc_macro",
 ]
 
 [[package]]
@@ -731,8 +697,8 @@ dependencies = [
  "fxhash",
  "ic-cdk",
  "ic-cdk-macros",
- "motoko 0.0.18",
- "motoko_proc_macro 0.0.18",
+ "motoko",
+ "motoko_proc_macro",
 ]
 
 [[package]]
