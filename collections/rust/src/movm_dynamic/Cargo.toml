@@ -22,6 +22,6 @@ ic-cdk-macros = "0.5.2"
 fxhash = "0.2.1"
 # motoko = { git = "https://github.com/dfinity/motoko.rs", default-features = false }
 # motoko_proc_macro = { git = "https://github.com/dfinity/motoko.rs" }
-motoko = { path = "../../../../../motoko.rs/crates/motoko", default-features = false }
+motoko = { path = "../../../../../motoko.rs/crates/motoko", default-features = false, features = ["to-motoko"] }
 motoko_proc_macro = { path = "../../../../../motoko.rs/crates/motoko_proc_macro" }
 #num-bigint = { version = "0.4.3" }
