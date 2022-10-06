@@ -37,11 +37,7 @@ impl Iterator for Random {
     }
 }
 impl Dynamic for Random {
-    fn call(
-        &mut self,
-        _inst: &Option<motoko::ast::Inst>,
-        _args: Value_,
-    ) -> motoko::dynamic::Result {
+    fn iter_next(&mut self) -> motoko::dynamic::Result {
         Ok(self.next().to_motoko().unwrap().share())
     }
 }
