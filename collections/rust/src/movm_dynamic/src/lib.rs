@@ -38,7 +38,7 @@ impl Iterator for Random {
 }
 impl Dynamic for Random {
     fn iter_next(&mut self) -> motoko::dynamic::Result {
-        Ok(self.next().to_motoko().unwrap().share())
+        Ok(Some(self.next()).to_motoko().unwrap().share())
     }
 }
 
@@ -88,7 +88,7 @@ fn generate(size: u32) {
             vec![("rand", Random::new(Some(size), 1).into_value().share())],
             parse_static!(
                 "
-                for (x in { next = rand }) {
+                for (x in rand) {
                     map[x] := prim \"natToText\" x;
                 }
                 "
@@ -152,7 +152,7 @@ fn batch_get(n: u32) {
             vec![("rand", Random::new(Some(n), 1).into_value().share())],
             parse_static!(
                 "
-                for (x in { next = rand }) {
+                for (x in rand) {
                     map[x];
                 }
                 "
@@ -172,7 +172,7 @@ fn batch_put(n: u32) {
             vec![("rand", Random::new(Some(n), 1).into_value().share())],
             parse_static!(
                 "
-                for (x in { next = rand }) {
+                for (x in rand) {
                     map[x] := prim \"natToText\" x;
                 }
                 "
@@ -192,7 +192,7 @@ fn batch_remove(n: u32) {
             vec![("rand", Random::new(Some(n), 1).into_value().share())],
             parse_static!(
                 "
-                for (x in { next = rand }) {
+                for (x in rand) {
                     map(x);
                 }
                 "
