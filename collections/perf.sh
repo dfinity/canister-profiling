@@ -13,20 +13,20 @@ let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imr
 let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n# Collection libraries\n\n| |generate 1k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n# Collection libraries\n\n| |generate 50k|max mem|batch_get 500|batch_put 500|batch_remove 500|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title) {
   let cid = install(wasm, encode (), null);
   
   output(file, stringify("|", title, "|"));
   call cid.__toggle_tracing();
-  call cid.generate(1000);
+  call cid.generate(50_000);
   output(file, stringify(__cost__, "|"));
   call cid.get_mem();
   output(file, stringify(_[2], "|"));
   
   call cid.__toggle_tracing();
-  call cid.batch_get(50);
+  call cid.batch_get(500);
   let svg = stringify(title, "_get.svg");
   output(file, stringify("[", __cost__, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".batch_get"), svg);
