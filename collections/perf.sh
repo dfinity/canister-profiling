@@ -36,23 +36,6 @@ function perf_rs(wasm, title) {
   output(file, stringify(__cost__, "|"));
   let _ = get_memory(cid);
   output(file, stringify(_, "|"));
-  
-  call cid.__toggle_tracing();
-  call cid.batch_get(50);
-  let svg = stringify(title, "_get.svg");  
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
-  flamegraph(cid, stringify(title, ".batch_get"), svg);
-  
-  call cid.batch_put(50);
-  let svg = stringify(title, "_put.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
-  flamegraph(cid, stringify(title, ".batch_put"), svg);
-  let _ = get_memory(cid);
-
-  call cid.batch_remove(50);
-  let svg = stringify(title, "_remove.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|\n"));
-  flamegraph(cid, stringify(title, ".batch_remove"), svg);
 };
 
 perf_mo(hashmap, "hashmap");
