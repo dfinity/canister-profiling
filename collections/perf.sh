@@ -67,7 +67,6 @@ function perf_rs(wasm, title) {
   call cid.batch_remove(50);
   let svg = stringify(title, "_remove.svg");
   output(file, stringify("[", __cost__, "](", svg, ")|\n"));
-  # flamegraph(cid, stringify(title, ".batch_remove"), svg);
 };
 
 perf_mo(hashmap, "hashmap");
