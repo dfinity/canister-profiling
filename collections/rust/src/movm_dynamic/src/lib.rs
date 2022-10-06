@@ -153,7 +153,7 @@ fn batch_get(n: u32) {
             parse_static!(
                 "
                 for (x in rand) {
-                    map[x];
+                    ignore map[x];
                 }
                 "
             )
