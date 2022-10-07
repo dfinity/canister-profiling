@@ -533,9 +533,9 @@ dependencies = [
 
 [[package]]
 name = "itoa"
-version = "1.0.3"
+version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c8af84674fe1f223a982c933a0ee1086ac4d4052aa0fb8060c12c6ad838e754"
+checksum = "4217ad341ebadf8d8e724e264f13e593e0648f5b3e94b3896a5df283be015ecc"
 
 [[package]]
 name = "lalrpop"
@@ -644,7 +644,7 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 [[package]]
 name = "motoko"
 version = "0.0.18"
-source = "git+https://github.com/dfinity/motoko.rs?branch=main#204ed70f0cb9eb65a1da606c65c5f1363179f85b"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#f0b812c308c057a4d92060a6f1132bc6ea79b708"
 dependencies = [
  "dyn-clone",
  "env_logger",
@@ -668,7 +668,7 @@ dependencies = [
 [[package]]
 name = "motoko_proc_macro"
 version = "0.0.18"
-source = "git+https://github.com/dfinity/motoko.rs?branch=main#204ed70f0cb9eb65a1da606c65c5f1363179f85b"
+source = "git+https://github.com/dfinity/motoko.rs?branch=main#f0b812c308c057a4d92060a6f1132bc6ea79b708"
 dependencies = [
  "motoko",
  "proc-macro2",
@@ -1131,9 +1131,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "1.0.101"
+version = "1.0.102"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e90cde112c4b9690b8cbe810cba9ddd8bc1d7472e2cae317b69e9438c1cba7d2"
+checksum = "3fcd952facd492f9be3ef0d0b7032a6e442ee9b361d4acc2b1d0c4aaa5f613a1"
 dependencies = [
  "proc-macro2",
  "quote",
