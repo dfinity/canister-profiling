@@ -14,7 +14,7 @@ let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n# Collection libraries\n\n| |generate 10k|max mem|batch_get 500|batch_put 500|batch_remove 500|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n# Collection libraries\n\n| |generate 10k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title) {
   let cid = install(wasm, encode (), null);
