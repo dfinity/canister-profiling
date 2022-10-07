@@ -27,18 +27,18 @@ function perf_mo(wasm, title) {
   output(file, stringify(_[2], "|"));
   
   call cid.__toggle_tracing();
-  call cid.batch_get(500);
+  call cid.batch_get(50);
   let svg = stringify(title, "_get.svg");
   output(file, stringify("[", __cost__, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".batch_get"), svg);
   
-  call cid.batch_put(500);
+  call cid.batch_put(50);
   let svg = stringify(title, "_put.svg");
   output(file, stringify("[", __cost__, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".batch_put"), svg);
   call cid.get_mem();
   
-  call cid.batch_remove(500);
+  call cid.batch_remove(50);
   let svg = stringify(title, "_remove.svg");
   output(file, stringify("[", __cost__, "](",svg, ")|\n"));
   flamegraph(cid, stringify(title, ".batch_remove"), svg);
@@ -55,18 +55,21 @@ function perf_rs(wasm, title) {
   output(file, stringify(_, "|"));
   
   call cid.__toggle_tracing();
-  call cid.batch_get(500);
+  call cid.batch_get(50);
   let svg = stringify(title, "_get.svg");  
   output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".batch_get"), svg);
   
-  call cid.batch_put(500);
+  call cid.batch_put(50);
   let svg = stringify(title, "_put.svg");
   output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".batch_put"), svg);
   let _ = get_memory(cid);
 
-  call cid.batch_remove(500);
+  call cid.batch_remove(50);
   let svg = stringify(title, "_remove.svg");
   output(file, stringify("[", __cost__, "](", svg, ")|\n"));
+  flamegraph(cid, stringify(title, ".batch_remove"), svg);
 };
 
 perf_mo(hashmap, "hashmap");
@@ -82,3 +85,4 @@ perf_rs(movm_dynamic_rs, "movm_dynamic_rs");
 output(file, "\n## Priority queue\n\n| |heapify 10k|mem|pop_min|put|\n|--:|--:|--:|--:|--:|\n");
 perf_mo(heap, "heap");
 perf_rs(heap_rs, "heap_rs");
+
