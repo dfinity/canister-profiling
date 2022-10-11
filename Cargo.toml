@@ -5,6 +5,7 @@ members = [
     "collections/rust/src/heap",
     "collections/rust/src/imrc_hashmap",
     "collections/rust/src/movm",
+    "collections/rust/src/movm_dynamic",
     "basic_dao/rust",
     "pub-sub/rust/publisher",
     "pub-sub/rust/subscriber",

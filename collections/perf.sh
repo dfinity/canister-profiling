@@ -11,16 +11,17 @@ let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wa
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm");
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm");
 let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
+let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n# Collection libraries\n\n| |generate 50k|mem|batch_get|batch_put|batch_remove|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n# Collection libraries\n\n| |generate 10k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title) {
   let cid = install(wasm, encode (), null);
   
   output(file, stringify("|", title, "|"));
   call cid.__toggle_tracing();
-  call cid.generate(50000);
+  call cid.generate(10000);
   output(file, stringify(__cost__, "|"));
   call cid.get_mem();
   output(file, stringify(_[2], "|"));
@@ -48,7 +49,7 @@ function perf_rs(wasm, title) {
 
   output(file, stringify("|", title, "|"));
   call cid.__toggle_tracing();
-  call cid.generate(50000);
+  call cid.generate(10000);
   output(file, stringify(__cost__, "|"));
   let _ = get_memory(cid);
   output(file, stringify(_, "|"));
@@ -79,7 +80,9 @@ perf_rs(btreemap_rs, "btreemap_rs");
 perf_rs(hashmap_rs, "hashmap_rs");
 perf_rs(imrc_hashmap_rs, "imrc_hashmap_rs");
 perf_rs(movm_rs, "movm_rs");
+perf_rs(movm_dynamic_rs, "movm_dynamic_rs");
 
-output(file, "\n## Priority queue\n\n| |heapify 50k|mem|pop_min|put|\n|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Priority queue\n\n| |heapify 10k|mem|pop_min|put|\n|--:|--:|--:|--:|--:|\n");
 perf_mo(heap, "heap");
 perf_rs(heap_rs, "heap_rs");
+

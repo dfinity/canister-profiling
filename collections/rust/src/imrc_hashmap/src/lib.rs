@@ -65,7 +65,7 @@ fn batch_get(n: u32) {
             let mut rand = rand.borrow_mut();
             for _ in 0..n {
                 let k = rand.next().unwrap();
-                map.get(&k);
+                drop(map.get(&k));
             }
         })
     })

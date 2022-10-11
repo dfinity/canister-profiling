@@ -1,31 +1,48 @@
 //use candid::Nat;
 //use fxhash::FxHashMap;
-use motoko::{ast::Literal, value::Value, vm_types::{Core, Limits}};
+use motoko::{ast::Literal, value::{Value, Value_}, vm_types::{Core, Limits}, shared::Share};
 use motoko_proc_macro::parse_static;
 use std::cell::RefCell;
 
 thread_local! {
     static CORE: RefCell<Core> = RefCell::new(
         Core::new(
-            parse_static!("var map = prim \"hashMapNew\" ()")
+            parse_static!("
+            var map = prim \"hashMapNew\" ();
+            var rand_ = prim \"fastRandIterNew\" (null, 42);
+            let rands = func(count){
+              var c = 0;
+              { next = func() {
+                 if (c == count) {
+                   null
+                 } else {
+                   c := c + 1;
+                   let (n, i) = prim \"fastRandIterNext\" rand_;
+                   rand_ := i;
+                   n
+                 }
+                }
+              }
+            };")
                 .clone()
         )
     );
 }
 
-fn val_from_u32(x: u32) -> Value {
-    Value::from_literal(Literal::Nat(format!("{}", x))).unwrap()
+fn val_from_u32(x: u32) -> Value_ {
+    Value::from_literal(&Literal::Nat(format!("{}", x))).unwrap().share()
 }
 
-fn val_from_string(s: String) -> Value {
-    Value::from_literal(Literal::Text(s)).unwrap()
+fn val_from_string(s: String) -> Value_ {
+    Value::from_literal(&Literal::Text(s)).unwrap().share()
 }
 
 #[ic_cdk_macros::update]
 fn generate(size: u32) {
     CORE.with(|core| {
-        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
-        (core.borrow_mut())
+        let mut core = core.borrow_mut();
+        core.continue_(&Limits::none()).unwrap();
+        core
             .eval_open_block(
                 vec![("size", val_from_u32(size))],
                 parse_static!(
@@ -47,7 +64,6 @@ fn generate(size: u32) {
                 .clone(),
             )
             .unwrap();
-        println!("{:?}", &(core.borrow()));
     })
 }
 
@@ -55,8 +71,9 @@ fn generate(size: u32) {
 fn get(x: u32) -> Option<String> {
     let _r = CORE
         .with(|core| {
-            (core.borrow_mut()).continue_(&Limits::none()).unwrap();
-            (core.borrow_mut()).eval_open_block(
+            let mut core = core.borrow_mut();
+            core.continue_(&Limits::none()).unwrap();
+            core.eval_open_block(
                 vec![("x", val_from_u32(x))],
                 parse_static!("prim \"hashMapGet\" (map, x)").clone(),
             )
@@ -68,8 +85,9 @@ fn get(x: u32) -> Option<String> {
 #[ic_cdk_macros::update]
 fn put(k: u32, v: String) {
     CORE.with(|core| {
-        (core.borrow_mut()).continue_(&Limits::none()).unwrap();
-        (core.borrow_mut()).eval_open_block(
+        let mut core = core.borrow_mut();
+        core.continue_(&Limits::none()).unwrap();
+        core.eval_open_block(
             vec![("k", val_from_u32(k)), ("v", val_from_string(v))],
             parse_static!(
                 "
@@ -107,14 +125,7 @@ fn batch_get(n: u32) {
             vec![("size", val_from_u32(n))],
             parse_static!(
                 "
-                var i = prim \"fastRandIterNew\" (?size, 1);
-                var j = {
-                  next = func () {
-                    let (n, i_) = prim \"fastRandIterNext\" i;
-                    i := i_;
-                    n
-                  }
-                 };
+                 let j = rands(size);
                  for (x in j) {
                    let _ = prim \"hashMapGet\" (map, x);
                  }"
@@ -133,14 +144,7 @@ fn batch_put(n: u32) {
             vec![("size", val_from_u32(n))],
             parse_static!(
                 "
-                 var i = prim \"fastRandIterNew\" (?size, 1);
-                 var j = {
-                   next = func () {
-                     let (n, i_) = prim \"fastRandIterNext\" i;
-                     i := i_;
-                     n
-                   }
-                 };
+                 let j = rands(size);
                  for (x in j) {
                    let s = prim \"natToText\" x;
                    let (m, _) = prim \"hashMapPut\" (map, x, s);
@@ -161,14 +165,7 @@ fn batch_remove(n: u32) {
             vec![("size", val_from_u32(n))],
             parse_static!(
                 "
-                 var i = prim \"fastRandIterNew\" (?size, 1);
-                 var j = {
-                   next = func () {
-                     let (n, i_) = prim \"fastRandIterNext\" i;
-                     i := i_;
-                     n
-                   }
-                 };
+                 let j = rands(size);
                  for (x in j) {
                    let (m, _) = prim \"hashMapRemove\" (map, x);
                    map := m;
