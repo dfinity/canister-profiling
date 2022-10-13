@@ -17,9 +17,7 @@ thread_local! {
                    null
                  } else {
                    c := c + 1;
-                   let (n, i) = prim \"fastRandIterNext\" rand_;
-                   rand_ := i;
-                   n
+                   prim \"fastRandIterNext\" rand_
                  }
                 }
               }
@@ -50,9 +48,7 @@ fn generate(size: u32) {
                  var i = prim \"fastRandIterNew\" (?size, 1);
                  var j = {
                    next = func () {
-                     let (n, i_) = prim \"fastRandIterNext\" i;
-                     i := i_;
-                     n
+                     prim \"fastRandIterNext\" i
                    }
                  };
                  for (x in j) {
