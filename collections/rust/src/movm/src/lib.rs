@@ -52,8 +52,7 @@ fn generate(size: u32) {
                    }
                  };
                  for (x in j) {
-                   let s = prim \"natToText\" x;
-                   let (m, _) = prim \"hashMapPut\" (map, x, s);
+                   let (m, _) = prim \"hashMapPut\" (map, x, prim \"natToText\" x);
                    map := m;
                  }"
                 )
