@@ -1,5 +1,4 @@
 use motoko::{
-    ast::ToId,
     dynamic::Dynamic,
     shared::{FastClone, Share},
     value::{ToMotoko, Value, Value_},
@@ -52,19 +51,29 @@ impl std::hash::Hash for Map {
 }
 
 impl Dynamic for Map {
-    fn get_index(&self, index: Value_) -> motoko::dynamic::Result {
+    fn get_index(&self, _core: &Core, index: Value_) -> motoko::dynamic::Result {
         self.0
             .get(&index)
             .map(FastClone::fast_clone)
             .ok_or_else(|| Interruption::IndexOutOfBounds)
     }
 
-    fn set_index(&mut self, key: Value_, value: Value_) -> motoko::dynamic::Result<()> {
+    fn set_index(
+        &mut self,
+        _core: &mut Core,
+        key: Value_,
+        value: Value_,
+    ) -> motoko::dynamic::Result<()> {
         self.0.insert(key, value);
         Ok(())
     }
 
-    fn call(&mut self, _inst: &Option<motoko::ast::Inst>, args: Value_) -> motoko::dynamic::Result {
+    fn call(
+        &mut self,
+        _core: &mut Core,
+        _inst: &Option<motoko::ast::Inst>,
+        args: Value_,
+    ) -> motoko::dynamic::Result {
         self.0.remove(&args);
         Ok(Value::Unit.share())
     }
@@ -73,8 +82,7 @@ impl Dynamic for Map {
 thread_local! {
     static CORE: RefCell<Core> = RefCell::new({
         let mut core = Core::empty();
-        let ptr = core.alloc(Map::default().into_value().share());
-        core.env.insert("map".to_id(), Value::Pointer(ptr).share());
+        core.assign_alloc("map", Map::default().into_value());
         core
     });
 }
@@ -85,7 +93,7 @@ fn generate(size: u32) {
         let mut core = core.borrow_mut();
         core.continue_(&Limits::none()).unwrap();
         core.eval_open_block(
-            vec![("rand", Random::new(Some(size), 1).into_value().share())],
+            vec![("rand", Random::new(Some(size), 1).into_value())],
             parse_static!(
                 "
                 for (x in rand) {
@@ -106,7 +114,7 @@ fn get(x: u32) -> Option<String> {
             let mut core = core.borrow_mut();
             core.continue_(&Limits::none()).unwrap();
             core.eval_open_block(
-                vec![("x", x.to_motoko().unwrap().share())],
+                vec![("x", x.to_motoko().unwrap())],
                 parse_static!("map[x]").clone(),
             )
         })
@@ -120,10 +128,7 @@ fn put(k: u32, v: String) {
         let mut core = core.borrow_mut();
         core.continue_(&Limits::none()).unwrap();
         core.eval_open_block(
-            vec![
-                ("k", k.to_motoko().unwrap().share()),
-                ("v", v.to_motoko().unwrap().share()),
-            ],
+            vec![("k", k.to_motoko().unwrap()), ("v", v.to_motoko().unwrap())],
             parse_static!("map[k] := v").clone(),
         )
     })
@@ -136,7 +141,7 @@ fn remove(x: u32) {
         let mut core = core.borrow_mut();
         core.continue_(&Limits::none()).unwrap();
         core.eval_open_block(
-            vec![("x", x.to_motoko().unwrap().share())],
+            vec![("x", x.to_motoko().unwrap())],
             parse_static!("map(x)").clone(),
         )
     })
@@ -149,7 +154,7 @@ fn batch_get(n: u32) {
         let mut core = core.borrow_mut();
         core.continue_(&Limits::none()).unwrap();
         core.eval_open_block(
-            vec![("rand", Random::new(Some(n), 1).into_value().share())],
+            vec![("rand", Random::new(Some(n), 1).into_value())],
             parse_static!(
                 "
                 for (x in rand) {
@@ -169,7 +174,7 @@ fn batch_put(n: u32) {
         let mut core = core.borrow_mut();
         core.continue_(&Limits::none()).unwrap();
         core.eval_open_block(
-            vec![("rand", Random::new(Some(n), 1).into_value().share())],
+            vec![("rand", Random::new(Some(n), 1).into_value())],
             parse_static!(
                 "
                 for (x in rand) {
@@ -189,7 +194,7 @@ fn batch_remove(n: u32) {
         let mut core = core.borrow_mut();
         core.continue_(&Limits::none()).unwrap();
         core.eval_open_block(
-            vec![("rand", Random::new(Some(n), 1).into_value().share())],
+            vec![("rand", Random::new(Some(n), 1).into_value())],
             parse_static!(
                 "
                 for (x in rand) {
