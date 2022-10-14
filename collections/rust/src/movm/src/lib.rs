@@ -10,17 +10,8 @@ thread_local! {
             parse_static!("
             var map = prim \"hashMapNew\" ();
             var rand_ = prim \"fastRandIterNew\" (null, 42);
-            let rands = func(count){
-              var c = 0;
-              { next = func() {
-                 if (c == count) {
-                   null
-                 } else {
-                   c := c + 1;
-                   prim \"fastRandIterNext\" rand_
-                 }
-                }
-              }
+            let rands = func(count) {
+              prim \"fastRandIterNew\" (?count, 42)
             };")
                 .clone()
         )
@@ -45,13 +36,7 @@ fn generate(size: u32) {
                 vec![("size", val_from_u32(size))],
                 parse_static!(
                  "
-                 var i = prim \"fastRandIterNew\" (?size, 1);
-                 var j = {
-                   next = func () {
-                     prim \"fastRandIterNext\" i
-                   }
-                 };
-                 for (x in j) {
+                 for (x in prim \"fastRandIterNew\" (?size, 1)) {
                    let (m, _) = prim \"hashMapPut\" (map, x, prim \"natToText\" x);
                    map := m;
                  }"
