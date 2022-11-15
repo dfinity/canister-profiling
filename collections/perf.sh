@@ -10,8 +10,8 @@ let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm");
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm");
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm");
-let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
-let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
+//let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
+//let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
 output(file, "\n# Collection libraries\n\n| |generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
@@ -89,5 +89,5 @@ output(file, "\n## MoVM\n\n| |generate 10k|max mem|batch_get 50|batch_put 50|bat
 perf_mo(hashmap, "hashmap", movm_size);
 perf_rs(hashmap_rs, "hashmap_rs", movm_size);
 perf_rs(imrc_hashmap_rs, "imrc_hashmap_rs", movm_size);
-perf_rs(movm_rs, "movm_rs", movm_size);
-perf_rs(movm_dynamic_rs, "movm_dynamic_rs", movm_size);
+//perf_rs(movm_rs, "movm_rs", movm_size);
+//perf_rs(movm_dynamic_rs, "movm_dynamic_rs", movm_size);
