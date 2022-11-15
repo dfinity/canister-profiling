@@ -58,6 +58,11 @@ jobs:
           pushd pub-sub
           make
           popd
+      - name: heartbeat
+        run: |
+          pushd heartbeat
+          make
+          popd
       - name: Generate table
         if: github.event_name == 'pull_request'
         run: find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
