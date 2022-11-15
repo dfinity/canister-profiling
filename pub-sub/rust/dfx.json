@@ -2,15 +2,13 @@
   "canisters": {
     "pub": {
       "candid": "publisher/src/publisher.did",
-      "type": "custom",
-      "wasm": "../../target/wasm32-unknown-unknown/release/publisher.wasm",
-      "build": ["cargo build --target wasm32-unknown-unknown --release --package publisher"]
+      "type": "rust",
+      "package": "publisher"
     },
     "sub": {
       "candid": "subscriber/src/subscriber.did",
-      "type": "custom",
-      "wasm": "../../target/wasm32-unknown-unknown/release/subscriber.wasm",
-      "build": ["cargo build --target wasm32-unknown-unknown --release --package subscriber"]
+      "type": "rust",
+      "package": "subscriber"
     }
   }
 }
