@@ -65,7 +65,6 @@ dependencies = [
  "candid",
  "ic-cdk",
  "ic-cdk-macros",
- "ic-types 0.4.2",
  "serde",
  "serde_derive",
 ]
@@ -155,17 +154,18 @@ checksum = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
 
 [[package]]
 name = "candid"
-version = "0.7.18"
+version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d510cc32b8b991acc955dd3d5e0cb6f404069d1dccd9203ee90f5865557c9165"
+checksum = "0571f3777880555f86d8aaa63080162560a8bf183d7853e0cc561d9a75458bbd"
 dependencies = [
  "anyhow",
  "binread",
  "byteorder",
  "candid_derive",
  "codespan-reporting",
+ "crc32fast",
+ "data-encoding",
  "hex",
- "ic-types 0.5.0",
  "lalrpop",
  "lalrpop-util",
  "leb128",
@@ -177,14 +177,15 @@ dependencies = [
  "pretty 0.10.0",
  "serde",
  "serde_bytes",
+ "sha2",
  "thiserror",
 ]
 
 [[package]]
 name = "candid_derive"
-version = "0.4.5"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2e02c03c4d547674a3f3f3109538fb49871fbe636216daa019f06a62faca9061"
+checksum = "58f1f4db7c7d04b87b70b3a35c5dc5c2c9dd73cef8bdf6760e2f18a0d45350dd"
 dependencies = [
  "lazy_static",
  "proc-macro2",
@@ -402,6 +403,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "heartbeat"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-cdk-macros",
+ "ic-types",
+ "serde",
+ "serde_derive",
+]
+
+[[package]]
 name = "heck"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -433,20 +446,22 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
 
 [[package]]
 name = "ic-cdk"
-version = "0.5.7"
+version = "0.6.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0554d77b453140eefcb8c8192a342927f8c48cfda911dfa3cd4561a919dbd32f"
+checksum = "dc234b5fbb3e41ff88c7f287b490104e33ec5690d3f441dfefc686c37266c8b3"
 dependencies = [
  "candid",
  "cfg-if",
+ "ic0",
  "serde",
+ "serde_bytes",
 ]
 
 [[package]]
 name = "ic-cdk-macros"
-version = "0.5.7"
+version = "0.6.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "954a421ace8b8c8e52d2847c4aa68c80101396134c800ecb12f63457937c4ab4"
+checksum = "fbcec58ff3e0a6977a7a14bb47163a0d79a37f04eb92c0f69231a008c53cc375"
 dependencies = [
  "candid",
  "ic-cdk",
@@ -473,19 +488,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "ic-types"
-version = "0.5.0"
+name = "ic0"
+version = "0.18.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "79a17269dff0ec6ca4c3d04e18fca97d018ff53d809e6d92348fc22f9588e1a5"
-dependencies = [
- "crc32fast",
- "data-encoding",
- "hex",
- "serde",
- "serde_bytes",
- "sha2",
- "thiserror",
-]
+checksum = "c221dd0bbe04c556238774b8564bcdc071d4022a085d625964a95615240dae02"
 
 [[package]]
 name = "im-rc"

@@ -1,0 +1,10 @@
+{
+  "canisters": {
+    "heartbeat": {
+      "candid": "src/heartbeat.did",
+      "type": "custom",
+      "wasm": "../../target/wasm32-unknown-unknown/release/heartbeat.wasm",
+      "build": ["cargo build --target wasm32-unknown-unknown --release --package heartbeat"]
+    }
+  }
+}
