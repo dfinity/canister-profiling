@@ -11,9 +11,9 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.12.0
+      DFX_VERSION: 0.12.1
       VESSEL_VERSION: v0.6.4
-      IC_REPL_VERSION: 0.3.8
+      IC_REPL_VERSION: 0.3.10
     steps:
       - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
