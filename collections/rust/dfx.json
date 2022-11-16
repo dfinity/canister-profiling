@@ -20,6 +20,16 @@
       "type": "rust",
       "candid": "collection.did",
       "package": "imrc_hashmap"
+    },
+    "movm": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "movm"
+    },
+    "movm_dynamic": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "movm_dynamic"
     }
   },
   "defaults": {
