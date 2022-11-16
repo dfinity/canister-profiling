@@ -13,5 +13,5 @@ function perf(wasm, title) {
   output(file, stringify("|", title, "|[flamegraph](", title, ".svg)", "|\n"));
 };
 
-perf(motoko, "motoko");
-perf(rust, "rust");
+perf(motoko, "Motoko");
+perf(rust, "Rust");
