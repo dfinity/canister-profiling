@@ -11,9 +11,9 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.12.0-beta.3
+      DFX_VERSION: 0.12.0
       VESSEL_VERSION: v0.6.4
-      IC_REPL_VERSION: 0.3.7
+      IC_REPL_VERSION: 0.3.8
     steps:
       - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
@@ -58,6 +58,11 @@ jobs:
           pushd pub-sub
           make
           popd
+      - name: heartbeat
+        run: |
+          pushd heartbeat
+          make
+          popd
       - name: Generate table
         if: github.event_name == 'pull_request'
         run: find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
@@ -83,7 +88,8 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             <!-- perf comment -->
-            Note: the flamegraph link only works after you merge.
+            > **Warning**
+            > The flamegraph link only works after you merge.
             ${{ steps.perf.outputs.content }}
           edit-mode: replace
       - name: Upload report

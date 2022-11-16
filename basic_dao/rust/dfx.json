@@ -2,9 +2,8 @@
   "canisters": {
     "basic_dao": {
       "candid": "src/basic_dao.did",
-      "type": "custom",
-      "wasm": "../../target/wasm32-unknown-unknown/release/basic_dao.wasm",
-      "build": ["cargo build --target wasm32-unknown-unknown --release --package basic_dao"]
+      "type": "rust",
+      "package": "basic_dao"
     }
   }
 }

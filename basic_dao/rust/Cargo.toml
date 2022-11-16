@@ -9,9 +9,8 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-ic-cdk = "0.5"
-ic-cdk-macros = "0.5"
-ic-types = "0.4"
+ic-cdk = "0.6"
+ic-cdk-macros = "0.6"
 serde = "1.0"
 serde_derive = "1.0"
-candid = "0.7"
+candid = "0.8"

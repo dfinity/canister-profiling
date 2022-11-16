@@ -5,20 +5,13 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[profile.release]
-opt-level = 'z'     # Optimize for size.
-lto = true          # Enable Link Time Optimization
-codegen-units = 1   # Reduce number of codegen units to increase optimizations.
-panic = 'abort'     # Abort on panic
-strip = true        # Strip symbols from binary*
-
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-candid = "0.7.14"
-ic-cdk = "0.5.2"
-ic-cdk-macros = "0.5.2"
+candid = "0.8"
+ic-cdk = "0.6"
+ic-cdk-macros = "0.6"
 fxhash = "0.2.1"
 motoko = { branch = "main", git = "https://github.com/dfinity/motoko.rs"}
 motoko_proc_macro = { branch = "main", git = "https://github.com/dfinity/motoko.rs" }
