@@ -8,13 +8,13 @@ let file = "README.md";
 output(file, "\n# Publisher & Subscriber\n\n| |subscribe|publish|\n|--|--:|--:|\n");
 
 call sub.init(stringify(pub), "Apples");
-output(file, stringify("|Motoko|[caller (", __cost__, ")](mo_subscribe.svg) / [callee](mo_pub_register.svg)|"));
 flamegraph(sub, "Subscribe Apples", "mo_subscribe.svg");
-flamegraph(pub, "Register subscriber (called by sub canister)", "mo_pub_register.svg");
+let callee_cost = flamegraph(pub, "Register subscriber (called by sub canister)", "mo_pub_register.svg");
+output(file, stringify("|Motoko|[caller (", __cost__, ")](mo_subscribe.svg) / [callee (", callee_cost, ")](mo_pub_register.svg)|"));
 
 call pub.publish(record { topic = "Apples"; value = 42 });
-output(file, stringify("[caller (", __cost__, ")](mo_publish.svg) / [callee](mo_sub_update.svg)|\n"));
 flamegraph(pub, "Publish Apples", "mo_publish.svg");
 call sub.getCount();
 assert _ == (42 : nat);
-flamegraph(sub, "Update subscriber (callback from pub canister)", "mo_sub_update.svg");
+let callee_cost = flamegraph(sub, "Update subscriber (callback from pub canister)", "mo_sub_update.svg");
+output(file, stringify("[caller (", __cost__, ")](mo_publish.svg) / [callee (", callee_cost, ")](mo_sub_update.svg)|\n"));
