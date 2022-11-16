@@ -80,7 +80,7 @@ perf_mo(splay, "splay", init_size);
 perf_rs(btreemap_rs, "btreemap_rs", init_size);
 perf_rs(hashmap_rs, "hashmap_rs", init_size);
 
-output(file, "\n## Priority queue\n\n| |heapify 50k|mem|pop_min|put|\n|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Priority queue\n\n| |heapify 50k|mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|\n");
 perf_mo(heap, "heap", init_size);
 perf_rs(heap_rs, "heap_rs", init_size);
 
