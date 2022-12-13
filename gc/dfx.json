@@ -1,0 +1,28 @@
+{
+  "canisters": {
+    "default" : {
+      "type": "custom",
+      "candid": "../collections/rust/collection.did",
+      "wasm": "default.wasm",
+      "build": ["sh -c '$(dfx cache show)/moc ../collections/motoko/src/rbtree.mo -o default.wasm --public-metadata candid:service --package base $(dfx cache show)/base'"]
+    },
+    "copying" : {
+      "type": "custom",
+      "candid": "../collections/rust/collection.did",
+      "wasm": "copying.wasm",
+      "build": ["sh -c '$(dfx cache show)/moc ../collections/motoko/src/rbtree.mo -o copying.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --copying-gc'"]
+    },
+    "compacting" : {
+      "type": "custom",
+      "candid": "../collections/rust/collection.did",
+      "wasm": "compacting.wasm",
+      "build": ["sh -c '$(dfx cache show)/moc ../collections/motoko/src/rbtree.mo -o compacting.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --compacting-gc'"]
+    },
+    "generational" : {
+      "type": "custom",
+      "candid": "../collections/rust/collection.did",
+      "wasm": "generational.wasm",
+      "build": ["sh -c '$(dfx cache show)/moc ../collections/motoko/src/rbtree.mo -o generational.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --generational-gc'"]
+    }
+  }
+}
