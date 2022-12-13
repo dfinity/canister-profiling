@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.12.1
+      DFX_VERSION: 0.12.2-beta.0
       VESSEL_VERSION: v0.6.4
       IC_REPL_VERSION: 0.3.10
     steps:
@@ -43,6 +43,11 @@ jobs:
         run: |
           dfx cache install
           dfx start --background
+      - name: gc
+        run: |
+          pushd gc
+          make
+          popd
       - name: collections
         run: |
           pushd collections
