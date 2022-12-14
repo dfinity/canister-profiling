@@ -42,6 +42,12 @@ fn generate(size: u32) {
     });
 }
 
+#[ic_cdk_macros::query]
+fn get_mem() -> (u128, u128, u128) {
+  let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
+  (size, size, size)
+}
+
 #[ic_cdk_macros::update]
 fn get(x: u32) -> Option<String> {
     MAP.with(|map| map.borrow().get(&x).cloned())

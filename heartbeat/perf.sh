@@ -5,7 +5,7 @@ let motoko = wasm_profiling("motoko/.dfx/local/canisters/heartbeat/heartbeat.was
 let rust = wasm_profiling("rust/.dfx/local/canisters/heartbeat/heartbeat.wasm");
 
 let file = "README.md";
-output(file, "\n# Heartbeat\n\n| |heartbeat|\n|--:|--:|\n");
+output(file, "\n| |heartbeat|\n|--:|--:|\n");
 
 function perf(wasm, title) {
   let cid = install(wasm, encode (), null);

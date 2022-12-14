@@ -7,7 +7,7 @@ let compacting = wasm_profiling("compacting.wasm");
 let generational = wasm_profiling("generational.wasm");
 
 let file = "README.md";
-output(file, "\n# GC strategies\n\n| |generate 80k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n| |generate 80k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title, init) {
   let cid = install(wasm, encode (), null);

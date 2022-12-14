@@ -17,6 +17,7 @@ build: motoko rust
 
 perf:
 	mkdir -p ../_out/pub-sub; \
+	cp README.md ../_out/pub-sub; \
 	cd ../_out/pub-sub; \
 	ic-repl ../../pub-sub/motoko/perf.sh; \
 	ic-repl ../../pub-sub/rust/perf.sh

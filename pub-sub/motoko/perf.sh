@@ -5,7 +5,7 @@ let pub = install(wasm_profiling(".dfx/local/canisters/pub/pub.wasm"), encode ()
 let sub = install(wasm_profiling(".dfx/local/canisters/sub/sub.wasm"), encode (), null);
 
 let file = "README.md";
-output(file, "\n# Publisher & Subscriber\n\n| |subscribe|publish|\n|--|--:|--:|\n");
+output(file, "\n| |subscribe|publish|\n|--|--:|--:|\n");
 
 let caller = call sub.init(stringify(pub), "Apples");
 flamegraph(sub, "Subscribe Apples", "mo_subscribe.svg");
