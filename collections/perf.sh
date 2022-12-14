@@ -16,7 +16,7 @@ let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/mov
 let file = "README.md";
 output(file, "\n## Map\n\n| |generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
-function perf_mo(wasm, title, init) {
+function perf(wasm, title, init) {
   let cid = install(wasm, encode (), null);
   
   output(file, stringify("|", title, "|"));
@@ -44,50 +44,22 @@ function perf_mo(wasm, title, init) {
   flamegraph(cid, stringify(title, ".batch_remove"), svg);
 };
 
-function perf_rs(wasm, title, init) {
-  let cid = install(wasm, encode (), null);
-
-  output(file, stringify("|", title, "|"));
-  call cid.__toggle_tracing();
-  call cid.generate(init);
-  output(file, stringify(__cost__, "|"));
-  let _ = cid.get_mem();
-  output(file, stringify(_[2], "|"));
-  
-  call cid.__toggle_tracing();
-  call cid.batch_get(50);
-  let svg = stringify(title, "_get.svg");  
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
-  flamegraph(cid, stringify(title, ".batch_get"), svg);
-  
-  call cid.batch_put(50);
-  let svg = stringify(title, "_put.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
-  flamegraph(cid, stringify(title, ".batch_put"), svg);
-  let _ = get_memory(cid);
-
-  call cid.batch_remove(50);
-  let svg = stringify(title, "_remove.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|\n"));
-  flamegraph(cid, stringify(title, ".batch_remove"), svg);
-};
-
 let init_size = 50000;
-perf_mo(hashmap, "hashmap", init_size);
-perf_mo(triemap, "triemap", init_size);
-perf_mo(rbtree, "rbtree", init_size);
-perf_mo(splay, "splay", init_size);
-perf_rs(btreemap_rs, "btreemap_rs", init_size);
-perf_rs(hashmap_rs, "hashmap_rs", init_size);
+perf(hashmap, "hashmap", init_size);
+perf(triemap, "triemap", init_size);
+perf(rbtree, "rbtree", init_size);
+perf(splay, "splay", init_size);
+perf(btreemap_rs, "btreemap_rs", init_size);
+perf(hashmap_rs, "hashmap_rs", init_size);
 
 output(file, "\n## Priority queue\n\n| |heapify 50k|mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|\n");
-perf_mo(heap, "heap", init_size);
-perf_rs(heap_rs, "heap_rs", init_size);
+perf(heap, "heap", init_size);
+perf(heap_rs, "heap_rs", init_size);
 
 let movm_size = 10000;
 output(file, "\n## MoVM\n\n| |generate 10k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
-perf_mo(hashmap, "hashmap", movm_size);
-perf_rs(hashmap_rs, "hashmap_rs", movm_size);
-perf_rs(imrc_hashmap_rs, "imrc_hashmap_rs", movm_size);
-perf_rs(movm_rs, "movm_rs", movm_size);
-perf_rs(movm_dynamic_rs, "movm_dynamic_rs", movm_size);
+perf(hashmap, "hashmap", movm_size);
+perf(hashmap_rs, "hashmap_rs", movm_size);
+perf(imrc_hashmap_rs, "imrc_hashmap_rs", movm_size);
+perf(movm_rs, "movm_rs", movm_size);
+perf(movm_dynamic_rs, "movm_dynamic_rs", movm_size);
