@@ -12,7 +12,7 @@ the same elements, and the queries are exactly the same. Below we explain the me
 * batch_put 50. Insert 50 elements to the collection.
 * batch_remove 50. Remove 50 elements from the collection.
 
-## **:gem: Takeaways**
+## **💎 Takeaways**
 
 * The platform only charges for instruction count. Data structures which make use of caching and locality have no impact on the cost.
 * We have a limit on the maximal cycles per round. This means asymptotic behavior doesn't matter much. We care more about the performance up to a fixed N. In the extreme cases, you may see an `O(10000 nlogn)` algorithm hitting the limit, while an `O(n^2)` algorithm runs just fine.
