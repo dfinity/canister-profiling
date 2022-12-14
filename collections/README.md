@@ -22,9 +22,9 @@ the same elements, and the queries are exactly the same. Below we explain the me
 > **Note**
 >
 > * The Candid interface of the benchmark is minimal, therefore the serialization cost is negligible in this measurement.
-> * Due to the instrumentation overhead, we cannot profile computations with more elements. Hopefully, when deterministic time slicing is ready, we can measure the performance on large memory footprint.
+> * Due to the instrumentation overhead and cycle limit, we cannot profile computations with large collections. Hopefully, when deterministic time slicing is ready, we can measure the performance on larger memory footprint.
 > * `hashmap` uses amortized data structure. When the initial capacity is reached, it has to copy the whole array, thus the cost of `batch_put 50` is much higher than other data structures.
-> * `hashmap_rs` uses the `fxhash` crate, which is the same as the `HashMap` from std library, but with a deterministic hasher.
+> * `hashmap_rs` uses the `fxhash` crate, which is the same as `std::collections::HashMap`, but with a deterministic hasher. This ensures reproducible result.
 > * `rbtree`'s `remove` method only performs logical removal of the elements. The removed elements still reside in memory, but not reachable from the map. A complete implementation of `remove` would cost a bit more than reported here.
 > * The MoVM table measures the performance of an experimental implementation of Motoko interpreter. External developers can ignore this table for now.
 
