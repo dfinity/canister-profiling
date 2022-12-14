@@ -41,6 +41,12 @@ fn generate(size: u32) {
     });
 }
 
+#[ic_cdk_macros::query]
+fn get_mem() -> (u128, u128, u128) {
+  let size = core::arch::wasm32::memory_size(0) as u128;
+  (size, size, size)
+}
+
 #[ic_cdk_macros::update]
 fn batch_get(n: u32) {
     MAP.with(|map| {

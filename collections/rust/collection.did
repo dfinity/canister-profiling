@@ -6,4 +6,5 @@ service : {
   get: (nat32) -> (opt text);
   put: (nat32, text) -> ();
   remove: (nat32) -> (opt text);
+  get_mem: () -> (nat, nat, nat) query;
 }

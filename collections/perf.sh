@@ -14,7 +14,7 @@ let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n# Collection libraries\n\n| |generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Map\n\n| |generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title, init) {
   let cid = install(wasm, encode (), null);
@@ -51,8 +51,8 @@ function perf_rs(wasm, title, init) {
   call cid.__toggle_tracing();
   call cid.generate(init);
   output(file, stringify(__cost__, "|"));
-  let _ = get_memory(cid);
-  output(file, stringify(_, "|"));
+  let _ = cid.get_mem();
+  output(file, stringify(_[2], "|"));
   
   call cid.__toggle_tracing();
   call cid.batch_get(50);
