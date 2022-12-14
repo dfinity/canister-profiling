@@ -10,7 +10,14 @@ the same elements, and the queries are exactly the same. Below we explain the me
 * max mem. For Motoko, it reports `rts_max_live_size` after `generate` call; For Rust, it reports the Wasm's memory page * 32Kb.
 * batch_get 50. Find 50 elements from the collection.
 * batch_put 50. Insert 50 elements to the collection.
-* batch_remove 50. Remove 50 elements from the collection. Note that the Motoko version of `rbtree` only performs logical removal of the elements. The removed elements still reside in memory, but not reachable from the map. You can also ignore this column in the priority queue table, as you cannot remove arbitrary elements from the priority queue.
+* batch_remove 50. Remove 50 elements from the collection.
+
+## **:gem: Takeaways**
+
+* The platform only charges for instruction count. Data structures which make use of caching and locality have no impact on the cost.
+* We have a limit on the maximal cycles per round. This means asymptotic behavior doesn't matter much. We care more about the performance up to a fixed N. In the extreme cases, you may see an `O(10000 nlogn)` algorithm hitting the limit, while an `O(n^2)` algorithm runs just fine.
+* Amortized algorithms/GC may need to be more eager to avoid hitting the cycle limit on a particular round.
+* Rust costs more cycles to process complicated Candid data, but it is more efficient in performing core computations.
 
 > **Note**
 >
@@ -18,4 +25,7 @@ the same elements, and the queries are exactly the same. Below we explain the me
 > * Due to the instrumentation overhead, we cannot profile computations with more elements. Hopefully, when deterministic time slicing is ready, we can measure the performance on large memory footprint.
 > * `hashmap` uses amortized data structure. When the initial capacity is reached, it has to copy the whole array, thus the cost of `batch_put 50` is much higher than other data structures.
 > * `hashmap_rs` uses the `fxhash` crate, which is the same as the `HashMap` from std library, but with a deterministic hasher.
+> * `rbtree`'s `remove` method only performs logical removal of the elements. The removed elements still reside in memory, but not reachable from the map. A complete implementation of `remove` would cost a bit more than reported here.
 > * The MoVM table measures the performance of an experimental implementation of Motoko interpreter. External developers can ignore this table for now.
+
+
