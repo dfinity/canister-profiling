@@ -13,5 +13,5 @@ candid = "0.8"
 ic-cdk = "0.6"
 ic-cdk-macros = "0.6"
 fxhash = "0.2.1"
-motoko = { branch = "main", git = "https://github.com/dfinity/motoko.rs"}
-motoko_proc_macro = { branch = "main", git = "https://github.com/dfinity/motoko.rs" }
+motoko = { rev = "5897a8b57774b55782d8e408a254e045a9afba20", git = "https://github.com/dfinity/motoko.rs"}
+motoko_proc_macro = { rev = "5897a8b57774b55782d8e408a254e045a9afba20", git = "https://github.com/dfinity/motoko.rs" }

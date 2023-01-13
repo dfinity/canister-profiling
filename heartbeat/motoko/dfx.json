@@ -1,7 +1,10 @@
 {
   "canisters": {
     "heartbeat": {
-      "main": "src/Main.mo"
+      "main": "heartbeat.mo"
+    },
+    "timer": {
+      "main": "timer.mo"
     }
   }
 }
