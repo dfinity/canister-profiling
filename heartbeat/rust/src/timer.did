@@ -1,4 +1,0 @@
-service : {
-  cancelTimer: (nat) -> ();
-  setTimer: (nat) -> (nat);
-}
