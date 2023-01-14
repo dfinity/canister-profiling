@@ -8,7 +8,11 @@ struct Random {
 }
 impl Random {
     pub fn new(size: Option<u32>, seed: u32) -> Self {
-        Random { state: seed, size, ind: 0 }
+        Random {
+            state: seed,
+            size,
+            ind: 0,
+        }
     }
 }
 impl Iterator for Random {
@@ -37,8 +41,8 @@ fn generate(size: u32) {
     let iter = rand.map(|x| (x, x.to_string()));
     MAP.with(|map| {
         let mut map = map.borrow_mut();
-        for (k,v) in iter {
-            map.insert(k,v);
+        for (k, v) in iter {
+            map.insert(k, v);
         }
     });
 }
@@ -60,8 +64,8 @@ fn remove(x: u32) {
 
 #[ic_cdk_macros::query]
 fn get_mem() -> (u128, u128, u128) {
-  let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
-  (size, size, size)
+    let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
+    (size, size, size)
 }
 
 #[ic_cdk_macros::update]

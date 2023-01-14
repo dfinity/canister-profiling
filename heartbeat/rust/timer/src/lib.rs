@@ -1,12 +1,22 @@
-use ic_cdk::{update, timer};
+use ic_cdk::{timer, update};
+use std::cell::RefCell;
 use std::time::Duration;
 
-#[update]
-fn setTimer(sec: u64) {
-    timer::set_timer(Duration::from_secs(sec), || {});
+thread_local! {
+    static ID: RefCell<timer::TimerId> = RefCell::default();
 }
 
 #[update]
-fn cancelTimer(id: timer::TimerId) {
-    timer::clear_timer(id);
+fn setTimer(sec: u64) {
+    let tid = timer::set_timer(Duration::from_secs(sec), || {});
+    ID.with(|id| {
+        *id.borrow_mut() = tid;
+    });
+}
+
+#[update]
+fn cancelTimer() {
+    ID.with(|id| {
+        timer::clear_timer(*id.borrow());
+    });
 }

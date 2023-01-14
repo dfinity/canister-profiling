@@ -4,6 +4,7 @@ load "../prelude.sh";
 let motoko = wasm_profiling("motoko/.dfx/local/canisters/heartbeat/heartbeat.wasm");
 let timer_mo = wasm_profiling("motoko/.dfx/local/canisters/timer/timer.wasm");
 let rust = wasm_profiling("rust/.dfx/local/canisters/heartbeat/heartbeat.wasm");
+let timer_rs = wasm_profiling("rust/.dfx/local/canisters/timer/timer.wasm");
 
 let file = "README.md";
 
@@ -36,3 +37,4 @@ heartbeat_perf(rust, "Rust");
 
 output(file, "\n| |setTimer|cancelTimer|\n|--:|--:|--:|\n");
 timer_perf(timer_mo, "Motoko");
+timer_perf(timer_rs, "Rust");

@@ -1,4 +1,4 @@
 service : {
-  cancelTimer: (nat64) -> ();
-  setTimer: (nat64) -> (nat64);
+  cancelTimer: () -> ();
+  setTimer: (nat64) -> ();
 }
