@@ -31,10 +31,10 @@ function timer_perf(wasm, title) {
   flamegraph(cid, stringify(title, ".cancelTimer"), svg);
 };
 
-output(file, "\n| |heartbeat|\n|--:|--:|\n");
+output(file, "\n## Heartbeat\n\n| |heartbeat|\n|--:|--:|\n");
 heartbeat_perf(motoko, "Motoko");
 heartbeat_perf(rust, "Rust");
 
-output(file, "\n| |setTimer|cancelTimer|\n|--:|--:|--:|\n");
+output(file, "\n## Timer\n\n| |setTimer|cancelTimer|\n|--:|--:|--:|\n");
 timer_perf(timer_mo, "Motoko");
 timer_perf(timer_rs, "Rust");
