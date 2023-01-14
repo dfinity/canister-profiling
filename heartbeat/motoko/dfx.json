@@ -6,5 +6,11 @@
     "timer": {
       "main": "timer.mo"
     }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "vessel sources",
+      "args": ""
+    }
   }
 }
