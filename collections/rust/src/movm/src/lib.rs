@@ -1,6 +1,11 @@
 //use candid::Nat;
 //use fxhash::FxHashMap;
-use motoko::{ast::Literal, value::{Value, Value_}, vm_types::{Core, Limits}, shared::Share};
+use motoko::{
+    ast::Literal,
+    shared::Share,
+    value::{Value, Value_},
+    vm_types::{Core, Limits},
+};
 use motoko_proc_macro::parse_static;
 use std::cell::RefCell;
 
@@ -19,7 +24,9 @@ thread_local! {
 }
 
 fn val_from_u32(x: u32) -> Value_ {
-    Value::from_literal(&Literal::Nat(format!("{}", x))).unwrap().share()
+    Value::from_literal(&Literal::Nat(format!("{}", x)))
+        .unwrap()
+        .share()
 }
 
 fn val_from_string(s: String) -> Value_ {
@@ -31,26 +38,25 @@ fn generate(size: u32) {
     CORE.with(|core| {
         let mut core = core.borrow_mut();
         core.continue_(&Limits::none()).unwrap();
-        core
-            .eval_open_block(
-                vec![("size", val_from_u32(size))],
-                parse_static!(
-                 "
+        core.eval_open_block(
+            vec![("size", val_from_u32(size))],
+            parse_static!(
+                "
                  for (x in prim \"fastRandIterNew\" (?size, 1)) {
                    let (m, _) = prim \"hashMapPut\" (map, x, prim \"natToText\" x);
                    map := m;
                  }"
-                )
-                .clone(),
             )
-            .unwrap();
+            .clone(),
+        )
+        .unwrap();
     })
 }
 
 #[ic_cdk_macros::query]
 fn get_mem() -> (u128, u128, u128) {
-  let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
-  (size, size, size)
+    let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
+    (size, size, size)
 }
 
 #[ic_cdk_macros::update]

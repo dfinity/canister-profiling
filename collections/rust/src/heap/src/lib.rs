@@ -1,6 +1,6 @@
-use std::collections::BinaryHeap;
 use std::cell::RefCell;
 use std::cmp::Reverse;
+use std::collections::BinaryHeap;
 
 struct Random {
     state: u32,
@@ -9,7 +9,11 @@ struct Random {
 }
 impl Random {
     pub fn new(size: Option<u32>, seed: u32) -> Self {
-        Random { state: seed, size, ind: 0 }
+        Random {
+            state: seed,
+            size,
+            ind: 0,
+        }
     }
 }
 impl Iterator for Random {
@@ -43,8 +47,8 @@ fn generate(size: u32) {
 
 #[ic_cdk_macros::query]
 fn get_mem() -> (u128, u128, u128) {
-  let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
-  (size, size, size)
+    let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
+    (size, size, size)
 }
 
 #[ic_cdk_macros::update]

@@ -2,7 +2,7 @@ use ic_cdk::export::{
     candid::{CandidType, Deserialize},
     Principal,
 };
-use std::ops::{Add, AddAssign, SubAssign, Mul};
+use std::ops::{Add, AddAssign, Mul, SubAssign};
 
 #[derive(Clone, Debug, Default, CandidType, Deserialize)]
 pub struct BasicDaoStableStorage {
@@ -20,7 +20,9 @@ impl Add for Tokens {
     type Output = Self;
 
     fn add(self, other: Self) -> Self {
-        Tokens { amount_e8s: self.amount_e8s + other.amount_e8s }
+        Tokens {
+            amount_e8s: self.amount_e8s + other.amount_e8s,
+        }
     }
 }
 
@@ -39,7 +41,9 @@ impl SubAssign for Tokens {
 impl Mul<u64> for Tokens {
     type Output = Tokens;
     fn mul(self, rhs: u64) -> Self {
-        Tokens { amount_e8s: self.amount_e8s * rhs }
+        Tokens {
+            amount_e8s: self.amount_e8s * rhs,
+        }
     }
 }
 
@@ -129,7 +133,7 @@ pub struct SystemParams {
 }
 
 #[derive(Clone, Debug, CandidType, Deserialize)]
-pub struct UpdateSystemParamsPayload  {
+pub struct UpdateSystemParamsPayload {
     pub transfer_fee: Option<Tokens>,
     pub proposal_vote_threshold: Option<Tokens>,
     pub proposal_submission_deposit: Option<Tokens>,

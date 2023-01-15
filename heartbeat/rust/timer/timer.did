@@ -1,0 +1,5 @@
+service : {
+  cancelTimer: () -> ();
+  setTimer: (nat64) -> ();
+  no_op: () -> ();
+}

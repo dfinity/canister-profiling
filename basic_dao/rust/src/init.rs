@@ -1,8 +1,8 @@
 use crate::env::CanisterEnvironment;
-use crate::SERVICE;
 use crate::service::BasicDaoService;
-use ic_cdk_macros::init;
 use crate::types::BasicDaoStableStorage;
+use crate::SERVICE;
+use ic_cdk_macros::init;
 
 #[init]
 fn init(init_state: BasicDaoStableStorage) {

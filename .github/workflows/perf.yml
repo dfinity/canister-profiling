@@ -13,7 +13,8 @@ jobs:
     env:
       DFX_VERSION: 0.12.2-beta.0
       VESSEL_VERSION: v0.6.4
-      IC_REPL_VERSION: 0.3.10
+      IC_REPL_VERSION: 0.3.12
+      MOC_VERSION: 0.7.5
     steps:
       - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
@@ -39,9 +40,12 @@ jobs:
           wget https://github.com/dfinity/vessel/releases/download/$VESSEL_VERSION/vessel-linux64
           cp ./vessel-linux64 /usr/local/bin/vessel
           chmod a+x /usr/local/bin/vessel
+          dfx cache install
+          cd $(dfx cache show)
+          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
+          tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
       - name: Start dfx
         run: |
-          dfx cache install
           dfx start --background
       - name: gc
         run: |
