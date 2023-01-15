@@ -18,14 +18,15 @@ function timer_perf(wasm, title) {
   let cid = install(wasm, encode (), null);
   output(file, stringify("|", title, "|"));
   
-  let tid = call cid.setTimer(0);
   call cid.__toggle_entry();
+  let tid = call cid.setTimer(0);
   // A second update call can usually capture both the job and setTimer, but it is flaky.
+  call cid.__toggle_entry();
   let svg = stringify(title, "_setTimer.svg");
   let cost = flamegraph(cid, stringify(title, ".setTimer(0)"), svg);
   output(file, stringify("[", cost, "](", svg, ")|"));
 
-  call cid.__toggle_entry();
+  //call cid.__toggle_entry();
   let tid = call cid.setTimer(10);
   call cid.cancelTimer(tid);
   let svg = stringify(title, "_cancelTimer.svg");

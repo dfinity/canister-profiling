@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 use ic_cdk::{timer, update};
 use std::cell::RefCell;
 use std::time::Duration;
@@ -20,3 +22,6 @@ fn cancelTimer() {
         timer::clear_timer(*id.borrow());
     });
 }
+
+#[update]
+fn no_op() {}

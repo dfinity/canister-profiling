@@ -7,5 +7,6 @@ actor {
   public func cancelTimer(id : Nat) : async () {
     Timer.cancelTimer(id);
   };
+  public func no_op() : async () {};
 }
 
