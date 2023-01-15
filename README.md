@@ -11,7 +11,7 @@ Performance reports are generated in `gh-pages` branch.
 * [Basic DAO](http://dfinity.github.io/canister-profiling/basic_dao)
 * [Collection libraries](http://dfinity.github.io/canister-profiling/collections)
 * [Publisher & Subscriber](http://dfinity.github.io/canister-profiling/pub-sub)
-* [Heartbeat](http://dfinity.github.io/canister-profiling/heartbeat)
+* [Heartbeat / Timer](http://dfinity.github.io/canister-profiling/heartbeat)
 * [Motoko garbage collection](http://dfinity.github.io/canister-profiling/gc)
 
 ## How to reproduce performance report
