@@ -14,12 +14,12 @@ let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n## Map\n\n| |generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Map\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|--:|\n");
 
 function perf(wasm, title, init) {
   let cid = install(wasm, encode (), null);
   
-  output(file, stringify("|", title, "|"));
+  output(file, stringify("|", title, "|", wasm.size(), "|"));
   call cid.__toggle_tracing();
   call cid.generate(init);
   output(file, stringify(__cost__, "|"));
@@ -52,12 +52,12 @@ perf(splay, "splay", init_size);
 perf(btreemap_rs, "btreemap_rs", init_size);
 perf(hashmap_rs, "hashmap_rs", init_size);
 
-output(file, "\n## Priority queue\n\n| |heapify 50k|mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Priority queue\n\n| |binary_size|heapify 50k|mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|--:|\n");
 perf(heap, "heap", init_size);
 perf(heap_rs, "heap_rs", init_size);
 
 let movm_size = 10000;
-output(file, "\n## MoVM\n\n| |generate 10k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## MoVM\n\n| |binary_size|generate 10k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(hashmap, "hashmap", movm_size);
 perf(hashmap_rs, "hashmap_rs", movm_size);
 perf(imrc_hashmap_rs, "imrc_hashmap_rs", movm_size);

@@ -27,3 +27,4 @@ function get_memory(cid) {
   let _ = call ic.canister_status(record { canister_id = cid });
   _.memory_size
 };
+

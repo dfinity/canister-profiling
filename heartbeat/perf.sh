@@ -12,11 +12,11 @@ function heartbeat_perf(wasm, title) {
   let cid = install(wasm, encode (), null);
   let svg = stringify(title, "_heartbeat.svg");
   let cost = flamegraph(cid, stringify(title, "_heartbeat"), svg);
-  output(file, stringify("|", title, "|[", cost, "](", svg, ")|\n"));
+  output(file, stringify("|", title, "|", wasm.size(), "|[", cost, "](", svg, ")|\n"));
 };
 function timer_perf(wasm, title) {
   let cid = install(wasm, encode (), null);
-  output(file, stringify("|", title, "|"));
+  output(file, stringify("|", title, "|", wasm.size(), "|"));
   
   call cid.__toggle_entry();
   let tid = call cid.setTimer(0);
@@ -34,10 +34,10 @@ function timer_perf(wasm, title) {
   output(file, stringify("[", __cost__, "](", svg, ")|\n"));
 };
 
-output(file, "\n## Heartbeat\n\n| |heartbeat|\n|--:|--:|\n");
+output(file, "\n## Heartbeat\n\n| |binary_size|heartbeat|\n|--:|--:|--:|\n");
 heartbeat_perf(heartbeat_mo, "Motoko");
 heartbeat_perf(heartbeat_rs, "Rust");
 
-output(file, "\n## Timer\n\n| |setTimer|cancelTimer|\n|--:|--:|--:|\n");
+output(file, "\n## Timer\n\n| |binary_size|setTimer|cancelTimer|\n|--:|--:|--:|--:|\n");
 timer_perf(timer_mo, "Motoko");
 timer_perf(timer_rs, "Rust");
