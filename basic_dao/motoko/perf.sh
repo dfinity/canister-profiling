@@ -11,7 +11,7 @@ identity dory;
 identity genesis;
 
 let file = "README.md";
-output(file, "\n| |init|transfer_token|submit_proposal|vote_proposal|\n|--|--:|--:|--:|--:|\n");
+output(file, "\n| |binary_size|init|transfer_token|submit_proposal|vote_proposal|\n|--|--:|--:|--:|--:|--:|\n");
 
 let init = encode fake.__init_args(
   record {
@@ -30,9 +30,10 @@ let init = encode fake.__init_args(
   }
 );
 
-let DAO = install(wasm_profiling(".dfx/local/canisters/basic_dao/basic_dao.wasm"), init, null);
+let wasm = wasm_profiling(".dfx/local/canisters/basic_dao/basic_dao.wasm");
+let DAO = install(wasm, init, null);
 call DAO.__get_cycles();
-output(file, stringify("|Motoko|", _, "|"));
+output(file, stringify("|Motoko|", wasm.size(), "|", _, "|"));
 
 // transfer tokens
 let _ = call DAO.transfer(record { to = dory; amount = record { amount_e8s = 400 } });

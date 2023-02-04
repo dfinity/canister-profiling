@@ -29,9 +29,10 @@ let init = encode fake.__init_args(
   }
 );
 
-let DAO = install(wasm_profiling(".dfx/local/canisters/basic_dao/basic_dao.wasm"), init, null);
+let wasm = wasm_profiling(".dfx/local/canisters/basic_dao/basic_dao.wasm");
+let DAO = install(wasm, init, null);
 call DAO.__get_cycles();
-output(file, stringify("|Rust|", _, "|"));
+output(file, stringify("|Rust|", wasm.size(), "|", _, "|"));
 
 // transfer tokens
 let _ = call DAO.transfer(record { to = dory; amount = record { amount_e8s = 400 } });

@@ -14,12 +14,12 @@ let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n## Map\n\n| |generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Map\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|--:|\n");
 
 function perf(wasm, title, init) {
   let cid = install(wasm, encode (), null);
   
-  output(file, stringify("|", title, "|"));
+  output(file, stringify("|", title, "|", wasm.size(), "|"));
   call cid.__toggle_tracing();
   call cid.generate(init);
   output(file, stringify(__cost__, "|"));
