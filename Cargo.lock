@@ -62,9 +62,9 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 name = "basic_dao"
 version = "0.1.0"
 dependencies = [
- "candid",
- "ic-cdk",
- "ic-cdk-macros",
+ "candid 0.9.0-beta.2",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
  "serde",
  "serde_derive",
 ]
@@ -141,9 +141,9 @@ dependencies = [
 name = "btreemap"
 version = "0.1.0"
 dependencies = [
- "candid",
- "ic-cdk",
- "ic-cdk-macros",
+ "candid 0.9.0-beta.2",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
 ]
 
 [[package]]
@@ -161,7 +161,7 @@ dependencies = [
  "anyhow",
  "binread",
  "byteorder",
- "candid_derive",
+ "candid_derive 0.5.0",
  "codespan-reporting",
  "crc32fast",
  "data-encoding",
@@ -182,10 +182,48 @@ dependencies = [
 ]
 
 [[package]]
+name = "candid"
+version = "0.9.0-beta.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4163412115fdb2d41d418b2746405c0fa5716be8064d507ec8bacf88027141e6"
+dependencies = [
+ "anyhow",
+ "binread",
+ "byteorder",
+ "candid_derive 0.6.0",
+ "codespan-reporting",
+ "crc32fast",
+ "data-encoding",
+ "hex",
+ "leb128",
+ "num-bigint",
+ "num-traits",
+ "num_enum",
+ "paste",
+ "pretty 0.10.0",
+ "serde",
+ "serde_bytes",
+ "sha2",
+ "thiserror",
+]
+
+[[package]]
 name = "candid_derive"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "58f1f4db7c7d04b87b70b3a35c5dc5c2c9dd73cef8bdf6760e2f18a0d45350dd"
+dependencies = [
+ "lazy_static",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "candid_derive"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "34df46ac8b0a44de9b243d9dd21e608838183be20de408c934993ed6a4a8e4c1"
 dependencies = [
  "lazy_static",
  "proc-macro2",
@@ -476,28 +514,28 @@ checksum = "8a9ee70c43aaf417c914396645a0fa852624801b24ebb7ae78fe8272889ac888"
 name = "hashmap"
 version = "0.1.0"
 dependencies = [
- "candid",
+ "candid 0.9.0-beta.2",
  "fxhash",
- "ic-cdk",
- "ic-cdk-macros",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
 ]
 
 [[package]]
 name = "heap"
 version = "0.1.0"
 dependencies = [
- "candid",
- "ic-cdk",
- "ic-cdk-macros",
+ "candid 0.9.0-beta.2",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
 ]
 
 [[package]]
 name = "heartbeat"
 version = "0.1.0"
 dependencies = [
- "candid",
- "ic-cdk",
- "ic-cdk-macros",
+ "candid 0.9.0-beta.2",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
  "serde",
  "serde_derive",
 ]
@@ -534,18 +572,28 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
 
 [[package]]
 name = "ic-cdk"
-version = "0.6.8"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e2693ba66f3d54284643713ca2be0b23f91a02cb3ab793a22ffd75f95593305e"
+checksum = "bb6d60ecf5b27833f0fe213ed481dcb6d25219abcfd0582eb8a77b20938aae00"
 dependencies = [
- "candid",
- "cfg-if",
- "futures",
- "ic-cdk-macros",
+ "candid 0.8.4",
+ "ic-cdk-macros 0.6.8",
  "ic0",
  "serde",
  "serde_bytes",
- "slotmap",
+]
+
+[[package]]
+name = "ic-cdk"
+version = "0.8.0-beta.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "229a2796b731794363b45ab7b3a8ae28dc4220256997709e52746887425c5135"
+dependencies = [
+ "candid 0.9.0-beta.2",
+ "ic-cdk-macros 0.8.0-beta.0",
+ "ic0",
+ "serde",
+ "serde_bytes",
 ]
 
 [[package]]
@@ -554,7 +602,7 @@ version = "0.6.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cb423dab7c5bf19d4abccabd2ffe35e09b9dde611d478ea3afe0347b50fa727f"
 dependencies = [
- "candid",
+ "candid 0.8.4",
  "proc-macro2",
  "quote",
  "serde",
@@ -563,10 +611,38 @@ dependencies = [
 ]
 
 [[package]]
-name = "ic0"
-version = "0.18.7"
+name = "ic-cdk-macros"
+version = "0.8.0-beta.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e17ec1438d667907ee275368801390f45ba0b4f6e6c2a45221e5d01199187f4f"
+checksum = "a8ed566a9a45e97f8dd7eed3db58c95875272dbf053f0d94a965319cbffdb9e0"
+dependencies = [
+ "candid 0.9.0-beta.2",
+ "proc-macro2",
+ "quote",
+ "serde",
+ "serde_tokenstream",
+ "syn",
+]
+
+[[package]]
+name = "ic-cdk-timers"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c400f8048f4f5ba3bd3d5fe9301b9343e8ef2e2749079af8f99d4f317ebbbb14"
+dependencies = [
+ "futures",
+ "ic-cdk 0.7.0",
+ "ic0",
+ "serde",
+ "serde_bytes",
+ "slotmap",
+]
+
+[[package]]
+name = "ic0"
+version = "0.18.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "978b91fc78de9d2eb0144db717839cde3b35470199ea51aca362cb6310e93dfd"
 
 [[package]]
 name = "im-rc"
@@ -587,9 +663,9 @@ dependencies = [
 name = "imrc_hashmap"
 version = "0.1.0"
 dependencies = [
- "candid",
- "ic-cdk",
- "ic-cdk-macros",
+ "candid 0.9.0-beta.2",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
  "im-rc",
 ]
 
@@ -762,10 +838,10 @@ dependencies = [
 name = "movm"
 version = "0.1.0"
 dependencies = [
- "candid",
+ "candid 0.9.0-beta.2",
  "fxhash",
- "ic-cdk",
- "ic-cdk-macros",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
  "motoko",
  "motoko_proc_macro",
 ]
@@ -774,10 +850,10 @@ dependencies = [
 name = "movm_dynamic"
 version = "0.1.0"
 dependencies = [
- "candid",
+ "candid 0.9.0-beta.2",
  "fxhash",
- "ic-cdk",
- "ic-cdk-macros",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
  "motoko",
  "motoko_proc_macro",
 ]
@@ -998,9 +1074,9 @@ dependencies = [
 name = "publisher"
 version = "0.1.0"
 dependencies = [
- "candid",
- "ic-cdk",
- "ic-cdk-macros",
+ "candid 0.9.0-beta.2",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
  "serde",
  "serde_derive",
 ]
@@ -1233,9 +1309,9 @@ dependencies = [
 name = "subscriber"
 version = "0.1.0"
 dependencies = [
- "candid",
- "ic-cdk",
- "ic-cdk-macros",
+ "candid 0.9.0-beta.2",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
  "serde",
  "serde_derive",
 ]
@@ -1315,9 +1391,10 @@ dependencies = [
 name = "timer"
 version = "0.1.0"
 dependencies = [
- "candid",
- "ic-cdk",
- "ic-cdk-macros",
+ "candid 0.9.0-beta.2",
+ "ic-cdk 0.8.0-beta.0",
+ "ic-cdk-macros 0.8.0-beta.0",
+ "ic-cdk-timers",
  "serde",
  "serde_derive",
 ]
