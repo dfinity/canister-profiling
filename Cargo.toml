@@ -7,6 +7,7 @@ members = [
     "collections/rust/src/movm",
     "collections/rust/src/movm_dynamic",
     "basic_dao/rust",
+    "dapps/rust/dip721-nft",
     "heartbeat/rust/heartbeat",
     "heartbeat/rust/timer",
     "pub-sub/rust/publisher",

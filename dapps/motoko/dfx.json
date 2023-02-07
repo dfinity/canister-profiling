@@ -1,0 +1,7 @@
+{
+  "canisters": {
+    "dip721_nft": {
+      "main": "dip721-nft/Main.mo"
+    }
+  }
+}

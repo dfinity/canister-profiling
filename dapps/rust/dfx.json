@@ -1,0 +1,9 @@
+{
+    "canisters": {
+        "dip721_nft": {
+            "type": "rust",
+            "candid": "dip721-nft/dip721-nft.did",
+            "package": "dip721_nft"
+        }
+    }
+}
