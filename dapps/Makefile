@@ -22,4 +22,5 @@ perf:
 	mkdir -p ../_out/$(APP); \
 	cp README.md ../_out/$(APP); \
 	cd ../_out/$(APP); \
+	ic-repl ../../$(APP)/basic_dao.sh; \
 	ic-repl ../../$(APP)/nft.sh

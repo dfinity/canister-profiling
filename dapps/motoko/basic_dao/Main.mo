@@ -116,8 +116,8 @@ shared actor class DAO(init : Types.BasicDaoStableStorage) = Self {
                           var votes_yes = proposal.votes_yes.amount_e8s;
                           var votes_no = proposal.votes_no.amount_e8s;
                           switch (args.vote) {
-                          case (#yes) { votes_yes += voting_tokens };
-                          case (#no) { votes_no += voting_tokens };
+                          case (#Yes) { votes_yes += voting_tokens };
+                          case (#No) { votes_no += voting_tokens };
                           };
                           let voters = List.push(caller, proposal.voters);
 

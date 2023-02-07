@@ -1,7 +1,5 @@
 #!ic-repl
-load "../../prelude.sh";
-
-import fake = "2vxsx-fae" as ".dfx/local/canisters/basic_dao/basic_dao.did";
+load "../prelude.sh";
 
 // Setup initial account
 identity alice;
@@ -10,9 +8,14 @@ identity cathy;
 identity dory;
 identity genesis;
 
-let file = "README.md";
+let motoko = wasm_profiling("motoko/.dfx/local/canisters/basic_dao/basic_dao.wasm");
+let rust = wasm_profiling("rust/.dfx/local/canisters/basic_dao/basic_dao.wasm");
 
-let init = encode fake.__init_args(
+let file = "README.md";
+output(file, "\n## Basic DAO\n\n| |binary_size|init|transfer_token|submit_proposal|vote_proposal|\n|--|--:|--:|--:|--:|--:|\n");
+
+function perf(wasm, title, init_args) {
+let init = encode init_args.__init_args(
   record {
     accounts = vec {
       record { owner = genesis; tokens = record { amount_e8s = 1_000_000_000_000 } };
@@ -29,15 +32,15 @@ let init = encode fake.__init_args(
   }
 );
 
-let wasm = wasm_profiling(".dfx/local/canisters/basic_dao/basic_dao.wasm");
 let DAO = install(wasm, init, null);
 call DAO.__get_cycles();
-output(file, stringify("|Rust|", wasm.size(), "|", _, "|"));
+output(file, stringify("|", title, "|", wasm.size(), "|", _, "|"));
 
 // transfer tokens
 let _ = call DAO.transfer(record { to = dory; amount = record { amount_e8s = 400 } });
-output(file, stringify("[", __cost__, "](rust_transfer.svg)|"));
-flamegraph(DAO, "DAO.transfer", "rust_transfer");
+let svg = stringify(title, "_dao_transfer.svg");
+output(file, stringify("[", __cost__, "](", svg, ")|"));
+flamegraph(DAO, "DAO.transfer", svg);
 
 // alice makes a proposal
 identity alice;
@@ -49,12 +52,20 @@ call DAO.submit_proposal(
     message = encode DAO.update_system_params(update_transfer_fee);
   },
 );
-let alice_id = _.Ok;
-output(file, stringify("[", __cost__, "](rust_submit_proposal.svg)|"));
-flamegraph(DAO, "DAO.submit_proposal", "rust_submit_proposal");
+let alice_id = 0; // hardcode id, because motoko returns #ok instead of #Ok
+let svg = stringify(title, "_submit_proposal.svg");
+output(file, stringify("[", __cost__, "](", svg, ")|"));
+flamegraph(DAO, "DAO.submit_proposal", svg);
 
 // voting
 identity bob;
 call DAO.vote(record { proposal_id = alice_id; vote = variant { Yes } });
-output(file, stringify("[", __cost__, "](rust_vote.svg)|\n"));
-flamegraph(DAO, "DAO.vote", "rust_vote");
+let svg = stringify(title, "_vote.svg");
+output(file, stringify("[", __cost__, "](", svg, ")|\n"));
+flamegraph(DAO, "DAO.vote", svg);
+};
+
+import init = "2vxsx-fae" as "motoko/.dfx/local/canisters/basic_dao/basic_dao.did";
+perf(motoko, "Motoko", init);
+import init = "2vxsx-fae" as "rust/.dfx/local/canisters/basic_dao/basic_dao.did";
+perf(rust, "Rust", init);
