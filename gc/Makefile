@@ -1,3 +1,5 @@
+APP = gc
+
 .PHONY: all build perf
 all: build perf
 
@@ -7,7 +9,8 @@ build:
 	cd ..
 
 perf:
-	mkdir -p ../_out/gc; \
-	cp README.md ../_out/gc; \
-	cd ../_out/gc; \
-	ic-repl ../../gc/perf.sh
+	set -e; \
+	mkdir -p ../_out/$(APP); \
+	cp README.md ../_out/$(APP); \
+	cd ../_out/$(APP); \
+	ic-repl ../../$(APP)/perf.sh
