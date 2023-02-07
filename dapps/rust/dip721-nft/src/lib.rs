@@ -362,7 +362,6 @@ fn is_approved_for_all(operator: Principal) -> bool {
 fn mint(
     to: Principal,
     metadata: MetadataDesc,
-    blob_content: Vec<u8>,
 ) -> Result<MintResult, ConstrainedError> {
     let (txid, tkid) = STATE.with(|state| {
         let mut state = state.borrow_mut();
@@ -375,7 +374,7 @@ fn mint(
             approved: None,
             id: new_id,
             metadata,
-            content: blob_content,
+            content: vec![],
         };
         state.nfts.push(nft);
         Ok((state.next_txid(), new_id))

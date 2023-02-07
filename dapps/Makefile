@@ -22,5 +22,4 @@ perf:
 	mkdir -p ../_out/$(APP); \
 	cp README.md ../_out/$(APP); \
 	cd ../_out/$(APP); \
-	ic-repl ../../$(APP)/motoko/perf.sh; \
-	ic-repl ../../$(APP)/rust/perf.sh
+	ic-repl ../../$(APP)/nft.sh

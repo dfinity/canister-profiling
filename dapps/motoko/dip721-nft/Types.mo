@@ -71,10 +71,10 @@ module {
     #Rendered;
   };
   
-  public type MetadataKeyVal = {
-    key: Text;
-    val: MetadataVal;
-  };
+  public type MetadataKeyVal = (
+    Text,
+    MetadataVal
+  );
 
   public type MetadataVal = {
     #TextContent : Text;

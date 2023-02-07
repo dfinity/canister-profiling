@@ -10,10 +10,10 @@ import Bool "mo:base/Bool";
 import Principal "mo:base/Principal";
 import Types "./Types";
 
-shared actor class Dip721NFT(custodian: Principal, init : Types.Dip721NonFungibleToken) = Self {
+shared (creator) actor class Dip721NFT(init : Types.Dip721NonFungibleToken) = Self {
   stable var transactionId: Types.TransactionId = 0;
   stable var nfts = List.nil<Types.Nft>();
-  stable var custodians = List.make<Principal>(custodian);
+  stable var custodians = List.make<Principal>(creator.caller);
   stable var logo : Types.LogoResult = init.logo;
   stable var name : Text = init.name;
   stable var symbol : Text = init.symbol;

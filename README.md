@@ -29,8 +29,8 @@ The folder follows the following structure:
 ```
 Benchmark_name/
   Makefile
-  README.md // perf result will be appended to this markdown file
-  perf.sh   // ic-repl script that generates perf result. If the candid interface is different, we can use two scripts in each implementation directory
+  README.md // Perf result will be appended to this markdown file.
+  perf.sh   // ic-repl script that generates perf result. If the candid interface is different, we can use multiple scripts.
   motoko/
     dfx.json
     src/
