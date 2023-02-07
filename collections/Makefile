@@ -1,3 +1,5 @@
+APP = collections
+
 .PHONY: all motoko rust build perf
 all: build perf
 
@@ -16,7 +18,8 @@ rust:
 build: motoko rust
 
 perf:
-	mkdir -p ../_out/collections; \
-	cp README.md ../_out/collections; \
-	cd ../_out/collections; \
-	ic-repl ../../collections/perf.sh
+	set -e; \
+	mkdir -p ../_out/$(APP); \
+	cp README.md ../_out/$(APP); \
+	cd ../_out/$(APP); \
+	ic-repl ../../$(APP)/perf.sh

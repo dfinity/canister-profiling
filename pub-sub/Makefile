@@ -1,3 +1,5 @@
+APP = pub-sub
+
 .PHONY: all motoko rust build perf
 all: build perf
 
@@ -16,8 +18,9 @@ rust:
 build: motoko rust
 
 perf:
-	mkdir -p ../_out/pub-sub; \
-	cp README.md ../_out/pub-sub; \
-	cd ../_out/pub-sub; \
-	ic-repl ../../pub-sub/motoko/perf.sh; \
-	ic-repl ../../pub-sub/rust/perf.sh
+	set -e; \
+	mkdir -p ../_out/$(APP); \
+	cp README.md ../_out/$(APP); \
+	cd ../_out/$(APP); \
+	ic-repl ../../$(APP)/motoko/perf.sh; \
+	ic-repl ../../$(APP)/rust/perf.sh

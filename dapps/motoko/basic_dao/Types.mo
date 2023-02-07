@@ -44,7 +44,7 @@ module {
     proposal_vote_threshold : ?Tokens;
     proposal_submission_deposit : ?Tokens;
   };
-  public type Vote = { #no; #yes };
+  public type Vote = { #No; #Yes };
   public type VoteArgs = { vote : Vote; proposal_id : Nat };
 
   public type SystemParams = {

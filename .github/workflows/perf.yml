@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.13.0-beta.2
+      DFX_VERSION: 0.13.0
       VESSEL_VERSION: v0.6.4
       IC_REPL_VERSION: 0.3.14
     steps:
@@ -43,31 +43,8 @@ jobs:
       - name: Start dfx
         run: |
           dfx start --background
-      - name: gc
-        run: |
-          pushd gc
-          make
-          popd
-      - name: collections
-        run: |
-          pushd collections
-          make
-          popd
-      - name: basic_dao
-        run: |
-          pushd basic_dao
-          make
-          popd
-      - name: pub-sub
-        run: |
-          pushd pub-sub
-          make
-          popd
-      - name: heartbeat
-        run: |
-          pushd heartbeat
-          make
-          popd
+      - name: Run perf
+        run: make
       - name: Generate table
         if: github.event_name == 'pull_request'
         run: find _out/ -name 'README.md' -exec cat {} \; > TABLE.md

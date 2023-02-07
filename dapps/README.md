@@ -1,7 +1,10 @@
-# Basic DAO
+# Sample Dapps
 
-Measure the performance of a typical dapp [Basic DAO](https://github.com/dfinity/examples/tree/master/motoko/basic_dao),
+Measure the performance of some typical dapps:
+
+* [Basic DAO](https://github.com/dfinity/examples/tree/master/motoko/basic_dao),
 with `heartbeat` disabled to make profiling easier. We have a separate benchmark to measure heartbeat performance.
+* [DIP721 NFT](https://github.com/dfinity/examples/tree/master/motoko/dip721-nft-container)
 
 > **Note**
 >
