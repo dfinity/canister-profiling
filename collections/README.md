@@ -26,6 +26,6 @@ the same elements, and the queries are exactly the same. Below we explain the me
 > * `hashmap` uses amortized data structure. When the initial capacity is reached, it has to copy the whole array, thus the cost of `batch_put 50` is much higher than other data structures.
 > * `hashmap_rs` uses the `fxhash` crate, which is the same as `std::collections::HashMap`, but with a deterministic hasher. This ensures reproducible result.
 > * `rbtree`'s `remove` method only performs logical removal of the elements. The removed elements still reside in memory, but not reachable from the map. A complete implementation of `remove` would cost a bit more than reported here.
+> * `btree` comes from [Byron Becker's stable BTreeMap library](https://github.com/canscale/StableHeapBTreeMap).
+> * `zhenya_hashmap` comes from [Zhenya Usenko's stable HashMap library](https://github.com/ZhenyaUsenko/motoko-hash-map).
 > * The MoVM table measures the performance of an experimental implementation of Motoko interpreter. External developers can ignore this table for now.
-
-
