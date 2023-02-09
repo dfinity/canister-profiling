@@ -23,6 +23,10 @@
     "btreemap": {
       "type": "motoko",
       "main": "src/btreemap.mo"
+    },
+    "zhenya_hashmap": {
+      "type": "motoko",
+      "main": "src/ZhenyaHashmap.mo"
     }
   },
   "defaults": {

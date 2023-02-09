@@ -18,6 +18,11 @@ let
           , version = "main"
           , dependencies = [ "base" ] : List Text
           }
+        , { name = "ZhenyaHashmap"
+          , repo = "https://github.com/ZhenyaUsenko/motoko-hash-map"
+          , version = "master"
+          , dependencies = [ "base" ] : List Text
+          }
         ]
       : List Package
 
