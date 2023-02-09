@@ -1,4 +1,4 @@
 {
-  dependencies = [ "base", "splay" ],
+  dependencies = [ "base", "splay", "btreemap" ],
   compiler = None Text
 }

@@ -13,6 +13,11 @@ let
           , version = "master"
           , dependencies = [] : List Text
           }
+        , { name = "btreemap"
+          , repo = "https://github.com/canscale/StableHeapBTreeMap"
+          , version = "main"
+          , dependencies = [ "base" ] : List Text
+          }
         ]
       : List Package
 

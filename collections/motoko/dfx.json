@@ -19,6 +19,10 @@
     "heap": {
       "type": "motoko",
       "main": "src/heap.mo"
+    },
+    "btreemap": {
+      "type": "motoko",
+      "main": "src/btreemap.mo"
     }
   },
   "defaults": {
