@@ -6,8 +6,7 @@ Community contributions are strongly encouraged.
 
 ## Performance report
 
-Performance reports are generated in `gh-pages` branch. For some technical reasons, the flamegraph is from right to left.
-The reported Wasm binary size is after the instrumentation.
+Performance reports are generated in `gh-pages` branch. The reported Wasm binary size is after the instrumentation.
 
 * [Sample dapps](http://dfinity.github.io/canister-profiling/dapps)
 * [Collection libraries](http://dfinity.github.io/canister-profiling/collections)
