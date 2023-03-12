@@ -15,7 +15,7 @@ let
           }
         , { name = "btreemap"
           , repo = "https://github.com/canscale/StableHeapBTreeMap"
-          , version = "main"
+          , version = "v0.3.0"
           , dependencies = [ "base" ] : List Text
           }
         , { name = "ZhenyaHashmap"
