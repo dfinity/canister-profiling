@@ -19,7 +19,7 @@ rust:
 	dfx build; \
 	echo "Optimize with wasm-opt level 4" \
 	pushd .dfx/local/canisters; \
-	@for f in $(shell ls); do wasm-opt -O4 -o $${f}/$${f}.wasm $${f}/$${f}.wasm; done
+	@for f in $(shell ls); wasm-opt -O4 -o $${f}/$${f}.wasm $${f}/$${f}.wasm; done
 	popd
 	cd ..
 
