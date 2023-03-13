@@ -29,7 +29,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target
-          key: cargo-${{ hashFiles('**/Cargo.lock') }}      
+          key: cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: Install dfx
         run: |
           echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
@@ -40,6 +40,12 @@ jobs:
           cp ./vessel-linux64 /usr/local/bin/vessel
           chmod a+x /usr/local/bin/vessel
           dfx cache install
+      - name: Install wasm-opt
+        run: |
+          wget https://github.com/WebAssembly/binaryen/releases/download/version_112/binaryen-version_112-x86_64-linux.tar.gz
+          tar -xf binaryen-version_112-x86_64-linux.tar.gz
+          cp ./binaryen-version_112/bin/wasm-opt /use/local/bin/.
+          chmod +x /usr/local/bin/wasm-opt
       - name: Start dfx
         run: |
           dfx start --background
@@ -56,12 +62,12 @@ jobs:
           path: ./TABLE.md
       - name: Find performance comment
         if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v2 
-        id: fc                            
+        uses: peter-evans/find-comment@v2
+        id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: '<!-- perf comment -->'
+          comment-author: "github-actions[bot]"
+          body-includes: "<!-- perf comment -->"
       - name: Create or update performance comment
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v2
