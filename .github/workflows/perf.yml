@@ -44,7 +44,7 @@ jobs:
         run: |
           wget https://github.com/WebAssembly/binaryen/releases/download/version_112/binaryen-version_112-x86_64-linux.tar.gz
           tar -xf binaryen-version_112-x86_64-linux.tar.gz
-          cp ./binaryen-version_112/bin/wasm-opt /use/local/bin/.
+          cp ./binaryen-version_112/bin/wasm-opt /usr/local/bin/.
           chmod +x /usr/local/bin/wasm-opt
       - name: Start dfx
         run: |
