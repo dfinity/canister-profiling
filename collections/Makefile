@@ -9,7 +9,7 @@ motoko:
 	dfx build; \
 	echo "Optimize with wasm-opt level 4"; \
 	cd ~/.dfx/local/canisters; \
-	$(foreach f, $(wildcard *), wasm-opt -O4 -o $(f)/$(f).wasm $(f)/$(f).wasm;); \
+	$(foreach f, $(wildcard *), wasm-opt -O4 -o $(f)/$(f).wasm $(f)/$(f).wasm;) \
 	cd ../../../..
 
 rust:
@@ -18,7 +18,7 @@ rust:
 	dfx build; \
 	echo "Optimize with wasm-opt level 4"; \
 	cd ~/.dfx/local/canisters; \
-	$(foreach f, $(wildcard *), wasm-opt -O4 -o $(f)/$(f).wasm $(f)/$(f).wasm;); \
+	$(foreach f, $(wildcard *), wasm-opt -O4 -o $(f)/$(f).wasm $(f)/$(f).wasm;) \
 	popd; \
 	cd ../../../..
 
