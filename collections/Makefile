@@ -8,20 +8,19 @@ motoko:
 	dfx canister create --all; \
 	dfx build; \
 	echo "Optimize with wasm-opt level 4"; \
-	pushd .dfx/local/canisters; \
+	cd ~/.dfx/local/canisters; \
 	$(foreach f, $(wildcard *), wasm-opt -O4 -o $(f)/$(f).wasm $(f)/$(f).wasm;); \
-	popd; \
-	cd ..
+	cd ../../../..
 
 rust:
 	cd rust; \
 	dfx canister create --all; \
 	dfx build; \
 	echo "Optimize with wasm-opt level 4"; \
-	pushd .dfx/local/canisters; \
+	cd ~/.dfx/local/canisters; \
 	$(foreach f, $(wildcard *), wasm-opt -O4 -o $(f)/$(f).wasm $(f)/$(f).wasm;); \
 	popd; \
-	cd ..
+	cd ../../../..
 
 build: motoko rust
 
