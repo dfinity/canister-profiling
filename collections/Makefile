@@ -9,7 +9,7 @@ motoko:
 	dfx build; \
 	echo "Optimize with wasm-opt level 4"; \
 	echo "kento"; \
-	for f in *; do echo $$f; done \
+	for f in *; do echo $$f; done; \
 	cd ..
 
 rust:
