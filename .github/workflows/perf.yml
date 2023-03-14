@@ -13,7 +13,8 @@ jobs:
     env:
       DFX_VERSION: 0.13.1
       VESSEL_VERSION: v0.6.4
-      IC_REPL_VERSION: 0.3.15
+      IC_REPL_VERSION: 0.3.17
+      MOC_VERSION: 0.8.4
     steps:
       - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
@@ -40,6 +41,9 @@ jobs:
           cp ./vessel-linux64 /usr/local/bin/vessel
           chmod a+x /usr/local/bin/vessel
           dfx cache install
+          cd $(dfx cache show)
+          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
+          tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
       - name: Install wasm-opt
         run: |
           wget https://github.com/WebAssembly/binaryen/releases/download/version_112/binaryen-version_112-x86_64-linux.tar.gz
