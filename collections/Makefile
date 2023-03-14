@@ -8,7 +8,7 @@ motoko:
 	dfx canister create --all; \
 	dfx build; \
 	echo "Optimize with wasm-opt level 4"; \
-	bash -c "pwd && echo kento"; \
+	bash -c "ls .dfx/local/canisters && echo kento"; \
 	cd ..
 
 rust:
