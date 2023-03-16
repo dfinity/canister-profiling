@@ -40,7 +40,7 @@ jobs:
       - uses: actions/setup-python@v4
         if: github.event_name == 'pull_request'
         with:
-          python-version: "3.9"
+          python-version: "3.10"
       - name: Install Python dependencies
         if: github.event_name == 'pull_request'
         run: |
@@ -73,6 +73,7 @@ jobs:
       - name: Generate table
         if: github.event_name == 'pull_request'
         run: |
+          set -eu
           find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
           cd _out
           find . -name 'README.md' -exec python ../.github/workflows/diff.py {} ../main/{} \; > ../DIFF.md
@@ -83,6 +84,33 @@ jobs:
         with:
           path: ./TABLE.md
       - name: Read diff
+        if: github.event_name == 'pull_request'
+        id: diff
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./DIFF.md
+      - name: Find diff comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v2
+        id: fc_diff
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: "github-actions[bot]"
+          body-includes: "<!-- diff comment -->"
+      - name: Create or update diff comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc_diff.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            <!-- diff comment -->
+            > **Note**
+            > Diffing the performance result against the published result from main branch
+
+            ${{ steps.diff.outputs.content }}
+          edit-mode: replace
+      - name: Find performance comment
         if: github.event_name == 'pull_request'
         id: diff
         uses: juliangruber/read-file-action@v1
