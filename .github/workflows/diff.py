@@ -26,12 +26,15 @@ if len(current) != len(main):
 
 for i, (current, main) in enumerate(zip(current, main)):
     if current.shape == main.shape and all(current.columns == main.columns) and all(current.index == main.index):
-        diff = (current - main) / main * 100
+        #diff = (current - main) / main * 100
         result = pd.DataFrame(index=current.index, columns=current.columns)
+        print(sys.argv[1], i, file=sys.stderr)
         for idx, row in current.iterrows():
             for col in current.columns:
                 x = row[col]
-                d = diff.loc[idx, col]
+                #d = diff.loc[idx, col]
+                base = main.loc[idx, col]
+                d = (x - base) / base * 100
                 if d < 0:
                     result.loc[idx, col] = f"{x:_} ($\\textcolor{{green}}{{{d:.2f}\\\\%}}$)"
                 elif d > 0:
