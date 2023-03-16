@@ -32,8 +32,10 @@ for i, (current, main) in enumerate(zip(current, main)):
             for col in current.columns:
                 x = row[col]
                 d = diff.loc[idx, col]
-                if d != 0:
-                    result.loc[idx, col] = f"{x:_} ({d:.2f}%)"
+                if d < 0:
+                    result.loc[idx, col] = f"{x:_} (<span style='color:green'>{d:.2f}%</span>)"
+                elif d > 0:
+                    result.loc[idx, col] = f"{x:_} (<span style='color:red'>{d:.2f}%</span>)"
                 else:
                     result.loc[idx, col] = f"{x:_}"
         print(result.to_markdown())
