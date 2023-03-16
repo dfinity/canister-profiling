@@ -3,7 +3,7 @@ name: Perf
 on:
   push:
     branches: [main]
-  pull_request_target:
+  pull_request:
 
 jobs:
   perf:
@@ -95,6 +95,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v2
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.fc_diff.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
@@ -116,6 +117,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v2
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
