@@ -98,6 +98,9 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             <!-- diff comment -->
+            > **Note**
+            > Diffing the performance result against the published result from main branch
+            
             ${{ steps.diff.outputs.content }}
           edit-mode: replace
       - name: Find performance comment
