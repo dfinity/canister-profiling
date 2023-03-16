@@ -33,9 +33,9 @@ for i, (current, main) in enumerate(zip(current, main)):
                 x = row[col]
                 d = diff.loc[idx, col]
                 if d < 0:
-                    result.loc[idx, col] = f"{x:_} (\textcolor{{green}}{{{d:.2f}\\%}})"
+                    result.loc[idx, col] = f"{x:_} (\\textcolor{{green}}{{{d:.2f}\\%}})"
                 elif d > 0:
-                    result.loc[idx, col] = f"{x:_} (\textcolor{{red}}{{{d:.2f}\\%}})"
+                    result.loc[idx, col] = f"{x:_} (\\textcolor{{red}}{{{d:.2f}\\%}})"
                 else:
                     result.loc[idx, col] = f"{x:_}"
         print(result.to_markdown())
