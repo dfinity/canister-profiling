@@ -18,6 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
+        if: github.event_name == 'pull_request'
         uses: actions/checkout@v3
         with:
           ref: gh-pages
@@ -39,7 +40,7 @@ jobs:
       - uses: actions/setup-python@v4
         if: github.event_name == 'pull_request'
         with:
-          python-version: "3.9"
+          python-version: "3.10"
       - name: Install Python dependencies
         if: github.event_name == 'pull_request'
         run: |
@@ -66,15 +67,39 @@ jobs:
       - name: Generate table
         if: github.event_name == 'pull_request'
         run: |
-          find _out/ -name 'README.md' -exec cat {} \; > TABLE_OLD.md
+          find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
           cd _out
-          find . -name 'README.md' -exec python ../.github/workflows/diff.py {} ../main/{} \; > ../TABLE.md
+          find . -name 'README.md' -exec python ../.github/workflows/diff.py {} ../main/{} \; > ../DIFF.md
       - name: Read table
         if: github.event_name == 'pull_request'
         id: perf
         uses: juliangruber/read-file-action@v1
         with:
           path: ./TABLE.md
+      - name: Read diff
+        if: github.event_name == 'pull_request'
+        id: diff
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./DIFF.md
+      - name: Find diff comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v2 
+        id: fc_diff
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- diff comment -->'
+      - name: Create or update diff comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc_diff.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            <!-- diff comment -->
+            ${{ steps.diff.outputs.content }}
+          edit-mode: replace
       - name: Find performance comment
         if: github.event_name == 'pull_request'
         uses: peter-evans/find-comment@v2 
@@ -84,7 +109,7 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: '<!-- perf comment -->'
       - name: Create or update performance comment
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
