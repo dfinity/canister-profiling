@@ -13,9 +13,16 @@ jobs:
     env:
       DFX_VERSION: 0.13.1
       VESSEL_VERSION: v0.6.4
-      IC_REPL_VERSION: 0.3.15
+      IC_REPL_VERSION: 0.3.17
+      MOC_VERSION: 0.8.4
     steps:
       - uses: actions/checkout@v3
+      - name: Checkout out gh-pages report
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+          path: main
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -29,7 +36,16 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target
-          key: cargo-${{ hashFiles('**/Cargo.lock') }}      
+          key: cargo-${{ hashFiles('**/Cargo.lock') }}
+      - uses: actions/setup-python@v4
+        if: github.event_name == 'pull_request'
+        with:
+          python-version: "3.10"
+      - name: Install Python dependencies
+        if: github.event_name == 'pull_request'
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas markdown lxml html5lib bs4 tabulate
       - name: Install dfx
         run: |
           echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
@@ -40,6 +56,9 @@ jobs:
           cp ./vessel-linux64 /usr/local/bin/vessel
           chmod a+x /usr/local/bin/vessel
           dfx cache install
+          cd $(dfx cache show)
+          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
+          tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
       - name: Start dfx
         run: |
           dfx start --background
@@ -47,13 +66,44 @@ jobs:
         run: make
       - name: Generate table
         if: github.event_name == 'pull_request'
-        run: find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
+        run: |
+          set -eu
+          find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
+          cd _out
+          find . -name 'README.md' -exec python ../.github/workflows/diff.py {} ../main/{} \; > ../DIFF.md
       - name: Read table
         if: github.event_name == 'pull_request'
         id: perf
         uses: juliangruber/read-file-action@v1
         with:
           path: ./TABLE.md
+      - name: Read diff
+        if: github.event_name == 'pull_request'
+        id: diff
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./DIFF.md
+      - name: Find diff comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v2 
+        id: fc_diff
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- diff comment -->'
+      - name: Create or update diff comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc_diff.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            <!-- diff comment -->
+            > **Note**
+            > Diffing the performance result against the published result from main branch
+            
+            ${{ steps.diff.outputs.content }}
+          edit-mode: replace
       - name: Find performance comment
         if: github.event_name == 'pull_request'
         uses: peter-evans/find-comment@v2 
@@ -63,7 +113,7 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: '<!-- perf comment -->'
       - name: Create or update performance comment
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
