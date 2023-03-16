@@ -68,7 +68,7 @@ jobs:
         run: |
           find _out/ -name 'README.md' -exec cat {} \; > TABLE_OLD.md
           cd _out
-          find . -name 'README.md' -exec python ../.github/workflows/diff.py {} main/{} \; > ../TABLE.md
+          find . -name 'README.md' -exec python ../.github/workflows/diff.py {} ../main/{} \; > ../TABLE.md
       - name: Read table
         if: github.event_name == 'pull_request'
         id: perf
