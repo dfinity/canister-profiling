@@ -1,10 +1,10 @@
 #!ic-repl
 load "../prelude.sh";
 
-let default = wasm_profiling("default.wasm");
-let copying = wasm_profiling("copying.wasm");
-let compacting = wasm_profiling("compacting.wasm");
-let generational = wasm_profiling("generational.wasm");
+let default = wasm_profiling("default.wasm", vec{"schedule_copying_gc"});
+let copying = wasm_profiling("copying.wasm", vec {"copying_gc"});
+let compacting = wasm_profiling("compacting.wasm", vec{"compacting_gc"});
+let generational = wasm_profiling("generational.wasm", vec{"generational_gc"});
 
 let file = "README.md";
 output(file, "\n| |generate 80k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
@@ -13,13 +13,13 @@ function perf_mo(wasm, title, init) {
   let cid = install(wasm, encode (), null);
   
   output(file, stringify("|", title, "|"));
-  call cid.__toggle_tracing();
   call cid.generate(init);
-  output(file, stringify(__cost__, "|"));
+  let svg = stringify(title, "_init.svg");
+  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".generate"), svg);
   call cid.get_mem();
   output(file, stringify(_[2], "|"));
   
-  call cid.__toggle_tracing();
   call cid.batch_get(50);
   let svg = stringify(title, "_get.svg");
   output(file, stringify("[", __cost__, "](", svg, ")|"));
