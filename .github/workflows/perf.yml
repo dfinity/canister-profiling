@@ -92,10 +92,9 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: '<!-- diff comment -->'
       - name: Create or update diff comment
-        if: github.event_name == 'pull_request'  && github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.fc_diff.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
@@ -105,21 +104,6 @@ jobs:
             
             ${{ steps.diff.outputs.content }}
           edit-mode: replace
-      - name: Comment on PR in original repository on forked PR
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository 
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const payload = {
-              owner: '${{ github.event.repository.owner.login }}',
-              repo: '${{ github.event.repository.name }}',
-              issue_number: '${{ github.event.pull_request.number }}',
-              body: |
-                ${{ steps.diff.outputs.content }}
-            };
-            const { data: comment } = await github.rest.issues.createComment(payload);
-          ad: token
-          token: ${{ secrets.ORIGINAL_REPOSITORY_ACCESS_TOKEN }}
       - name: Find performance comment
         if: github.event_name == 'pull_request'
         uses: peter-evans/find-comment@v2 
@@ -129,10 +113,9 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: '<!-- perf comment -->'
       - name: Create or update performance comment
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
