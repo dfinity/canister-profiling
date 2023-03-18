@@ -87,6 +87,17 @@ jobs:
                 await github.rest.issues.createComment({issue_number, body, owner, repo});
               }
             }
+            function base64ToUTF8(base64) {
+              const base64 = base64.replace(/\r?\n|\r/g, "");
+              const text = atob(base64);
+              const length = text.length;
+              const bytes = new Uint8Array(length);
+              for (let i = 0; i < length; i++) {
+                bytes[i] = text.charCodeAt(i);
+              }
+              const decoder = new TextDecoder();
+              return decoder.decode(bytes);
+            }
 
             const {owner, repo} = context.repo;
 
@@ -94,8 +105,8 @@ jobs:
             if (!pull_requests.length) {
               return core.error("This workflow doesn't match any pull requests!");
             }*/
-            const diff = atob(`${{ steps.diff.outputs.content }}`.replace(/\r?\n|\r/g, ""));
-            const perf = atob(`${{ steps.perf.outputs.content }}`.replace(/\r?\n|\r/g, ""));
+            const diff = base64ToUTF8(`${{ steps.diff.outputs.content }}`);
+            const perf = base64ToUTF8(`${{ steps.perf.outputs.content }}`);
 
             /*for (const pr of pull_requests) {
               await upsertComment(owner, repo, pr.number,
