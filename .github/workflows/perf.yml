@@ -104,7 +104,7 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: '<!-- diff comment -->'
       - name: Create or update diff comment
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc_diff.outputs.comment-id }}
@@ -121,7 +121,7 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: '<!-- perf comment -->'
       - name: Create or update performance comment
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
@@ -130,7 +130,7 @@ jobs:
             ${{ steps.perf.outputs.content }}
           edit-mode: replace
       - name: Save tables as artifact for forked PR
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/upload-artifact@v3
         with:
           name: reports
