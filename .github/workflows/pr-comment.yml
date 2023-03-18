@@ -20,7 +20,7 @@ jobs:
           script: |
             const {owner, repo} = context.repo;
             //const run_id = ${{github.event.workflow_run.id}};
-            const run_id = 4453352246;
+            const run_id = 4456673068;
             
             const artifacts = await github.paginate(
               github.rest.actions.listWorkflowRunArtifacts, {owner, repo, run_id});
