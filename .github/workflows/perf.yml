@@ -68,6 +68,18 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           set -eu
+          cat > TABLE.md << EOF
+          <!-- perf comment -->
+          > **Warning**
+          > The flamegraph link only works after you merge.
+
+          EOF
+          cat > DIFF.md << EOF
+          <!-- diff comment -->
+          > **Note**
+          > Diffing the performance result against the published result from main branch
+                      
+          EOF
           find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
           cd _out
           find . -name 'README.md' -exec python ../.github/workflows/diff.py {} ../main/{} \; > ../DIFF.md
@@ -92,16 +104,12 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: '<!-- diff comment -->'
       - name: Create or update diff comment
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc_diff.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            <!-- diff comment -->
-            > **Note**
-            > Diffing the performance result against the published result from main branch
-            
             ${{ steps.diff.outputs.content }}
           edit-mode: replace
       - name: Find performance comment
@@ -113,17 +121,22 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: '<!-- perf comment -->'
       - name: Create or update performance comment
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            <!-- perf comment -->
-            > **Warning**
-            > The flamegraph link only works after you merge.
             ${{ steps.perf.outputs.content }}
           edit-mode: replace
+      - name: Save tables as artifact for forked PR
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports
+          path: |
+            ./DIFF.md
+          retention-days: 5
       - name: Upload report
         if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@releases/v3
