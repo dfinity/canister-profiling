@@ -7,7 +7,6 @@ on:
 
 jobs:
   perf:
-    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -137,6 +136,7 @@ jobs:
           name: reports
           path: |
             ./DIFF.md
+            ./TABLE.md
           retention-days: 5
       - name: Upload report
         if: github.ref == 'refs/heads/main'

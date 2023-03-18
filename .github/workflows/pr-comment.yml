@@ -1,6 +1,8 @@
 name: Comment on forked pull request
 on:
 #  workflow_run:
+#    # This job only runs from the main branch. You won't see any change until it's merged to main.
+#    # To test this job, you can temporarily change it to `pull_request` and hardcode the run_id and pr_number
 #    workflows: ['Perf']
 #    types: [completed]
    pull_request:
