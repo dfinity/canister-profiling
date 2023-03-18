@@ -93,7 +93,6 @@ jobs:
             if (!pull_requests.length) {
               return core.error("This workflow doesn't match any pull requests!");
             }*/
-            //const perf = `${{ steps.perf.outputs.content }}`;
             const diff = `${{ steps.diff.outputs.content }}`;
 
             /*for (const pr of pull_requests) {
