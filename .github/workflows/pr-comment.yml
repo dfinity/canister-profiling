@@ -1,7 +1,7 @@
 name: Comment on forked pull request
 on:
   workflow_run:
-    workflows: ['perf']
+    workflows: ['Perf']
     types: [completed]
 jobs:
   pr_comment:
