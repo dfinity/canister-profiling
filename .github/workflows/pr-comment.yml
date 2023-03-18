@@ -46,7 +46,7 @@ jobs:
           auth_crl() {
             crl "$1" -H "authorization: Bearer $GITHUB_TOKEN" "${@:2}"
           }
-          auth_crl "${{ steps.url.outputs.result }}" | unzip
+          auth_crl "${{ steps.url.outputs.result }}"
           ls -R
           
       - uses: actions/github-script@v6
