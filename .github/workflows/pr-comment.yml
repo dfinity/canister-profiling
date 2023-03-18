@@ -49,10 +49,9 @@ jobs:
           }
           auth_crl "${{ steps.url.outputs.result }}" > a.zip
           unzip a.zip
-          base64 --help
-          base64 -i DIFF.md > DIFF.md
+          cat DIFF.md | base64 > DIFF.md.base64
           #cat TABLE.md | base64 > TABLE.md
-          cat DIFF.md
+          cat DIFF.md.base64
       - name: Read table
         id: perf
         uses: juliangruber/read-file-action@v1
@@ -62,7 +61,7 @@ jobs:
         id: diff
         uses: juliangruber/read-file-action@v1
         with:
-          path: ./DIFF.md
+          path: ./DIFF.md.base64
       - uses: actions/github-script@v6
         with:
           # This snippet is public-domain, taken from
