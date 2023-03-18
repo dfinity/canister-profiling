@@ -93,7 +93,7 @@ jobs:
             if (!pull_requests.length) {
               return core.error("This workflow doesn't match any pull requests!");
             }*/
-            const perf = `${{ steps.perf.outputs.content }}`;
+            //const perf = `${{ steps.perf.outputs.content }}`;
             const diff = `${{ steps.diff.outputs.content }}`;
 
             /*for (const pr of pull_requests) {
@@ -101,4 +101,4 @@ jobs:
                 "diff", body);
             }*/
             await upsertComment(owner, repo, 39, "diff", diff);
-            await upsertComment(owner, repo, 39, "perf", perf);            
+            //await upsertComment(owner, repo, 39, "perf", perf);            
