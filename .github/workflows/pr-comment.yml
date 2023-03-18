@@ -50,7 +50,16 @@ jobs:
           auth_crl "${{ steps.url.outputs.result }}" > a.zip
           unzip a.zip
           ls -R
-          
+      - name: Read table
+        id: perf
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./TABLE.md
+      - name: Read diff
+        id: diff
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./DIFF.md
       - uses: actions/github-script@v6
         with:
           # This snippet is public-domain, taken from
@@ -80,16 +89,16 @@ jobs:
 
             const {owner, repo} = context.repo;
 
-            const pull_requests = ${{ toJSON(github.event.workflow_run.pull_requests) }};
+            /*const pull_requests = ${{ toJSON(github.event.workflow_run.pull_requests) }};
             if (!pull_requests.length) {
               return core.error("This workflow doesn't match any pull requests!");
-            }
+            }*/
+            const table = "${{ steps.table.outputs.content }}";
+            const diff = "${{ steps.diff.outputs.content }}";
 
-            let body = `Download the artifacts for this pull request:\n`;
-
-            core.info("Review thread message body:", body);
-
-            for (const pr of pull_requests) {
+            /*for (const pr of pull_requests) {
               await upsertComment(owner, repo, pr.number,
                 "diff", body);
-            }
+            }*/
+            await upsertComment(owner, repo, 39, "diff", diff);
+            await upsertComment(owner, repo, 39, "table", table);            
