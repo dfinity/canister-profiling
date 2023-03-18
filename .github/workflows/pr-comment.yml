@@ -87,8 +87,8 @@ jobs:
                 await github.rest.issues.createComment({issue_number, body, owner, repo});
               }
             }
-            function base64ToUTF8(base64) {
-              const base64 = base64.replace(/\r?\n|\r/g, "");
+            function base64ToUTF8(input) {
+              const base64 = input.replace(/\r?\n|\r/g, "");
               const text = atob(base64);
               const length = text.length;
               const bytes = new Uint8Array(length);
