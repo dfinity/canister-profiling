@@ -18,7 +18,6 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const unzipper = require('unzipper');
             const {owner, repo} = context.repo;
             //const run_id = ${{github.event.workflow_run.id}};
             const run_id = 4456673068;
@@ -31,14 +30,6 @@ jobs:
             for (const art of artifacts) {
               if (art.name === 'reports') {
                  console.log(art.archive_download_url);
-                 // Download the artifact as a binary file
-                 const { data } = await octokit.actions.downloadArtifact({ owner, repo, artifact_id: art.id, archive_format: 'zip'});
-                 // Extract the artifact contents into a buffer
-                 const buffer = Buffer.from(data, 'binary');
-
-                 // Create a stream from the buffer
-                 const stream = unzipper.ParseOne(buffer);
-                 console.log(stream);
                  return art.archive_download_url;
               }
             }
@@ -59,16 +50,11 @@ jobs:
           auth_crl "${{ steps.url.outputs.result }}" > a.zip
           unzip a.zip
           ls -R
-      - name: Read table
-        id: perf
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./TABLE.md
       - name: Read diff
         id: diff
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./DIFF.md
+        run: |
+          set -eu
+          cat ./DIFF.md | base64 >> $GITHUB_OUTPUT
       - uses: actions/github-script@v6
         with:
           # This snippet is public-domain, taken from
@@ -102,7 +88,7 @@ jobs:
             if (!pull_requests.length) {
               return core.error("This workflow doesn't match any pull requests!");
             }*/
-            const diff = `${{ steps.diff.outputs.content }}`;
+            const diff = btoa(`${{ steps.diff.outputs.TAG_NAME }}`);
 
             /*for (const pr of pull_requests) {
               await upsertComment(owner, repo, pr.number,
