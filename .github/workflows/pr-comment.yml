@@ -49,12 +49,18 @@ jobs:
           }
           auth_crl "${{ steps.url.outputs.result }}" > a.zip
           unzip a.zip
-          ls -R
+          cat DIFF.md | base64 > DIFF.md
+          cat TABLE.md | base64 > TABLE.md
+      - name: Read table
+        id: perf
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./TABLE.md
       - name: Read diff
         id: diff
-        run: |
-          set -eu
-          echo "TAG_NAME=$(cat ./DIFF.md | base64)" >> $GITHUB_OUTPUT
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./DIFF.md
       - uses: actions/github-script@v6
         with:
           # This snippet is public-domain, taken from
