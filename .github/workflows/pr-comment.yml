@@ -54,7 +54,7 @@ jobs:
         id: diff
         run: |
           set -eu
-          cat ./DIFF.md | base64 >> $GITHUB_OUTPUT
+          echo "TAG_NAME=$(cat ./DIFF.md | base64)" >> $GITHUB_OUTPUT
       - uses: actions/github-script@v6
         with:
           # This snippet is public-domain, taken from
