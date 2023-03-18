@@ -29,7 +29,7 @@ jobs:
             }
             for (const art of artifacts) {
               if (art.name === 'reports') {
-                 console.log(art.archive_download_url);
+                 console.log(art);
                  return art.archive_download_url;
               }
             }
@@ -50,13 +50,12 @@ jobs:
           auth_crl "${{ steps.url.outputs.result }}" > a.zip
           unzip a.zip
           cat DIFF.md | base64 > DIFF.md.base64
-          #cat TABLE.md | base64 > TABLE.md
-          cat DIFF.md.base64
+          cat TABLE.md | base64 > TABLE.md.base64
       - name: Read table
         id: perf
         uses: juliangruber/read-file-action@v1
         with:
-          path: ./TABLE.md
+          path: ./TABLE.md.base64
       - name: Read diff
         id: diff
         uses: juliangruber/read-file-action@v1
@@ -96,11 +95,12 @@ jobs:
               return core.error("This workflow doesn't match any pull requests!");
             }*/
             const diff = atob(`${{ steps.diff.outputs.content }}`.replace(/\r?\n|\r/g, ""));
+            const perf = atob(`${{ steps.perf.outputs.content }}`.replace(/\r?\n|\r/g, ""));
 
             /*for (const pr of pull_requests) {
               await upsertComment(owner, repo, pr.number,
                 "diff", body);
             }*/
             await upsertComment(owner, repo, 39, "diff", diff);
-            //await upsertComment(owner, repo, 39, "perf", perf);
+            await upsertComment(owner, repo, 39, "perf", perf);
             

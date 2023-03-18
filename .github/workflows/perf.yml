@@ -81,9 +81,9 @@ jobs:
           > Diffing the performance result against the published result from main branch
                       
           EOF
-          find _out/ -name 'README.md' -exec cat {} \; > TABLE.md
+          find _out/ -name 'README.md' -exec cat {} \; >> TABLE.md
           cd _out
-          find . -name 'README.md' -exec python ../.github/workflows/diff.py {} ../main/{} \; > ../DIFF.md
+          find . -name 'README.md' -exec python ../.github/workflows/diff.py {} ../main/{} \; >> ../DIFF.md
       - name: Read table
         if: github.event_name == 'pull_request'
         id: perf
