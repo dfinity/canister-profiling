@@ -1,13 +1,52 @@
 name: Comment on forked pull request
 on:
-  workflow_run:
-    workflows: ['Perf']
-    types: [completed]
+#  workflow_run:
+#    workflows: ['Perf']
+#    types: [completed]
+   pull_request:
+
 jobs:
   pr_comment:
-    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    # if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
+      - name: get artifact url
+        uses: actions/github-script@v6
+        id: url
+        with:
+          result-encoding: string
+          script: |
+            const {owner, repo} = context.repo;
+            //const run_id = ${{github.event.workflow_run.id}};
+            const run_id = 4453352246;
+            
+            const artifacts = await github.paginate(
+              github.rest.actions.listWorkflowRunArtifacts, {owner, repo, run_id});
+            if (!artifacts.length) {
+              return core.error(`No artifacts found`);
+            }
+            for (const art of artifacts) {
+              if (art.name === 'reports') {
+                 console.log(art.archive_download_url);
+                 return art.archive_download_url;
+              }
+            }
+      - name: download artifact
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: |
+          # A useful wrapper around CURL
+          crl() {
+            curl --silent --show-error --location --retry 1 "${@:2}" \
+              -H "Accept: application/vnd.github.antiope-preview+json, application/vnd.github.v3+json" \
+             "$1"
+          }
+          auth_crl() {
+            crl "$1" -H "authorization: Bearer $GITHUB_TOKEN" "${@:2}"
+          }
+          auth_crl "${{ steps.url.outputs.result }}" | gunzip
+          ls -R
+          
       - uses: actions/github-script@v6
         with:
           # This snippet is public-domain, taken from
@@ -36,23 +75,13 @@ jobs:
             }
 
             const {owner, repo} = context.repo;
-            const run_id = ${{github.event.workflow_run.id}};
 
             const pull_requests = ${{ toJSON(github.event.workflow_run.pull_requests) }};
             if (!pull_requests.length) {
               return core.error("This workflow doesn't match any pull requests!");
             }
 
-            const artifacts = await github.paginate(
-              github.rest.actions.listWorkflowRunArtifacts, {owner, repo, run_id});
-            if (!artifacts.length) {
-              return core.error(`No artifacts found`);
-            }
             let body = `Download the artifacts for this pull request:\n`;
-            for (const art of artifacts) {
-              console.log(art);              
-              body += `\n* [${art.name}.zip](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
-            }
 
             core.info("Review thread message body:", body);
 
