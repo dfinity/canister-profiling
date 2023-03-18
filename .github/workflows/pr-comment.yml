@@ -49,9 +49,9 @@ jobs:
           }
           auth_crl "${{ steps.url.outputs.result }}" > a.zip
           unzip a.zip
-          cat DIFF.md | base64
+          base64 -i DIFF.md -o DIFF.md
           #cat TABLE.md | base64 > TABLE.md
-          #cat DIFF.md
+          cat DIFF.md
       - name: Read table
         id: perf
         uses: juliangruber/read-file-action@v1
