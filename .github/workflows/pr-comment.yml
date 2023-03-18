@@ -51,6 +51,7 @@ jobs:
           unzip a.zip
           cat DIFF.md | base64 > DIFF.md
           cat TABLE.md | base64 > TABLE.md
+          cat DIFF.md
       - name: Read table
         id: perf
         uses: juliangruber/read-file-action@v1
@@ -101,4 +102,5 @@ jobs:
                 "diff", body);
             }*/
             await upsertComment(owner, repo, 39, "diff", diff);
-            //await upsertComment(owner, repo, 39, "perf", perf);            
+            //await upsertComment(owner, repo, 39, "perf", perf);
+            
