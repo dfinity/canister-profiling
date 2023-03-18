@@ -93,8 +93,8 @@ jobs:
             if (!pull_requests.length) {
               return core.error("This workflow doesn't match any pull requests!");
             }*/
-            const table = "${{ steps.table.outputs.content }}";
-            const diff = "${{ steps.diff.outputs.content }}";
+            const table = ${{ steps.table.outputs.content }};
+            const diff = ${{ steps.diff.outputs.content }};
 
             /*for (const pr of pull_requests) {
               await upsertComment(owner, repo, pr.number,
