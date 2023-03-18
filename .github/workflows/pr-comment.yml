@@ -18,6 +18,7 @@ jobs:
         with:
           result-encoding: string
           script: |
+            const unzipper = require('unzipper');
             const {owner, repo} = context.repo;
             //const run_id = ${{github.event.workflow_run.id}};
             const run_id = 4456673068;
@@ -30,6 +31,14 @@ jobs:
             for (const art of artifacts) {
               if (art.name === 'reports') {
                  console.log(art.archive_download_url);
+                 // Download the artifact as a binary file
+                 const { data } = await octokit.actions.downloadArtifact({ owner, repo, artifact_id: art.id, archive_format: 'zip'});
+                 // Extract the artifact contents into a buffer
+                 const buffer = Buffer.from(data, 'binary');
+
+                 // Create a stream from the buffer
+                 const stream = unzipper.ParseOne(buffer);
+                 console.log(stream);
                  return art.archive_download_url;
               }
             }
