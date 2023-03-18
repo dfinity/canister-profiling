@@ -37,6 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: |
+          set -eu
           # A useful wrapper around CURL
           crl() {
             curl --silent --show-error --location --retry 1 "${@:2}" \
@@ -46,7 +47,8 @@ jobs:
           auth_crl() {
             crl "$1" -H "authorization: Bearer $GITHUB_TOKEN" "${@:2}"
           }
-          auth_crl "${{ steps.url.outputs.result }}"
+          auth_crl "${{ steps.url.outputs.result }}" > a.zip
+          unzip a.zip
           ls -R
           
       - uses: actions/github-script@v6
