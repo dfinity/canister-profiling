@@ -1,15 +1,14 @@
 name: Comment on forked pull request
 on:
-#  workflow_run:
-#    # This job only runs from the main branch. You won't see any change until it's merged to main.
-#    # To test this job, you can temporarily change it to `pull_request` and hardcode the run_id and pr_number
-#    workflows: ['Perf']
-#    types: [completed]
-   pull_request:
+  workflow_run:
+    # This job only runs from the main branch. You won't see any change until it's merged to main.
+    # To test this job, you can temporarily change it to `pull_request` and hardcode the run_id and pr_number
+    workflows: ['Perf']
+    types: [completed]
 
 jobs:
   pr_comment:
-    # if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: get artifact url
@@ -18,10 +17,10 @@ jobs:
         with:
           result-encoding: string
           script: |
+            console.log(github.event.workflow_run);
             const ARTIFACT_NAME = 'reports';
             const {owner, repo} = context.repo;
-            //const run_id = ${{github.event.workflow_run.id}};
-            const run_id = 4456673068;
+            const run_id = ${{github.event.workflow_run.id}};
             
             const artifacts = await github.paginate(
               github.rest.actions.listWorkflowRunArtifacts, {owner, repo, run_id});
@@ -99,17 +98,14 @@ jobs:
 
             const {owner, repo} = context.repo;
 
-            /*const pull_requests = ${{ toJSON(github.event.workflow_run.pull_requests) }};
-            if (!pull_requests.length) {
-              return core.error("This workflow doesn't match any pull requests!");
-            }*/
+            const pull_requests = ${{ toJSON(github.event.workflow_run.pull_requests) }};
+            if (pull_requests.length !== 1) {
+              return core.error(`This workflow should match only one PR, but it has the following PR: ${pull_requests}`);
+            }
             const diff = base64ToUTF8(`${{ steps.diff.outputs.content }}`);
             const perf = base64ToUTF8(`${{ steps.perf.outputs.content }}`);
 
-            /*for (const pr of pull_requests) {
-              await upsertComment(owner, repo, pr.number,
-                "diff", body);
-            }*/
-            await upsertComment(owner, repo, 39, "diff", diff);
-            await upsertComment(owner, repo, 39, "perf", perf);
+            const pr = pull_requests[0].number;
+            await upsertComment(owner, repo, pr, "diff", diff);
+            await upsertComment(owner, repo, pr, "perf", perf);
             
