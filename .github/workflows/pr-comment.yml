@@ -57,6 +57,11 @@ jobs:
         uses: juliangruber/read-file-action@v1
         with:
           path: ./DIFF.md.base64
+      - name: Read PR number
+        id: pr_num
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./pr_num.txt
       - uses: actions/github-script@v6
         with:
           # This snippet is public-domain, taken from
@@ -97,14 +102,10 @@ jobs:
 
             const {owner, repo} = context.repo;
 
-            const pull_requests = ${{ toJSON(github.event.workflow_run.pull_requests) }};
-            if (pull_requests.length !== 1) {
-              return core.error(`This workflow should match only one PR, but it has the following PR: ${pull_requests}`);
-            }
             const diff = base64ToUTF8(`${{ steps.diff.outputs.content }}`);
             const perf = base64ToUTF8(`${{ steps.perf.outputs.content }}`);
 
-            const pr = pull_requests[0].number;
+            const pr = ${{ steps.pr_num.outputs.content }};
             await upsertComment(owner, repo, pr, "diff", diff);
             await upsertComment(owner, repo, pr, "perf", perf);
             
