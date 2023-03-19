@@ -75,17 +75,32 @@ jobs:
           <!-- perf comment -->
           > **Warning**
           > The flamegraph link only works after you merge.
+          > Unchanged benchmarks are omitted.
 
           EOF
           cat > DIFF.md << EOF
           <!-- diff comment -->
           > **Note**
           > Diffing the performance result against the published result from main branch
+          > Unchanged benchmarks are omitted.
                       
           EOF
-          find _out/ -name 'README.md' -exec cat {} \; >> TABLE.md
-          cd _out
-          find . -name 'README.md' -exec python ../.github/workflows/diff.py {} ../main/{} \; >> ../DIFF.md
+          for d in _out/*; do
+            if [[ -d "$d" ]]; then  # check if $d is a directory
+              if [[ -e "main/$d/README.md" ]]; then  # check if main/$d/README.md exists
+                readme_diff=$(diff "$d/README.md" "main/$d/README.md")  # compare README.md files
+                if [[ -n "$readme_diff" ]]; then  # if files are different
+                  cat $d/README.md >> TABLE.md
+                  python .github/workflows/diff.py "$d/README.md" "main/$d/README.md" >> DIFF.md
+                else
+                  echo "$d/README is the same as main branch, skipping."
+                fi
+              else
+                cat $d/README.md >> TABLE.md
+                python .github/workflows/diff.py "$d/README.md" "main/$d/README.md" >> DIFF.md
+              fi
+            fi
+          done
       - name: Read table
         if: github.event_name == 'pull_request'
         id: perf
