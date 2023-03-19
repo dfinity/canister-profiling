@@ -18,21 +18,19 @@ jobs:
         with:
           result-encoding: string
           script: |
+            const ARTIFACT_NAME = 'reports';
             const {owner, repo} = context.repo;
             //const run_id = ${{github.event.workflow_run.id}};
             const run_id = 4456673068;
             
             const artifacts = await github.paginate(
               github.rest.actions.listWorkflowRunArtifacts, {owner, repo, run_id});
-            if (!artifacts.length) {
-              return core.error(`No artifacts found`);
+            if (artifacts.length !== 1 || artifacts[0].name !== ARTIFACT_NAME) {
+              return core.error(`No artifact '${ARTIFACT_NAME}' found`);
             }
-            for (const art of artifacts) {
-              if (art.name === 'reports') {
-                 console.log(art);
-                 return art.archive_download_url;
-              }
-            }
+            const art = artifacts[0];
+            console.log(art);
+            return art.archive_download_url;
       - name: download artifact
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
