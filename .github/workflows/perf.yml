@@ -69,7 +69,7 @@ jobs:
         env:
           PR_NUM: ${{ github.event.number }}
         run: |
-          set -xeu
+          set -eu
           echo $PR_NUM > pr_num.txt
           cat > TABLE.md << EOF
           <!-- perf comment -->
