@@ -73,7 +73,7 @@ jobs:
           echo $PR_NUM > pr_num.txt
           cat > TABLE.md << EOF
           <!-- perf comment -->
-          > **Warning**
+          > **Note**
           > The flamegraph link only works after you merge.
           > Unchanged benchmarks are omitted.
 
@@ -83,7 +83,7 @@ jobs:
           > **Note**
           > Diffing the performance result against the published result from main branch.
           > Unchanged benchmarks are omitted.
-                      
+
           EOF
           for d in _out/*; do
             if [[ -d "$d" ]]; then  # check if $d is a directory
