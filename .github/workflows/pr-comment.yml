@@ -17,7 +17,6 @@ jobs:
         with:
           result-encoding: string
           script: |
-            console.log(github.event.workflow_run);
             const ARTIFACT_NAME = 'reports';
             const {owner, repo} = context.repo;
             const run_id = ${{github.event.workflow_run.id}};
