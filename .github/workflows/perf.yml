@@ -69,7 +69,7 @@ jobs:
         env:
           PR_NUM: ${{ github.event.number }}
         run: |
-          set -eu
+          set -xeu
           echo $PR_NUM > pr_num.txt
           cat > TABLE.md << EOF
           <!-- perf comment -->
@@ -87,13 +87,14 @@ jobs:
           EOF
           for d in _out/*; do
             if [[ -d "$d" ]]; then  # check if $d is a directory
+              echo "Processing $d"
               if [[ -e "main/$d/README.md" ]]; then  # check if main/$d/README.md exists
                 readme_diff=$(diff "$d/README.md" "main/$d/README.md")  # compare README.md files
                 if [[ -n "$readme_diff" ]]; then  # if files are different
                   cat $d/README.md >> TABLE.md
                   python .github/workflows/diff.py "$d/README.md" "main/$d/README.md" >> DIFF.md
                 else
-                  echo "$d/README is the same as main branch, skipping."
+                  echo "$d/README.md is the same as main branch, skipping."
                 fi
               else
                 cat $d/README.md >> TABLE.md
