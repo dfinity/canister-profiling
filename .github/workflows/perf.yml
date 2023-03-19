@@ -89,7 +89,7 @@ jobs:
             if [[ -d "$d" ]]; then  # check if $d is a directory
               echo "Processing $d"
               if [[ -e "main/$d/README.md" ]]; then  # check if main/$d/README.md exists
-                readme_diff=$(diff "$d/README.md" "main/$d/README.md")  # compare README.md files
+                readme_diff=$(diff "$d/README.md" "main/$d/README.md" || true)  # compare README.md files
                 if [[ -n "$readme_diff" ]]; then  # if files are different
                   cat $d/README.md >> TABLE.md
                   python .github/workflows/diff.py "$d/README.md" "main/$d/README.md" >> DIFF.md
