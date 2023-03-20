@@ -58,6 +58,9 @@ for i, ((header, current), (header2, main)) in enumerate(zip(current, main)):
         result = pd.DataFrame(index=current.index, columns=current.columns)
         print(sys.argv[1], i, header, file=sys.stderr)
         print(f"\n{header}\n")
+        if current.equals(main):
+            print(f"> **Note**\n> Same as main branch, skipping.\n")
+            continue
         for idx, row in current.iterrows():
             for col in current.columns:
                 x = row[col]
