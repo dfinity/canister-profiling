@@ -17,7 +17,8 @@ jobs:
         with:
           result-encoding: string
           script: |
-            console.log(${{ github.event.workflow_run.head_repository }});
+            console.log("${{ github.event.workflow_run.head_repository.full_name }}");
+            console.log("${{ github.event.workflow_run.repository.full_name }}");
             const ARTIFACT_NAME = 'reports';
             const {owner, repo} = context.repo;
             const run_id = ${{github.event.workflow_run.id}};
