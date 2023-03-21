@@ -8,7 +8,7 @@ on:
 
 jobs:
   pr_comment:
-    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name != github.event.workflow_run.repository.full_name
     runs-on: ubuntu-latest
     steps:
       - name: get artifact url
@@ -17,8 +17,6 @@ jobs:
         with:
           result-encoding: string
           script: |
-            console.log("${{ github.event.workflow_run.head_repository.full_name }}");
-            console.log("${{ github.event.workflow_run.repository.full_name }}");
             const ARTIFACT_NAME = 'reports';
             const {owner, repo} = context.repo;
             const run_id = ${{github.event.workflow_run.id}};

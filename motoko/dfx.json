@@ -1,5 +1,9 @@
 {
   "canisters": {
+    "classes": {
+      "type": "motoko",
+      "main": "src/Map.mo"
+    },
     "default" : {
       "type": "custom",
       "candid": "../collections/rust/collection.did",
