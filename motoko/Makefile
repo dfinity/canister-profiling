@@ -1,4 +1,4 @@
-APP = gc
+APP = motoko
 
 .PHONY: all build perf
 all: build perf
