@@ -17,16 +17,18 @@ jobs:
         with:
           result-encoding: string
           script: |
+            console.log("${{ github.event.workflow_run.head_repository.full_name }}");
+            console.log("${{ github.event.workflow_run.repository.full_name }}");
             const ARTIFACT_NAME = 'reports';
             const {owner, repo} = context.repo;
             const run_id = ${{github.event.workflow_run.id}};
             
             const artifacts = await github.paginate(
               github.rest.actions.listWorkflowRunArtifacts, {owner, repo, run_id});
-            if (artifacts.length !== 1 || artifacts[0].name !== ARTIFACT_NAME) {
+            const art = artifacts.find(e => e.name === ARTIFACT_NAME);
+            if (!art) {
               return core.error(`No artifact '${ARTIFACT_NAME}' found`);
             }
-            const art = artifacts[0];
             console.log(art);
             return art.archive_download_url;
       - name: download artifact

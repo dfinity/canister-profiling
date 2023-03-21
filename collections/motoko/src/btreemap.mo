@@ -5,7 +5,7 @@ import Option "mo:base/Option";
 import Random "random";
 
 actor {
-    stable var map = Map.init<Nat32, Text>(?8);
+    stable var map = Map.init<Nat32, Text>(null);
     let rand = Random.new(null, 42);
 
     public func generate(size: Nat) : async () {
