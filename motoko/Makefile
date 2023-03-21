@@ -13,4 +13,6 @@ perf:
 	mkdir -p ../_out/$(APP); \
 	cp README.md ../_out/$(APP); \
 	cd ../_out/$(APP); \
-	ic-repl ../../$(APP)/perf.sh
+	ic-repl ../../$(APP)/gc.sh; \
+	ic-repl ../../$(APP)/classes.sh
+
