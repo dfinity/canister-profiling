@@ -13,3 +13,4 @@ with `heartbeat` disabled to make profiling easier. We have a separate benchmark
 > * We could improve the performance on the Rust side by using parser combinators. But it is a challenge to maintain the ergonomics provided by `serde`.
 > * For real-world applications, we tend to send small data for each endpoint, which makes the Candid overhead in Rust tolerable.
 
+
