@@ -12,7 +12,7 @@ Performance reports are generated in `gh-pages` branch. The reported Wasm binary
 * [Collection libraries](http://dfinity.github.io/canister-profiling/collections)
 * [Publisher & Subscriber](http://dfinity.github.io/canister-profiling/pub-sub)
 * [Heartbeat / Timer](http://dfinity.github.io/canister-profiling/heartbeat)
-* [Motoko garbage collection](http://dfinity.github.io/canister-profiling/gc)
+* [Motoko specific benchmarks](http://dfinity.github.io/canister-profiling/motoko)
 
 ## How to reproduce performance report
 

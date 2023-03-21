@@ -165,4 +165,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: _out/
-          SINGLE_COMMIT: true
+
