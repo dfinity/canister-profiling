@@ -1,4 +1,4 @@
-# Motoko Specific Features
+# Motoko Specific Benchmarks
 
 Measure various features only available in Motoko.
 
@@ -12,28 +12,3 @@ Measure various features only available in Motoko.
 * Actor class. Measure the cost of spawning actor class, using the [Actor classes example](https://github.com/dfinity/examples/tree/master/motoko/classes).
 
 
-
-
-## Actor class
-
-| |pub_binary_size|sub_binary_size|subscribe_caller|subscribe_callee|publish_caller|publish_callee|
-|--|--:|--:|--:|--:|--:|--:|
-
-
-## Actor class
-
-| |binary size|put new bucket|put existing bucket|get|
-|--|--:|--:|--:|--:|
-
-
-## Actor class
-
-| |binary size|put new bucket|put existing bucket|get|
-|--|--:|--:|--:|--:|
-|320_946|[823_342](map_put.svg)|[9_835](map_put_existing.svg)|
-
-## Actor class
-
-| |binary size|put new bucket|put existing bucket|get|
-|--|--:|--:|--:|--:|
-|320_946|[823_342](map_put.svg)|[9_835](map_put_existing.svg)|[9_759](map_get.svg)|
