@@ -1,0 +1,111 @@
+name: Comment on forked pull request
+on:
+  workflow_run:
+    # This job only runs from the main branch. You won't see any change until it's merged to main.
+    # To test this job, you can temporarily change it to `pull_request` and hardcode the run_id and pr_number
+    workflows: ['Perf']
+    types: [completed]
+
+jobs:
+  pr_comment:
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name != github.event.workflow_run.repository.full_name
+    runs-on: ubuntu-latest
+    steps:
+      - name: get artifact url
+        uses: actions/github-script@v6
+        id: url
+        with:
+          result-encoding: string
+          script: |
+            const ARTIFACT_NAME = 'reports';
+            const {owner, repo} = context.repo;
+            const run_id = ${{github.event.workflow_run.id}};
+            
+            const artifacts = await github.paginate(
+              github.rest.actions.listWorkflowRunArtifacts, {owner, repo, run_id});
+            const art = artifacts.find(e => e.name === ARTIFACT_NAME);
+            if (!art) {
+              return core.error(`No artifact '${ARTIFACT_NAME}' found`);
+            }
+            console.log(art);
+            return art.archive_download_url;
+      - name: download artifact
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: |
+          set -eu
+          # A useful wrapper around CURL
+          crl() {
+            curl --silent --show-error --location --retry 1 "${@:2}" \
+              -H "Accept: application/vnd.github.antiope-preview+json, application/vnd.github.v3+json" \
+             "$1"
+          }
+          auth_crl() {
+            crl "$1" -H "authorization: Bearer $GITHUB_TOKEN" "${@:2}"
+          }
+          auth_crl "${{ steps.url.outputs.result }}" > a.zip
+          unzip a.zip
+          cat DIFF.md | base64 > DIFF.md.base64
+          cat TABLE.md | base64 > TABLE.md.base64
+      - name: Read table
+        id: perf
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./TABLE.md.base64
+      - name: Read diff
+        id: diff
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./DIFF.md.base64
+      - name: Read PR number
+        id: pr_num
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./pr_num.txt
+      - uses: actions/github-script@v6
+        with:
+          # This snippet is public-domain, taken from
+          # https://github.com/oprypin/nightly.link/blob/master/.github/workflows/pr-comment.yml
+          script: |
+            async function upsertComment(owner, repo, issue_number, purpose, body) {
+              const {data: comments} = await github.rest.issues.listComments(
+                {owner, repo, issue_number});
+
+              const marker = `<!-- bot: ${purpose} -->`;
+              body = marker + "\n" + body;
+
+              const existing = comments.filter((c) => c.body.includes(marker));
+              if (existing.length > 0) {
+                const last = existing[existing.length - 1];
+                core.info(`Updating comment ${last.id}`);
+                await github.rest.issues.updateComment({
+                  owner, repo,
+                  body,
+                  comment_id: last.id,
+                });
+              } else {
+                core.info(`Creating a comment in issue / PR #${issue_number}`);
+                await github.rest.issues.createComment({issue_number, body, owner, repo});
+              }
+            }
+            function base64ToUTF8(input) {
+              const base64 = input.replace(/\r?\n|\r/g, "");
+              const text = atob(base64);
+              const length = text.length;
+              const bytes = new Uint8Array(length);
+              for (let i = 0; i < length; i++) {
+                bytes[i] = text.charCodeAt(i);
+              }
+              const decoder = new TextDecoder();
+              return decoder.decode(bytes);
+            }
+
+            const {owner, repo} = context.repo;
+
+            const diff = base64ToUTF8(`${{ steps.diff.outputs.content }}`);
+            const perf = base64ToUTF8(`${{ steps.perf.outputs.content }}`);
+
+            const pr = ${{ steps.pr_num.outputs.content }};
+            await upsertComment(owner, repo, pr, "diff", diff);
+            await upsertComment(owner, repo, pr, "perf", perf);
+            

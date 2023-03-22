@@ -1,4 +1,4 @@
-APP = gc
+APP = motoko
 
 .PHONY: all build perf
 all: build perf
@@ -15,4 +15,6 @@ perf:
 	mkdir -p ../_out/$(APP); \
 	cp README.md ../_out/$(APP); \
 	cd ../_out/$(APP); \
-	ic-repl ../../$(APP)/perf.sh
+	ic-repl ../../$(APP)/gc.sh; \
+	ic-repl ../../$(APP)/classes.sh
+
