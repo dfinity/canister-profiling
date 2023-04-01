@@ -26,6 +26,6 @@ Measure various features only available in Motoko.
 
 ## Actor class
 
-| ||binary size|put new bucket|put existing bucket|get|
+| |binary size|put new bucket|put existing bucket|get|
 |--|--:|--:|--:|--:|
 |Map|311_519|[795_028](map_put.svg)|[9_149](map_put_existing.svg)|[9_493](map_get.svg)|
