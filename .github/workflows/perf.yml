@@ -52,7 +52,9 @@ jobs:
           repository: dfinity/sdk
       - name: Install ic-repl and vessel
         run: |
-          cargo install --path ./sdk
+          ls -la $(GITHUB_WORKSPACE)
+          ls -la
+          cargo install --path $(GITHUB_WORKSPACE)/sdk
           wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-linux64
           cp ./ic-repl-linux64 /usr/local/bin/ic-repl
           chmod a+x /usr/local/bin/ic-repl
