@@ -2,31 +2,38 @@
   "canisters": {
     "hashmap": {
       "type": "motoko",
-      "main": "src/hashmap.mo"
+      "main": "src/hashmap.mo",
+      "optimize": "cycles"
     },
-    "triemap" : {
+    "triemap": {
       "type": "motoko",
-      "main": "src/triemap.mo"
+      "main": "src/triemap.mo",
+      "optimize": "cycles"
     },
-    "rbtree" : {
+    "rbtree": {
       "type": "motoko",
-      "main": "src/rbtree.mo"
+      "main": "src/rbtree.mo",
+      "optimize": "cycles"
     },
-    "splay" : {
+    "splay": {
       "type": "motoko",
-      "main": "src/splay.mo"
+      "main": "src/splay.mo",
+      "optimize": "cycles"
     },
     "heap": {
       "type": "motoko",
-      "main": "src/heap.mo"
+      "main": "src/heap.mo",
+      "optimize": "cycles"
     },
     "btreemap": {
       "type": "motoko",
-      "main": "src/btreemap.mo"
+      "main": "src/btreemap.mo",
+      "optimize": "cycles"
     },
     "zhenya_hashmap": {
       "type": "motoko",
-      "main": "src/ZhenyaHashmap.mo"
+      "main": "src/ZhenyaHashmap.mo",
+      "optimize": "cycles"
     }
   },
   "defaults": {

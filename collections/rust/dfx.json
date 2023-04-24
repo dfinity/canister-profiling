@@ -4,32 +4,38 @@
     "hashmap": {
       "type": "rust",
       "candid": "collection.did",
-      "package": "hashmap"
+      "package": "hashmap",
+      "optimize": "cycles"
     },
     "btreemap": {
       "type": "rust",
       "candid": "collection.did",
-      "package": "btreemap"
+      "package": "btreemap",
+      "optimize": "cycles"
     },
     "heap": {
       "type": "rust",
       "candid": "collection.did",
-      "package": "heap"
+      "package": "heap",
+      "optimize": "cycles"
     },
     "imrc_hashmap": {
       "type": "rust",
       "candid": "collection.did",
-      "package": "imrc_hashmap"
+      "package": "imrc_hashmap",
+      "optimize": "cycles"
     },
     "movm": {
       "type": "rust",
       "candid": "collection.did",
-      "package": "movm"
+      "package": "movm",
+      "optimize": "cycles"
     },
     "movm_dynamic": {
       "type": "rust",
       "candid": "collection.did",
-      "package": "movm_dynamic"
+      "package": "movm_dynamic",
+      "optimize": "cycles"
     }
   },
   "defaults": {

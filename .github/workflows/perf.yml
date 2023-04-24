@@ -46,9 +46,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pandas markdown lxml html5lib bs4 tabulate
-      - name: Install dfx
+      - name: Clone current dfx repo
+        uses: actions/checkout@v2
+        with:
+          repository: dfinity/sdk
+      - name: Install ic-repl and vessel
         run: |
-          echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
+          cargo install --path ./sdk
           wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-linux64
           cp ./ic-repl-linux64 /usr/local/bin/ic-repl
           chmod a+x /usr/local/bin/ic-repl
@@ -116,12 +120,12 @@ jobs:
           path: ./DIFF.md
       - name: Find diff comment
         if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v2 
+        uses: peter-evans/find-comment@v2
         id: fc_diff
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: '<!-- diff comment -->'
+          comment-author: "github-actions[bot]"
+          body-includes: "<!-- diff comment -->"
       - name: Create or update diff comment
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v2
@@ -133,12 +137,12 @@ jobs:
           edit-mode: replace
       - name: Find performance comment
         if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v2 
-        id: fc                            
+        uses: peter-evans/find-comment@v2
+        id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: '<!-- perf comment -->'
+          comment-author: "github-actions[bot]"
+          body-includes: "<!-- perf comment -->"
       - name: Create or update performance comment
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v2
@@ -165,4 +169,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: _out/
-
