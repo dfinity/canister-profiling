@@ -47,7 +47,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas markdown lxml html5lib bs4 tabulate
       - name: Clone current dfx repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: dfinity/sdk
       - name: Install ic-repl and vessel
