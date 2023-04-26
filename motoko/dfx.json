@@ -2,7 +2,8 @@
   "canisters": {
     "classes": {
       "type": "motoko",
-      "main": "src/Map.mo"
+      "main": "src/Map.mo",
+      "optimize": "cycles"
     },
     "default": {
       "type": "custom",
