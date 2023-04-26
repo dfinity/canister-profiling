@@ -3,13 +3,14 @@
     "pub": {
       "candid": "publisher/src/publisher.did",
       "type": "rust",
-      "package": "publisher"
+      "package": "publisher",
+      "optimize": "cycles"
     },
     "sub": {
       "candid": "subscriber/src/subscriber.did",
       "type": "rust",
-      "package": "subscriber"
+      "package": "subscriber",
+      "optimize": "cycles"
     }
   }
 }
-

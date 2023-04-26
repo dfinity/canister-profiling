@@ -1,10 +1,12 @@
 {
   "canisters": {
     "dip721_nft": {
-      "main": "dip721-nft/Main.mo"
+      "main": "dip721-nft/Main.mo",
+      "optimize": "cycles"
     },
     "basic_dao": {
-      "main": "basic_dao/Main.mo"
+      "main": "basic_dao/Main.mo",
+      "optimize": "cycles"
     }
   }
 }

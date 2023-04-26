@@ -3,12 +3,14 @@
     "heartbeat": {
       "candid": "heartbeat/heartbeat.did",
       "type": "rust",
-      "package": "heartbeat"
+      "package": "heartbeat",
+      "optimize": "cycles"
     },
     "timer": {
       "candid": "timer/timer.did",
       "type": "rust",
-      "package": "timer"
+      "package": "timer",
+      "optimize": "cycles"
     }
   }
 }

@@ -3,12 +3,14 @@
         "dip721_nft": {
             "type": "rust",
             "candid": "dip721-nft/dip721-nft.did",
-            "package": "dip721_nft"
+            "package": "dip721_nft",
+            "optimize": "cycles"
         },
         "basic_dao": {
             "type": "rust",
             "candid": "basic_dao/src/basic_dao.did",
-            "package": "basic_dao"
+            "package": "basic_dao",
+            "optimize": "cycles"
         }
     }
 }

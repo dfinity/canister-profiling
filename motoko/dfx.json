@@ -2,31 +2,44 @@
   "canisters": {
     "classes": {
       "type": "motoko",
-      "main": "src/Map.mo"
+      "main": "src/Map.mo",
+      "optimize": "cycles"
     },
-    "default" : {
+    "default": {
       "type": "custom",
       "candid": "../collections/rust/collection.did",
       "wasm": "default.wasm",
-      "build": ["sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o default.wasm --public-metadata candid:service --package base $(dfx cache show)/base'"]
+      "build": [
+        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o default.wasm --public-metadata candid:service --package base $(dfx cache show)/base'"
+      ],
+      "optimize": "cycles"
     },
-    "copying" : {
+    "copying": {
       "type": "custom",
       "candid": "../collections/rust/collection.did",
       "wasm": "copying.wasm",
-      "build": ["sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o copying.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --copying-gc'"]
+      "build": [
+        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o copying.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --copying-gc'"
+      ],
+      "optimize": "cycles"
     },
-    "compacting" : {
+    "compacting": {
       "type": "custom",
       "candid": "../collections/rust/collection.did",
       "wasm": "compacting.wasm",
-      "build": ["sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o compacting.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --compacting-gc'"]
+      "build": [
+        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o compacting.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --compacting-gc'"
+      ],
+      "optimize": "cycles"
     },
-    "generational" : {
+    "generational": {
       "type": "custom",
       "candid": "../collections/rust/collection.did",
       "wasm": "generational.wasm",
-      "build": ["sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o generational.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --generational-gc'"]
+      "build": [
+        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o generational.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --generational-gc'"
+      ],
+      "optimize": "cycles"
     }
   }
 }

@@ -1,10 +1,12 @@
 {
   "canisters": {
     "pub": {
-      "main": "src/pub/Main.mo"
+      "main": "src/pub/Main.mo",
+      "optimize": "cycles"
     },
     "sub": {
-      "main": "src/sub/Main.mo"
+      "main": "src/sub/Main.mo",
+      "optimize": "cycles"
     }
   }
 }

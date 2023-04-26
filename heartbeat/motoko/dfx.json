@@ -1,10 +1,12 @@
 {
   "canisters": {
     "heartbeat": {
-      "main": "heartbeat.mo"
+      "main": "heartbeat.mo",
+      "optimize": "cycles"
     },
     "timer": {
-      "main": "timer.mo"
+      "main": "timer.mo",
+      "optimize": "cycles"
     }
   },
   "defaults": {
