@@ -18,12 +18,12 @@ with `heartbeat` disabled to make profiling easier. We have a separate benchmark
 
 | |binary_size|init|transfer_token|submit_proposal|vote_proposal|
 |--|--:|--:|--:|--:|--:|
-|Motoko|291_655|44_452|[19_923](Motoko_dao_transfer.svg)|[14_206](Motoko_submit_proposal.svg)|[16_811](Motoko_vote.svg)|
-|Rust|944_361|542_161|[102_465](Rust_dao_transfer.svg)|[125_691](Rust_submit_proposal.svg)|[138_812](Rust_vote.svg)|
+|Motoko|291_477|44_445|[19_923](Motoko_dao_transfer.svg)|[14_078](Motoko_submit_proposal.svg)|[16_680](Motoko_vote.svg)|
+|Rust|940_461|541_441|[102_463](Rust_dao_transfer.svg)|[125_485](Rust_submit_proposal.svg)|[137_030](Rust_vote.svg)|
 
 ## DIP721 NFT
 
 | |binary_size|init|mint_token|transfer_token|
 |--|--:|--:|--:|--:|
-|Motoko|244_652|13_379|[24_678](Motoko_nft_mint.svg)|[5_358](Motoko_nft_transfer.svg)|
-|Rust|998_014|147_146|[381_321](Rust_nft_mint.svg)|[95_515](Rust_nft_transfer.svg)|
+|Motoko|244_622|13_379|[24_678](Motoko_nft_mint.svg)|[5_358](Motoko_nft_transfer.svg)|
+|Rust|1_005_637|144_162|[375_896](Rust_nft_mint.svg)|[94_757](Rust_nft_transfer.svg)|

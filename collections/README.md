@@ -33,28 +33,28 @@ the same elements, and the queries are exactly the same. Below we explain the me
 
 | |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|
 |--:|--:|--:|--:|--:|--:|--:|
-|hashmap|196_369|2_387_017_574|9_102_052|[1_293_415](hashmap_get.svg)|[689_296_283](hashmap_put.svg)|[1_225_104](hashmap_remove.svg)|
-|triemap|202_071|2_289_517_688|9_715_900|[893_026](triemap_get.svg)|[2_115_311](triemap_put.svg)|[1_191_446](triemap_remove.svg)|
-|rbtree|199_849|2_035_251_413|8_902_160|[793_297](rbtree_get.svg)|[1_850_762](rbtree_put.svg)|[1_001_355](rbtree_remove.svg)|
-|splay|198_235|2_311_784_134|8_702_096|[1_265_818](splay_get.svg)|[2_182_532](splay_put.svg)|[1_267_265](splay_remove.svg)|
-|btree|235_657|2_126_392_096|7_556_172|[941_598](btree_get.svg)|[1_959_940](btree_put.svg)|[996_986](btree_remove.svg)|
-|zhenya_hashmap|190_566|1_855_281_618|9_301_800|[746_302](zhenya_hashmap_get.svg)|[1_651_710](zhenya_hashmap_put.svg)|[752_598](zhenya_hashmap_remove.svg)|
-|btreemap_rs|516_072|123_800_095|1_638_400|[59_721](btreemap_rs_get.svg)|[140_267](btreemap_rs_put.svg)|[62_087](btreemap_rs_remove.svg)|
-|hashmap_rs|504_134|53_234_034|1_835_008|[21_361](hashmap_rs_get.svg)|[63_796](hashmap_rs_put.svg)|[22_778](hashmap_rs_remove.svg)|
+|hashmap|196_227|2_387_017_574|9_102_052|[1_293_015](hashmap_get.svg)|[689_295_883](hashmap_put.svg)|[1_224_704](hashmap_remove.svg)|
+|triemap|201_786|2_286_509_386|9_715_900|[891_925](triemap_get.svg)|[2_111_535](triemap_put.svg)|[1_187_671](triemap_remove.svg)|
+|rbtree|198_958|2_024_735_614|8_902_160|[787_768](rbtree_get.svg)|[1_839_147](rbtree_put.svg)|[991_630](rbtree_remove.svg)|
+|splay|197_868|2_305_505_782|8_702_096|[1_258_328](splay_get.svg)|[2_175_053](splay_put.svg)|[1_259_845](splay_remove.svg)|
+|btree|235_337|2_122_255_521|7_556_172|[936_630](btree_get.svg)|[1_954_939](btree_put.svg)|[991_671](btree_remove.svg)|
+|zhenya_hashmap|190_491|1_855_281_618|9_301_800|[745_902](zhenya_hashmap_get.svg)|[1_651_310](zhenya_hashmap_put.svg)|[752_198](zhenya_hashmap_remove.svg)|
+|btreemap_rs|514_775|115_994_744|1_638_400|[59_433](btreemap_rs_get.svg)|[137_855](btreemap_rs_put.svg)|[61_795](btreemap_rs_remove.svg)|
+|hashmap_rs|502_772|53_333_947|1_835_008|[21_070](hashmap_rs_get.svg)|[63_601](hashmap_rs_put.svg)|[22_484](hashmap_rs_remove.svg)|
 
 ## Priority queue
 
 | |binary_size|heapify 50k|mem|pop_min 50|put 50|
 |--:|--:|--:|--:|--:|--:|
-|heap|181_817|793_443_407|1_400_024|[387_748](heap_get.svg)|[824_203](heap_put.svg)|[389_316](heap_remove.svg)|
-|heap_rs|475_112|5_041_620|819_200|[53_561](heap_rs_get.svg)|[22_281](heap_rs_put.svg)|[53_738](heap_rs_remove.svg)|
+|heap|181_726|793_253_862|1_400_024|[385_321](heap_get.svg)|[822_756](heap_put.svg)|[386_887](heap_remove.svg)|
+|heap_rs|473_458|5_041_433|819_200|[53_243](heap_rs_get.svg)|[22_092](heap_rs_put.svg)|[53_420](heap_rs_remove.svg)|
 
 ## MoVM
 
 | |binary_size|generate 10k|max mem|batch_get 50|batch_put 50|batch_remove 50|
 |--:|--:|--:|--:|--:|--:|--:|
-|hashmap|196_369|477_464_161|1_820_844|[1_291_442](hashmap_get.svg)|[138_897_496](hashmap_put.svg)|[1_222_518](hashmap_remove.svg)|
-|hashmap_rs|504_134|10_964_340|950_272|[20_676](hashmap_rs_get.svg)|[63_102](hashmap_rs_put.svg)|[21_668](hashmap_rs_remove.svg)|
-|imrc_hashmap_rs|516_504|19_861_761|1_572_864|[31_820](imrc_hashmap_rs_get.svg)|[120_208](imrc_hashmap_rs_put.svg)|[37_919](imrc_hashmap_rs_remove.svg)|
-|movm_rs|2_033_726|1_098_781_035|2_654_208|[2_743_966](movm_rs_get.svg)|[6_943_650](movm_rs_put.svg)|[5_416_733](movm_rs_remove.svg)|
-|movm_dynamic_rs|2_228_378|555_576_815|2_129_920|[2_186_795](movm_dynamic_rs_get.svg)|[3_010_179](movm_dynamic_rs_put.svg)|[2_166_068](movm_dynamic_rs_remove.svg)|
+|hashmap|196_227|477_464_161|1_820_844|[1_291_042](hashmap_get.svg)|[138_897_096](hashmap_put.svg)|[1_222_118](hashmap_remove.svg)|
+|hashmap_rs|502_772|10_984_247|950_272|[20_385](hashmap_rs_get.svg)|[62_907](hashmap_rs_put.svg)|[21_374](hashmap_rs_remove.svg)|
+|imrc_hashmap_rs|513_980|19_919_391|1_572_864|[31_519](imrc_hashmap_rs_get.svg)|[120_207](imrc_hashmap_rs_put.svg)|[37_618](imrc_hashmap_rs_remove.svg)|
+|movm_rs|2_092_441|1_017_324_475|2_654_208|[2_494_635](movm_rs_get.svg)|[6_477_172](movm_rs_put.svg)|[5_106_080](movm_rs_remove.svg)|
+|movm_dynamic_rs|2_295_206|496_274_407|2_129_920|[1_951_981](movm_dynamic_rs_get.svg)|[2_709_572](movm_dynamic_rs_put.svg)|[1_950_006](movm_dynamic_rs_remove.svg)|

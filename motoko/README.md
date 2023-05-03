@@ -28,4 +28,4 @@ Measure various features only available in Motoko.
 
 | |binary size|put new bucket|put existing bucket|get|
 |--|--:|--:|--:|--:|
-|Map|327_723|[814_019](map_put.svg)|[6_189](map_put_existing.svg)|[6_533](map_get.svg)|
+|Map|327_415|[812_472](map_put.svg)|[6_188](map_put_existing.svg)|[6_532](map_get.svg)|
