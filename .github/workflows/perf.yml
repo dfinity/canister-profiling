@@ -58,7 +58,8 @@ jobs:
           dfx cache install
           wget https://nightly.link/dfinity/motoko/actions/artifacts/$MOC_ARTIFACT.zip
           unzip $MOC_ARTIFACT.zip
-          cp bin/moc $(dfx cache show)
+          chmod a+x bin/moc
+          cp -rf bin/moc $(dfx cache show)
       - name: Start dfx
         run: |
           dfx start --background
