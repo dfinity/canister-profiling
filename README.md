@@ -48,4 +48,3 @@ Benchmark_name/
       src/
         lib.rs
 ```
-
