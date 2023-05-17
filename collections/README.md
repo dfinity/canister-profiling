@@ -28,4 +28,3 @@ the same elements, and the queries are exactly the same. Below we explain the me
 > * `btree` comes from [Byron Becker's stable BTreeMap library](https://github.com/canscale/StableHeapBTreeMap).
 > * `zhenya_hashmap` comes from [Zhenya Usenko's stable HashMap library](https://github.com/ZhenyaUsenko/motoko-hash-map).
 > * The MoVM table measures the performance of an experimental implementation of Motoko interpreter. External developers can ignore this table for now.
-> * The optimizer in `dfx` is disabled for the garbage collection cases because the optimizer removes the name section, making profiling trickier.
