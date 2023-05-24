@@ -15,7 +15,6 @@ jobs:
       VESSEL_VERSION: v0.6.4
       IC_REPL_VERSION: 0.3.18
       MOC_VERSION: 0.8.8
-      BASE_LIBRARY_VERSION: 0.8.8
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
@@ -60,9 +59,9 @@ jobs:
           cd $(dfx cache show)
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
           tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
-          wget https://github.com/dfinity/motoko-base/archive/refs/tags/moc-$BASE_LIBRARY_VERSION.tar.gz
-          tar zxvf moc-$BASE_LIBRARY_VERSION.tar.gz
-          mv -f motoko-base-moc-$BASE_LIBRARY_VERSION/src/* base
+          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-base-library.tar.gz
+          tar zxvf motoko-base-library.tar.gz
+          mv -f src/* base
           chmod a+x base/*
       - name: Start dfx
         run: |
