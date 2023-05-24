@@ -61,7 +61,8 @@ jobs:
           tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-base-library.tar.gz
           tar zxvf motoko-base-library.tar.gz
-          mv -f src/* base
+          chmod a+w src
+          mv src/* base
           chmod a+x base/*
       - name: Start dfx
         run: |
