@@ -1,4 +1,4 @@
 {
-  dependencies = [ "base", "splay", "btreemap", "ZhenyaHashmap" ],
+  dependencies = [ "splay", "btreemap", "ZhenyaHashmap" ],
   compiler = None Text
 }
