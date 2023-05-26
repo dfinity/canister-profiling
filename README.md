@@ -17,7 +17,7 @@ Performance reports are generated in `gh-pages` branch. The reported Wasm binary
 ## How to reproduce performance report
 
 * `dfx start --clean`
-* Run `make`
+* Run `make -e MOC_VERSION=<MOC_VERSION>`
 * The results are stored in `_out/`
 
 ## How to create a new benchmark
