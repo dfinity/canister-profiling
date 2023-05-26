@@ -1,44 +1,20 @@
 {
   "canisters": {
     "hashmap": {
-      "type": "custom",
-      "candid": "../rust/collection.did",
-      "wasm": "hashmap.wasm",
-      "build": [
-        "sh -c '$(dfx cache show)/moc src/hashmap.mo -o hashmap.wasm --public-metadata candid:service --package base $(dfx cache show)/base'"
-      ]
+      "type": "motoko",
+      "main": "src/hashmap.mo"
     },
     "triemap": {
-      "type": "custom",
-      "candid": "../rust/collection.did",
-      "wasm": "triemap.wasm",
-      "build": [
-        "sh -c '$(dfx cache show)/moc src/triemap.mo -o triemap.wasm --public-metadata candid:service --package base $(dfx cache show)/base'"
-      ]
+      "type": "motoko",
+      "main": "src/triemap.mo"
     },
     "rbtree": {
-      "type": "custom",
-      "candid": "../rust/collection.did",
-      "wasm": "rbtree.wasm",
-      "build": [
-        "sh -c '$(dfx cache show)/moc src/rbtree.mo -o rbtree.wasm --public-metadata candid:service --package base $(dfx cache show)/base'"
-      ]
-    },
-    "splay": {
       "type": "motoko",
-      "main": "src/splay.mo"
+      "main": "src/rbtree.mo"
     },
     "heap": {
-      "type": "custom",
-      "candid": "heap.did",
-      "wasm": "heap.wasm",
-      "build": [
-        "sh -c '$(dfx cache show)/moc src/heap.mo -o heap.wasm --public-metadata candid:service --package base $(dfx cache show)/base'"
-      ]
-    },
-    "btreemap": {
       "type": "motoko",
-      "main": "src/btreemap.mo"
+      "main": "src/heap.mo"
     },
     "zhenya_hashmap": {
       "type": "motoko",
@@ -47,7 +23,7 @@
   },
   "defaults": {
     "build": {
-      "packtool": "vessel sources",
+      "packtool": "mops sources",
       "args": ""
     }
   }

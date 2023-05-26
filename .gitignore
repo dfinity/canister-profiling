@@ -7,3 +7,4 @@ build
 .vessel
 _out
 *.wasm
+.mops

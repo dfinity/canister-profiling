@@ -5,8 +5,11 @@ all: build perf
 
 motoko:
 	cd motoko; \
+	envsubst < mops.template.toml > mops.toml; \
+	mops install; \
 	dfx canister create --all; \
 	dfx build; \
+	rm mops.toml; \
 	cd ..
 
 rust:
