@@ -1,4 +1,4 @@
 [dependencies]
 base = "$MOC_VERSION"
-StableHeapBTreeMap = "https://github.com/canscale/StableHeapBTreeMap#master"
+stableheapbtreemap = "1.3.0"
 stable-hash-map = "0.0.1"
