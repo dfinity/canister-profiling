@@ -19,3 +19,5 @@ perf:
 	ic-repl ../../$(APP)/gc.sh; \
 	ic-repl ../../$(APP)/classes.sh
 
+clean:
+	rm *.wasm && rm mops.toml
