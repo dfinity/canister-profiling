@@ -38,7 +38,7 @@ the same elements, and the queries are exactly the same. Below we explain the me
 |rbtree|198_958|2_024_735_614|8_902_160|[787_768](rbtree_get.svg)|[1_839_147](rbtree_put.svg)|[991_630](rbtree_remove.svg)|
 |splay|197_868|2_305_505_782|8_702_096|[1_258_328](splay_get.svg)|[2_175_053](splay_put.svg)|[1_259_845](splay_remove.svg)|
 |btree|235_337|2_122_255_521|7_556_172|[936_630](btree_get.svg)|[1_954_939](btree_put.svg)|[991_671](btree_remove.svg)|
-|zhenya_hashmap|190_491|1_855_281_618|9_301_800|[745_902](zhenya_hashmap_get.svg)|[1_651_310](zhenya_hashmap_put.svg)|[752_198](zhenya_hashmap_remove.svg)|
+|zhenya_hashmap|190_467|1_861_571_079|9_301_800|[748_940](zhenya_hashmap_get.svg)|[1_654_059](zhenya_hashmap_put.svg)|[754_950](zhenya_hashmap_remove.svg)|
 |btreemap_rs|514_775|115_994_744|1_638_400|[59_433](btreemap_rs_get.svg)|[137_855](btreemap_rs_put.svg)|[61_795](btreemap_rs_remove.svg)|
 |hashmap_rs|502_772|53_333_947|1_835_008|[21_070](hashmap_rs_get.svg)|[63_601](hashmap_rs_put.svg)|[22_484](hashmap_rs_remove.svg)|
 
