@@ -4,15 +4,15 @@
       "type": "motoko",
       "main": "src/hashmap.mo"
     },
-    "triemap" : {
+    "triemap": {
       "type": "motoko",
       "main": "src/triemap.mo"
     },
-    "rbtree" : {
+    "rbtree": {
       "type": "motoko",
       "main": "src/rbtree.mo"
     },
-    "splay" : {
+    "splay": {
       "type": "motoko",
       "main": "src/splay.mo"
     },
@@ -31,7 +31,7 @@
   },
   "defaults": {
     "build": {
-      "packtool": "vessel sources",
+      "packtool": "mops sources",
       "args": ""
     }
   }

@@ -4,8 +4,11 @@ APP = motoko
 all: build perf
 
 build:
+	envsubst < mops.template.toml > mops.toml; \
+	mops install; \
 	dfx canister create --all; \
 	dfx build; \
+	rm mops.toml; \
 	cd ..
 
 perf:
@@ -16,3 +19,5 @@ perf:
 	ic-repl ../../$(APP)/gc.sh; \
 	ic-repl ../../$(APP)/classes.sh
 
+clean:
+	rm *.wasm && rm mops.toml
