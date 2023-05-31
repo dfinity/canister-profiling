@@ -20,26 +20,26 @@ output(file, "\n## Map\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch
 
 function perf(wasm, title, init) {
   let cid = install(wasm, encode (), null);
-  
+
   output(file, stringify("|", title, "|", wasm.size(), "|"));
   call cid.__toggle_tracing();
   call cid.generate(init);
   output(file, stringify(__cost__, "|"));
   call cid.get_mem();
   output(file, stringify(_[2], "|"));
-  
+
   call cid.__toggle_tracing();
   call cid.batch_get(50);
   let svg = stringify(title, "_get.svg");
   output(file, stringify("[", __cost__, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".batch_get"), svg);
-  
+
   call cid.batch_put(50);
   let svg = stringify(title, "_put.svg");
   output(file, stringify("[", __cost__, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".batch_put"), svg);
   call cid.get_mem();
-  
+
   call cid.batch_remove(50);
   let svg = stringify(title, "_remove.svg");
   output(file, stringify("[", __cost__, "](",svg, ")|\n"));

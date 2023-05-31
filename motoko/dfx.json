@@ -10,7 +10,7 @@
       "candid": "../collections/rust/collection.did",
       "wasm": "default.wasm",
       "build": [
-        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o default.wasm --public-metadata candid:service --package base $(dfx cache show)/base'"
+        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o default.wasm --public-metadata candid:service --package base .mops/base@$MOC_VERSION/src'"
       ]
     },
     "copying": {
@@ -18,7 +18,7 @@
       "candid": "../collections/rust/collection.did",
       "wasm": "copying.wasm",
       "build": [
-        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o copying.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --copying-gc'"
+        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o copying.wasm --public-metadata candid:service --package base .mops/base@$MOC_VERSION/src --force-gc --copying-gc'"
       ]
     },
     "compacting": {
@@ -26,7 +26,7 @@
       "candid": "../collections/rust/collection.did",
       "wasm": "compacting.wasm",
       "build": [
-        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o compacting.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --compacting-gc'"
+        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o compacting.wasm --public-metadata candid:service --package base .mops/base@$MOC_VERSION/src --force-gc --compacting-gc'"
       ]
     },
     "generational": {
@@ -34,8 +34,14 @@
       "candid": "../collections/rust/collection.did",
       "wasm": "generational.wasm",
       "build": [
-        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o generational.wasm --public-metadata candid:service --package base $(dfx cache show)/base --force-gc --generational-gc'"
+        "sh -c '$(dfx cache show)/moc ../collections/motoko/src/triemap.mo -o generational.wasm --public-metadata candid:service --package base .mops/base@$MOC_VERSION/src --force-gc --generational-gc'"
       ]
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "mops sources",
+      "args": ""
     }
   }
 }

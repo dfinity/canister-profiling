@@ -11,8 +11,7 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.14.0
-      VESSEL_VERSION: v0.6.4
+      DFX_VERSION: 0.13.1
       IC_REPL_VERSION: 0.3.18
       MOC_VERSION: 0.8.8
     steps:
@@ -46,15 +45,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pandas markdown lxml html5lib bs4 tabulate
-      - name: Install dfx, ic-repl, and vessel
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install ic-repl, mops, dfx, and moc
         run: |
           echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
           wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-linux64
           cp ./ic-repl-linux64 /usr/local/bin/ic-repl
           chmod a+x /usr/local/bin/ic-repl
-          wget https://github.com/dfinity/vessel/releases/download/$VESSEL_VERSION/vessel-linux64
-          cp ./vessel-linux64 /usr/local/bin/vessel
-          chmod a+x /usr/local/bin/vessel
+          npm i -g ic-mops
           dfx cache install
           cd $(dfx cache show)
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
