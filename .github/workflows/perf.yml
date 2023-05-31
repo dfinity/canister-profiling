@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.13.1
+      DFX_VERSION: 0.14.0
       IC_REPL_VERSION: 0.3.18
       MOC_VERSION: 0.8.8
     steps:
@@ -120,8 +120,8 @@ jobs:
         id: fc_diff
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-author: "github-actions[bot]"
-          body-includes: "<!-- diff comment -->"
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- diff comment -->'
       - name: Create or update diff comment
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v2
@@ -137,8 +137,8 @@ jobs:
         id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-author: "github-actions[bot]"
-          body-includes: "<!-- perf comment -->"
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- perf comment -->'
       - name: Create or update performance comment
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v2
@@ -165,3 +165,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: _out/
+
