@@ -7,12 +7,16 @@ motoko:
 	cd motoko; \
 	dfx canister create --all; \
 	dfx build; \
+	echo "Optimize with wasm-opt level 3"; \
+	for f in .dfx/local/canisters/*/*.wasm; do wasm-opt -O3 -g -o $$f $$f; done; \
 	cd ..
 
 rust:
 	cd rust; \
 	dfx canister create --all; \
 	dfx build; \
+	echo "Optimize with wasm-opt level 3"; \
+	for f in .dfx/local/canisters/*/*.wasm; do wasm-opt -O3 -g -o $$f $$f; done; \
 	cd ..
 
 build: motoko rust
