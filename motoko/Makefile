@@ -8,8 +8,8 @@ build:
 	mops install; \
 	dfx canister create --all; \
 	dfx build; \
-	echo "Optimize with wasm-opt level 3"; \
-	for f in .dfx/local/canisters/*/*.wasm; do wasm-opt -O3 -g -o $$f $$f; done; \
+	echo "Optimize with ic-wasm level 3"; \
+	for f in .dfx/local/canisters/*/*.wasm; do ic-wasm -o $$f $$f shrink --optimize O3 --keep-name-section; done; \
 	rm mops.toml; \
 	cd ..
 
