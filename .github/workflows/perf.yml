@@ -68,7 +68,10 @@ jobs:
       - name: Install ic-wasm
         run: |
           cd ic-wasm
-          cargo install --path .
+          cargo build
+          export PATH="target/debug:$PATH"
+          chmod a+x target/debug/ic-wasm
+          cd ..
       - name: Start dfx
         run: |
           dfx start --background
