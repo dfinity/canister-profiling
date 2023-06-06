@@ -59,19 +59,7 @@ jobs:
           cd $(dfx cache show)
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
           tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
-      - name: Clone ic-wasm
-        uses: actions/checkout@v3
-        with:
-          repository: 'dfinity/ic-wasm'
-          ref: 'name-section'
-          path: 'ic-wasm'
-      - name: Install ic-wasm
-        run: |
-          cd ic-wasm
-          cargo build
-          export PATH="target/debug:$PATH"
-          chmod a+x target/debug/ic-wasm
-          cd ..
+          cargo install --git https://github.com/dfinity/ic-wasm.git --branch name-section
       - name: Start dfx
         run: |
           dfx start --background
