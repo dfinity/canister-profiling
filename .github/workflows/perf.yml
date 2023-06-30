@@ -59,6 +59,7 @@ jobs:
           cd $(dfx cache show)
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
           tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
+          cargo install --git https://github.com/dfinity/ic-wasm.git
       - name: Start dfx
         run: |
           dfx start --background
