@@ -2,7 +2,7 @@
 
 Measure various features only available in Motoko.
 
-* Garbage Collection. Measure Motoko garbage collection cost using the [Triemap benchmark](https://github.com/dfinity/canister-profiling/blob/main/collections/motoko/src/triemap.mo). The max mem column reports `rts_max_live_size` after `generate` call. The cycle cost numbers reported here are garbage collection cost only. Some flamegraphs are truncated due to the 2M log size limit.
+* Garbage Collection. Measure Motoko garbage collection cost using the [Triemap benchmark](https://github.com/dfinity/canister-profiling/blob/main/collections/motoko/src/triemap.mo). The max mem column reports `rts_max_live_size` after `generate` call. The cycle cost numbers reported here are garbage collection cost only. Some flamegraphs are truncated due to the 2M log size limit. The `dfx`/`ic-wasm` optimizer is disabled for the garbage collection test cases due to how the optimizer affects function names, making profiling trickier.  
 
   - default. Compile with the default GC option. With the current GC scheduler, `generate` will trigger the copying GC. The rest of the methods will not trigger GC.
   - copying. Compile with `--force-gc --copying-gc`.
@@ -28,4 +28,4 @@ Measure various features only available in Motoko.
 
 | |binary size|put new bucket|put existing bucket|get|
 |--|--:|--:|--:|--:|
-|Map|331_126|[833_599](map_put.svg)|[6_188](map_put_existing.svg)|[6_532](map_get.svg)|
+|Map|289_202|[748_768](map_put.svg)|[5_609](map_put_existing.svg)|[5_988](map_get.svg)|
