@@ -55,7 +55,7 @@ A Wasm optimizer is applied to each Wasm binary before instrumentation (except t
 
 The following optimizations are applied:
 ```
-ic-wasm -o <wasm> <wasm> shrink --optimize O3 --keep-name-section;
+ic-wasm -o <wasm> <wasm> shrink --optimize O3 --keep-name-section
 ```
 
 Note that the name section is preserved in the optimization process. This is because the name section is used by the profiler to produce the flame graphs.
