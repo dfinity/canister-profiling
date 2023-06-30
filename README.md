@@ -48,3 +48,27 @@ Benchmark_name/
       src/
         lib.rs
 ```
+
+## Wasm Optimizer
+
+A Wasm optimizer is applied to each Wasm binary before instrumentation (except the GC benchmarks). The optimizer can be found in [ic-wasm](https://github.com/dfinity/ic-wasm), which wraps [wasm-opt](https://github.com/WebAssembly/binaryen).
+
+The following optimizations are applied:
+```
+ic-wasm -o <wasm> <wasm> shrink --optimize O3 --keep-name-section;
+```
+
+Note that the name section is preserved in the optimization process. This is because the name section is used by the profiler to produce the flame graphs.
+
+For users who wish to use the optimizer, the easiest way is to enable it via a field in `dfx.json`:
+
+```
+{
+  "canisters": {
+    "my_canister": {
+      "optimize": "cycles"
+    }
+  }
+}
+```
+This, as in most real world uses, removes the name section to minimize the binary size.
