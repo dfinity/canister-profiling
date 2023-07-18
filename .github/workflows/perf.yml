@@ -13,7 +13,7 @@ jobs:
     env:
       DFX_VERSION: 0.14.2
       IC_REPL_VERSION: 0.4.1
-      MOC_VERSION: 0.9.6
+      MOC_VERSION: 0.9.7
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
