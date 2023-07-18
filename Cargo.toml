@@ -14,9 +14,6 @@ members = [
     "pub-sub/rust/subscriber",
 ]
 
-[workspace.package]
-edition = "2021"
-
 [workspace.dependencies]
 ic-cdk = "0.10.0"
 ic-cdk-timers = "0.4.0"
