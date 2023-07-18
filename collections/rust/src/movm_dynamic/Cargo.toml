@@ -9,9 +9,8 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-candid = "0.9.0-beta.2"
-ic-cdk = "0.8.0-beta.0"
-ic-cdk-macros = "0.8.0-beta.0"
+candid.workspace = true
+ic-cdk.workspace = true
 fxhash = "0.2.1"
 motoko = { rev = "5897a8b57774b55782d8e408a254e045a9afba20", git = "https://github.com/dfinity/motoko.rs"}
 motoko_proc_macro = { rev = "5897a8b57774b55782d8e408a254e045a9afba20", git = "https://github.com/dfinity/motoko.rs" }

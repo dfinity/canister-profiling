@@ -35,7 +35,7 @@ thread_local! {
     static RAND: RefCell<Random> = RefCell::new(Random::new(None, 42));
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn generate(size: u32) {
     let rand = Random::new(Some(size), 1);
     let iter = rand.map(|x| (x, x.to_string()));
@@ -47,28 +47,28 @@ fn generate(size: u32) {
     });
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn get(x: u32) -> Option<String> {
     MAP.with(|map| map.borrow().get(&x).cloned())
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn put(k: u32, v: String) {
     MAP.with(|map| map.borrow_mut().insert(k, v));
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn remove(x: u32) {
     MAP.with(|map| map.borrow_mut().remove(&x));
 }
 
-#[ic_cdk_macros::query]
+#[ic_cdk::query]
 fn get_mem() -> (u128, u128, u128) {
     let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
     (size, size, size)
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn batch_get(n: u32) {
     MAP.with(|map| {
         let map = map.borrow();
@@ -82,7 +82,7 @@ fn batch_get(n: u32) {
     })
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn batch_put(n: u32) {
     MAP.with(|map| {
         let mut map = map.borrow_mut();
@@ -96,7 +96,7 @@ fn batch_put(n: u32) {
     })
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn batch_remove(n: u32) {
     MAP.with(|map| {
         let mut map = map.borrow_mut();

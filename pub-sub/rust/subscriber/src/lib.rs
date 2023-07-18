@@ -1,5 +1,5 @@
-use candid::{CandidType, Principal};
-use ic_cdk_macros::*;
+use candid::{CandidType, Deserialize, Principal};
+use ic_cdk::{query, update};
 use serde::Deserialize;
 use std::cell::Cell;
 

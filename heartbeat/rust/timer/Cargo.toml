@@ -1,7 +1,6 @@
 [package]
 name = "timer"
 version = "0.1.0"
-edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -9,9 +8,7 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-candid = "0.9.0-beta.2"
-ic-cdk = "0.8.0-beta.0"
-ic-cdk-macros = "0.8.0-beta.0"
-ic-cdk-timers = "0.2.0-beta.0"
-serde = "1.0"
-serde_derive = "1.0"
+candid.workspace = true
+ic-cdk.workspace = true
+ic-cdk-timers.workspace = true
+serde.workspace = true

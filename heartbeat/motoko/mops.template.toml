@@ -1,2 +1,2 @@
 [dependencies]
-base = "$MOC_VERSION"
+base = "https://github.com/dfinity/motoko-base#moc-$MOC_VERSION"
