@@ -67,6 +67,7 @@ jobs:
         run: |
           pushd $(dfx cache show)
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
+          tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
           popd
           cd main
           make
@@ -76,6 +77,7 @@ jobs:
         run: |
           pushd $(dfx cache show)
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
+          tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
           popd
           make
       - name: Generate table
