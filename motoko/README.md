@@ -20,12 +20,13 @@ Measure various features only available in Motoko.
 |--:|--:|--:|--:|--:|--:|
 |default|[251_928_001](default_init.svg)|15_539_816|[50](default_get.svg)|[50](default_put.svg)|[50](default_remove.svg)|
 |copying|[251_927_951](copying_init.svg)|15_539_816|[251_922_212](copying_get.svg)|[252_077_283](copying_put.svg)|[252_077_615](copying_remove.svg)|
-|compacting|[397_186_433](compacting_init.svg)|15_539_816|[295_778_845](compacting_get.svg)|[354_731_011](compacting_put.svg)|[339_094_545](compacting_remove.svg)|
-|generational|[611_205_243](generational_init.svg)|15_540_080|[57_462](generational_get.svg)|[1_063_832](generational_put.svg)|[600_649](generational_remove.svg)|
+|compacting|[385_346_090](compacting_init.svg)|15_539_816|[295_775_337](compacting_get.svg)|[354_723_987](compacting_put.svg)|[339_091_086](compacting_remove.svg)|
+|generational|[590_168_177](generational_init.svg)|15_540_080|[51_200](generational_get.svg)|[1_051_273](generational_put.svg)|[594_436](generational_remove.svg)|
+|incremental|[192_660_140](incremental_init.svg)|4_628|[519_293_666](incremental_get.svg)|[129_819_032](incremental_put.svg)|[321_970_457](incremental_remove.svg)|
 
 
 ## Actor class
 
 | |binary size|put new bucket|put existing bucket|get|
 |--|--:|--:|--:|--:|
-|Map|254_462|[645_585](map_put.svg)|[4_449](map_put_existing.svg)|[4_909](map_get.svg)|
+|Map|254_076|[638_613](map_put.svg)|[4_449](map_put_existing.svg)|[4_909](map_get.svg)|
