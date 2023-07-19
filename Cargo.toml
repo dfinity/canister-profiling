@@ -14,6 +14,10 @@ members = [
     "pub-sub/rust/subscriber",
 ]
 
+[profile.release]
+lto = true
+opt-level = 'z'
+
 [workspace.dependencies]
 ic-cdk = "0.10.0"
 ic-cdk-timers = "0.4.0"
