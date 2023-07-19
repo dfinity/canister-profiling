@@ -20,8 +20,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v3
         with:
-          ref: gh-pages
-          path: main/_out
+          path: main
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -59,12 +58,26 @@ jobs:
           cd $(dfx cache show)
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
           tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
-          cargo install --git https://github.com/dfinity/ic-wasm.git
       - name: Start dfx
         run: |
           dfx start --background
+      - name: Run main perf
+        env:
+          MOC_VERSION: 0.9.6
+        run: |
+          pushd $(dfx cache show)
+          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
+          popd
+          cd main
+          make
       - name: Run perf
-        run: make
+        env:
+          MOC_VERSION: 0.9.7
+        run: |
+          pushd $(dfx cache show)
+          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
+          popd
+          make
       - name: Generate table
         if: github.event_name == 'pull_request'
         env:
