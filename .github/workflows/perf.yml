@@ -11,9 +11,9 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.14.2
+      DFX_VERSION: 0.14.3
       IC_REPL_VERSION: 0.4.1
-      MOC_VERSION: 0.9.6
+      MOC_VERSION: 0.9.7
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report

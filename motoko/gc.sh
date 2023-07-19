@@ -5,6 +5,7 @@ let default = wasm_profiling("default.wasm", vec{"schedule_copying_gc"});
 let copying = wasm_profiling("copying.wasm", vec {"copying_gc"});
 let compacting = wasm_profiling("compacting.wasm", vec{"compacting_gc"});
 let generational = wasm_profiling("generational.wasm", vec{"generational_gc"});
+let incremental = wasm_profiling("incremental.wasm", vec{"incremental_gc"});
 
 let file = "README.md";
 output(file, "\n\n## Garbage Collection\n\n| |generate 80k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
@@ -42,3 +43,4 @@ perf_mo(default, "default", init_size);
 perf_mo(copying, "copying", init_size);
 perf_mo(compacting, "compacting", init_size);
 perf_mo(generational, "generational", init_size);
+perf_mo(incremental, "incremental", init_size);

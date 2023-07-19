@@ -13,3 +13,14 @@ members = [
     "pub-sub/rust/publisher",
     "pub-sub/rust/subscriber",
 ]
+
+[profile.release]
+panic = "abort"
+lto = true
+opt-level = 3
+
+[workspace.dependencies]
+ic-cdk = "0.10.0"
+ic-cdk-timers = "0.4.0"
+candid = "0.9"
+serde = "1"

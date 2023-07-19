@@ -9,8 +9,6 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-ic-cdk = "0.8.0-beta.0"
-ic-cdk-macros = "0.8.0-beta.0"
-serde = "1.0"
-serde_derive = "1.0"
-candid = "0.9.0-beta.2"
+ic-cdk.workspace = true
+serde.workspace = true
+candid.workspace = true
