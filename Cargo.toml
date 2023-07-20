@@ -17,7 +17,7 @@ members = [
 [profile.release]
 debug = false
 panic = "abort"
-lto = true
+lto = "thin"
 opt-level = 3
 
 [workspace.dependencies]
