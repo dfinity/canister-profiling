@@ -74,6 +74,8 @@ jobs:
         run: |
           cd main
           make
+          dfx stop
+          dfx start --clean --background
       - name: Run perf
         run: make
       - name: Generate table
