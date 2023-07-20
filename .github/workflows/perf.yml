@@ -17,11 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'build_base')
         uses: actions/checkout@v3
         with:
           ref: gh-pages
           path: main/_out
+      - name: Checkout out base branch
+        if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'build_base')
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          path: main/
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -63,6 +69,11 @@ jobs:
       - name: Start dfx
         run: |
           dfx start --background
+      - name: Run perf for base branch
+        if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'build_base')
+        run: |
+          cd main
+          make
       - name: Run perf
         run: make
       - name: Generate table
