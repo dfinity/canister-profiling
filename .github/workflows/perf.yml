@@ -119,6 +119,7 @@ jobs:
               fi
             fi
           done
+          python .github/workflows/diff.py final >> DIFF.md
       - name: Read table
         if: github.event_name == 'pull_request'
         id: perf
