@@ -57,7 +57,7 @@ def stats(array, ignoreZeros=True):
     t_value = t.ppf(1 - (1 - conf_level) / 2, len(array) - 1)
     interval = t_value * std / len(array)**0.5
     l, r = mean - interval, mean + interval
-    res = f"{mean[0]:.2f} [{l[0]:.2f}, {r[0]:.2f}]"
+    res = f"{mean:.2f} [{l:.2f}, {r:.2f}]"
     return res
 
 current = read_tables(sys.argv[1])
