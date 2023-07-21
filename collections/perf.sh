@@ -56,7 +56,7 @@ perf(zhenya, "zhenya_hashmap", init_size);
 perf(btreemap_rs, "btreemap_rs", init_size);
 perf(hashmap_rs, "hashmap_rs", init_size);
 
-output(file, "\n## Priority queue\n\n| |binary_size|heapify 50k|mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Priority queue\n\n| |binary_size|heapify 50k|max mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|--:|\n");
 perf(heap, "heap", init_size);
 perf(heap_rs, "heap_rs", init_size);
 
