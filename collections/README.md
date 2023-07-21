@@ -39,22 +39,22 @@ the same elements, and the queries are exactly the same. Below we explain the me
 |splay|152_693|1_323_550_652|8_702_096|[719_103](splay_get.svg)|[1_214_198](splay_put.svg)|[717_146](splay_remove.svg)|
 |btree|180_227|1_222_588_229|7_556_172|[502_876](btree_get.svg)|[1_090_262](btree_put.svg)|[540_393](btree_remove.svg)|
 |zhenya_hashmap|148_470|989_558_312|9_301_800|[334_927](zhenya_hashmap_get.svg)|[818_203](zhenya_hashmap_put.svg)|[335_264](zhenya_hashmap_remove.svg)|
-|btreemap_rs|463_506|111_411_886|1_638_400|[57_790](btreemap_rs_get.svg)|[131_160](btreemap_rs_put.svg)|[60_886](btreemap_rs_remove.svg)|
-|hashmap_rs|455_890|47_917_909|1_835_008|[17_679](hashmap_rs_get.svg)|[55_195](hashmap_rs_put.svg)|[18_200](hashmap_rs_remove.svg)|
+|btreemap_rs|433_571|111_198_573|1_638_400|[57_817](btreemap_rs_get.svg)|[130_970](btreemap_rs_put.svg)|[60_911](btreemap_rs_remove.svg)|
+|hashmap_rs|425_466|47_502_926|1_835_008|[17_683](hashmap_rs_get.svg)|[54_806](hashmap_rs_put.svg)|[18_297](hashmap_rs_remove.svg)|
 
 ## Priority queue
 
-| |binary_size|heapify 50k|mem|pop_min 50|put 50|
+| |binary_size|heapify 50k|max mem|pop_min 50|put 50|
 |--:|--:|--:|--:|--:|--:|
 |heap|139_951|369_466_193|1_400_024|[334_365](heap_get.svg)|[397_474](heap_put.svg)|[335_750](heap_remove.svg)|
-|heap_rs|432_455|5_222_959|819_200|[45_955](heap_rs_get.svg)|[18_614](heap_rs_put.svg)|[46_154](heap_rs_remove.svg)|
+|heap_rs|404_308|5_222_946|819_200|[45_877](heap_rs_get.svg)|[18_643](heap_rs_put.svg)|[46_075](heap_rs_remove.svg)|
 
 ## MoVM
 
 | |binary_size|generate 10k|max mem|batch_get 50|batch_put 50|batch_remove 50|
 |--:|--:|--:|--:|--:|--:|--:|
 |hashmap|152_580|238_966_334|1_820_844|[543_937](hashmap_get.svg)|[73_525_914](hashmap_put.svg)|[518_626](hashmap_remove.svg)|
-|hashmap_rs|455_890|9_883_915|950_272|[17_010](hashmap_rs_get.svg)|[54_512](hashmap_rs_put.svg)|[17_117](hashmap_rs_remove.svg)|
-|imrc_hashmap_rs|463_309|25_635_286|1_572_864|[28_503](imrc_hashmap_rs_get.svg)|[149_652](imrc_hashmap_rs_put.svg)|[36_357](imrc_hashmap_rs_remove.svg)|
-|movm_rs|1_790_949|1_095_033_258|2_654_208|[2_514_539](movm_rs_get.svg)|[7_008_740](movm_rs_put.svg)|[5_528_731](movm_rs_remove.svg)|
-|movm_dynamic_rs|1_907_020|514_686_442|2_129_920|[2_063_144](movm_dynamic_rs_get.svg)|[2_779_676](movm_dynamic_rs_put.svg)|[2_061_927](movm_dynamic_rs_remove.svg)|
+|hashmap_rs|425_466|9_801_108|950_272|[17_031](hashmap_rs_get.svg)|[54_134](hashmap_rs_put.svg)|[17_239](hashmap_rs_remove.svg)|
+|imrc_hashmap_rs|433_888|25_575_323|1_572_864|[28_431](imrc_hashmap_rs_get.svg)|[149_379](imrc_hashmap_rs_put.svg)|[36_283](imrc_hashmap_rs_remove.svg)|
+|movm_rs|1_712_199|1_089_653_746|2_654_208|[2_497_600](movm_rs_get.svg)|[6_977_084](movm_rs_put.svg)|[5_505_446](movm_rs_remove.svg)|
+|movm_dynamic_rs|1_831_058|509_925_551|2_129_920|[2_045_671](movm_dynamic_rs_get.svg)|[2_754_013](movm_dynamic_rs_put.svg)|[2_043_229](movm_dynamic_rs_remove.svg)|
