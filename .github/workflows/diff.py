@@ -54,7 +54,7 @@ def stats(array, ignoreZeros=True):
     if len(array) == 0:
         return f"no change"
     elif len(array) == 1:
-        return f"{array[0]}"
+        return f"{array[0]:.2f}%"
     mean = statistics.mean(array)
     std = statistics.stdev(array)
     conf_level = 0.9
