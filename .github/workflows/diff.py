@@ -4,12 +4,9 @@ import pandas as pd
 import markdown
 import re
 
-print(sys.argv)
-
 if len(sys.argv) == 2 and sys.argv[1] == "final":
     stats.load_stats()
     print("# Overall Statistics\n")
-    print(f"{stats.data['binary_size']}")
     stats.output_stats()
     sys.exit(0)
 
