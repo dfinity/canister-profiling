@@ -61,7 +61,7 @@ def stats(array, ignoreZeros=True):
     t_value = t.ppf(1 - (1 - conf_level) / 2, len(array) - 1)
     interval = t_value * std / len(array)**0.5
     l, r = mean - interval, mean + interval
-    res = f"{mean:.2f} [{l:.2f}, {r:.2f}]"
+    res = f"{mean:.2f}% [{l:.2f}%, {r:.2f}%]"
     return res
 
 current = read_tables(sys.argv[1])
@@ -71,7 +71,7 @@ if len(current) != len(main):
     print(f"> **Warning**\n> Skip {sys.argv[1]}, due to the number of tables mismatches from main branch.\n")
     sys.exit(0)
 
-flaky_benchmarks = ["Heartbeat"]
+flaky_benchmarks = ["## Heartbeat"]
 binary_size = []
 max_mem = []
 cycles = []
@@ -109,5 +109,4 @@ for i, ((header, current), (header2, main)) in enumerate(zip(current, main)):
         print(f"> **Warning**\n> Skip table {i} {header} from {sys.argv[1]}, due to table shape mismatches from main branch.\n")
 
 print(f"## Statistics\n\n")
-print(f"binary size: {binary_size}\nmax_mem: {max_mem}\ncycles: {cycles}\n")
-print(f"binary size: {stats(binary_size)}\nmax_mem: {stats(max_mem)}\ncycles: {stats(cycles)}\n")
+print(f"* binary size: {stats(binary_size)}\n* max_mem: {stats(max_mem)}\n* cycles: {stats(cycles)}\n")
