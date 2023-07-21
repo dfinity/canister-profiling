@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 import markdown
 import re
+import statistics
 from scipy.stats import t
 
 if len(sys.argv) < 3:
@@ -50,9 +51,12 @@ def read_tables(file):
 def stats(array, ignoreZeros=True):
     if ignoreZeros:
         array = [x for x in array if x != 0.]
-    df = pd.DataFrame(array)
-    mean = df.mean()
-    std = df.std()
+    if len(array) == 0:
+        return f"no change"
+    elif len(array) == 1:
+        return f"{array[0]}"
+    mean = statistics.mean(array)
+    std = statistics.stdev(array)
     conf_level = 0.9
     t_value = t.ppf(1 - (1 - conf_level) / 2, len(array) - 1)
     interval = t_value * std / len(array)**0.5
