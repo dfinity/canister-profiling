@@ -4,7 +4,7 @@ import Prim "mo:⛔";
 
 module {
     public class new(size: ?Nat32, seed: Nat32) {
-        let modulus : Nat32 = 0x7fffffff;
+      let modulus : Nat32 = 0x7fffffff;
       var state : Nat32 = seed;
       var ind : Nat32 = 0;
 
@@ -18,7 +18,7 @@ module {
                    };
                };
           };
-          state := state * 48271 % modulus;
+          state := state *% 48271 % modulus;
           ?state;
       };
     };
