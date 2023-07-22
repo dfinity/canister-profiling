@@ -2,12 +2,12 @@ use std::cell::RefCell;
 use std::collections::BTreeMap;
 
 struct Random {
-    state: u32,
+    state: u64,
     size: Option<u32>,
     ind: u32,
 }
 impl Random {
-    pub fn new(size: Option<u32>, seed: u32) -> Self {
+    pub fn new(size: Option<u32>, seed: u64) -> Self {
         Random {
             state: seed,
             size,
@@ -16,7 +16,7 @@ impl Random {
     }
 }
 impl Iterator for Random {
-    type Item = u32;
+    type Item = u64;
     fn next(&mut self) -> Option<Self::Item> {
         if let Some(size) = self.size {
             self.ind += 1;
@@ -24,13 +24,13 @@ impl Iterator for Random {
                 return None;
             }
         }
-        self.state = self.state.wrapping_mul(48271) % 0x7fffffff;
+        self.state = self.state * 48271 % 0x7fffffff;
         Some(self.state)
     }
 }
 
 thread_local! {
-    static MAP: RefCell<BTreeMap<u32, u32>> = RefCell::default();
+    static MAP: RefCell<BTreeMap<u64, u64>> = RefCell::default();
     static RAND: RefCell<Random> = RefCell::new(Random::new(None, 42));
 }
 
@@ -44,21 +44,6 @@ fn generate(size: u32) {
             map.insert(k, v);
         }
     });
-}
-
-#[ic_cdk::update]
-fn get(x: u32) -> Option<u32> {
-    MAP.with(|map| map.borrow().get(&x).cloned())
-}
-
-#[ic_cdk::update]
-fn put(k: u32, v: u32) {
-    MAP.with(|map| map.borrow_mut().insert(k, v));
-}
-
-#[ic_cdk::update]
-fn remove(x: u32) {
-    MAP.with(|map| map.borrow_mut().remove(&x));
 }
 
 #[ic_cdk::query]

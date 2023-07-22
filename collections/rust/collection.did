@@ -3,8 +3,5 @@ service : {
   batch_put: (nat32) -> ();
   batch_remove: (nat32) -> ();
   generate: (nat32) -> ();
-  get: (nat32) -> (opt nat32);
-  put: (nat32, nat32) -> ();
-  remove: (nat32) -> (opt nat32);
   get_mem: () -> (nat, nat, nat) query;
 }
