@@ -17,7 +17,7 @@ actor {
         // unshare is missing, if it exists, it will be one assignment
     };
     
-    public func generate(size: Nat) : async () {
+    public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);
         let iter = Iter.map<Nat32, (Nat32, Text)>(rand, func x = (x, debug_show x));
         for ((k,v) in iter) {

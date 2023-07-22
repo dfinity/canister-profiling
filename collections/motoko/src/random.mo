@@ -3,10 +3,10 @@ import Nat32 = "mo:base/Nat32";
 import Prim "mo:⛔";
 
 module {
-    public class new(size: ?Nat, seed: Nat32) {
-      let modulus = 0x7fffffff;
+    public class new(size: ?Nat32, seed: Nat32) {
+        let modulus : Nat32 = 0x7fffffff;
       var state : Nat32 = seed;
-      var ind = 0;
+      var ind : Nat32 = 0;
 
       public func next() : ?Nat32 {
           switch size {
@@ -18,7 +18,7 @@ module {
                    };
                };
           };
-          state := Nat32.fromNat(Nat32.toNat(state) * 48271 % modulus);
+          state := state * 48271 % modulus;
           ?state;
       };
     };

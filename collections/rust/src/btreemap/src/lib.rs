@@ -70,7 +70,7 @@ fn get_mem() -> (u128, u128, u128) {
 #[ic_cdk::update]
 fn batch_get(n: u32) {
     MAP.with(|map| {
-        let map = map.borrow();
+        let map = map.borrow_mut(); // mut to ensure get doesn't get inlined by the compiler
         RAND.with(|rand| {
             let mut rand = rand.borrow_mut();
             for _ in 0..n {

@@ -23,10 +23,10 @@ actor {
         map := HashMap.fromIter(stable_map.vals(), 50_000, Nat32.equal, hash);
     };
 
-    public func generate(size: Nat) : async () {
+    public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);
         let iter = Iter.map<Nat32, (Nat32, Text)>(rand, func x = (x, debug_show x));
-        map := HashMap.fromIter(iter, size, Nat32.equal, hash);
+        map := HashMap.fromIter(iter, Nat32.toNat size, Nat32.equal, hash);
     };
     public func get(x : Nat32) : async ?Text {
         map.get(x)

@@ -18,7 +18,7 @@ actor {
         map.unsafeUnshare(stable_map);
     };
     
-    public func generate(size: Nat) : async () {
+    public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);
         map := Heap.fromIter(rand, Nat32.compare);
     };

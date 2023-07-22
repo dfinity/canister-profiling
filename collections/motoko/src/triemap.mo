@@ -23,7 +23,7 @@ actor {
         map := TrieMap.fromEntries(stable_map.vals(), Nat32.equal, hash);
     };
 
-    public func generate(size: Nat) : async () {
+    public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);
         let iter = Iter.map<Nat32, (Nat32, Text)>(rand, func x = (x, debug_show x));
         map := TrieMap.fromEntries(iter, Nat32.equal, hash);
