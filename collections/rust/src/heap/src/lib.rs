@@ -25,7 +25,7 @@ impl Iterator for Random {
                 return None;
             }
         }
-        self.state = self.state * 48271 % 0x7fffffff;
+        self.state = self.state.wrapping_mul(48271) % 0x7fffffff;
         Some(self.state)
     }
 }

@@ -11,10 +11,10 @@ actor {
        x & (255 << 16),
        x & (255 << 24)
     ]);
-    var map = TrieMap.TrieMap<Nat32, Text>(Nat32.equal, hash);
+    var map = TrieMap.TrieMap<Nat32, Nat32>(Nat32.equal, hash);
     let rand = Random.new(null, 42);
 
-    stable var stable_map : [(Nat32, Text)] = [];
+    stable var stable_map : [(Nat32, Nat32)] = [];
 
     system func preupgrade() {
         stable_map := Iter.toArray(map.entries());
@@ -25,16 +25,16 @@ actor {
 
     public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);
-        let iter = Iter.map<Nat32, (Nat32, Text)>(rand, func x = (x, debug_show x));
+        let iter = Iter.map<Nat32, (Nat32, Nat32)>(rand, func x = (x, x));
         map := TrieMap.fromEntries(iter, Nat32.equal, hash);
     };
-    public func get(x : Nat32) : async ?Text {
+    public func get(x : Nat32) : async ?Nat32 {
         map.get(x)
     };
-    public func put(k : Nat32, v : Text) : async () {
+    public func put(k : Nat32, v : Nat32) : async () {
         map.put(k, v);
     };
-    public func remove(x : Nat32) : async ?Text {
+    public func remove(x : Nat32) : async ?Nat32 {
         map.remove(x);
     };
     public query func get_mem() : async (Nat,Nat,Nat) {
@@ -48,7 +48,7 @@ actor {
     public func batch_put(n : Nat) : async () {
         for (_ in Iter.range(1, n)) {        
             let k = Option.get<Nat32>(rand.next(), 0);
-            map.put(k, debug_show k);
+            map.put(k, k);
         }
     };
     public func batch_remove(n : Nat) : async () {

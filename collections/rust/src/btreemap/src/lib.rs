@@ -24,20 +24,20 @@ impl Iterator for Random {
                 return None;
             }
         }
-        self.state = self.state * 48271 % 0x7fffffff;
+        self.state = self.state.wrapping_mul(48271) % 0x7fffffff;
         Some(self.state)
     }
 }
 
 thread_local! {
-    static MAP: RefCell<BTreeMap<u32, String>> = RefCell::default();
+    static MAP: RefCell<BTreeMap<u32, u32>> = RefCell::default();
     static RAND: RefCell<Random> = RefCell::new(Random::new(None, 42));
 }
 
 #[ic_cdk::update]
 fn generate(size: u32) {
     let rand = Random::new(Some(size), 1);
-    let iter = rand.map(|x| (x, x.to_string()));
+    let iter = rand.map(|x| (x, x));
     MAP.with(|map| {
         let mut map = map.borrow_mut();
         for (k, v) in iter {
@@ -47,12 +47,12 @@ fn generate(size: u32) {
 }
 
 #[ic_cdk::update]
-fn get(x: u32) -> Option<String> {
+fn get(x: u32) -> Option<u32> {
     MAP.with(|map| map.borrow().get(&x).cloned())
 }
 
 #[ic_cdk::update]
-fn put(k: u32, v: String) {
+fn put(k: u32, v: u32) {
     MAP.with(|map| map.borrow_mut().insert(k, v));
 }
 
@@ -89,7 +89,7 @@ fn batch_put(n: u32) {
             let mut rand = rand.borrow_mut();
             for _ in 0..n {
                 let k = rand.next().unwrap();
-                map.insert(k, k.to_string());
+                map.insert(k, k);
             }
         })
     })
