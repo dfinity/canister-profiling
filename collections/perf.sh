@@ -47,7 +47,6 @@ function perf(wasm, title, init) {
 };
 
 let init_size = 1_000_000;
-
 perf(hashmap, "hashmap", init_size);
 perf(triemap, "triemap", init_size);
 perf(rbtree, "rbtree", init_size);
@@ -58,8 +57,7 @@ perf(btreemap_rs, "btreemap_rs", init_size);
 perf(imrc_hashmap_rs, "imrc_hashmap_rs", init_size);
 perf(hashmap_rs, "hashmap_rs", init_size);
 
-let init_size = 100_000;
-output(file, "\n## Priority queue\n\n| |binary_size|heapify 100k|max mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Priority queue\n\n| |binary_size|heapify 1m|max mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|--:|\n");
 perf(heap, "heap", init_size);
 perf(heap_rs, "heap_rs", init_size);
 
