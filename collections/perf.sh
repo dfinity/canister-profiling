@@ -47,6 +47,7 @@ function perf(wasm, title, init) {
 };
 
 let init_size = 1_000_000;
+
 perf(hashmap, "hashmap", init_size);
 perf(triemap, "triemap", init_size);
 perf(rbtree, "rbtree", init_size);
@@ -56,11 +57,12 @@ perf(zhenya, "zhenya_hashmap", init_size);
 perf(btreemap_rs, "btreemap_rs", init_size);
 perf(imrc_hashmap_rs, "imrc_hashmap_rs", init_size);
 perf(hashmap_rs, "hashmap_rs", init_size);
-/*
-output(file, "\n## Priority queue\n\n| |binary_size|heapify 1m|max mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|--:|\n");
+
+let init_size = 100_000;
+output(file, "\n## Priority queue\n\n| |binary_size|heapify 100k|max mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|--:|\n");
 perf(heap, "heap", init_size);
 perf(heap_rs, "heap_rs", init_size);
-*/
+
 /*
 let movm_size = 10000;
 output(file, "\n## MoVM\n\n| |binary_size|generate 10k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|--:|\n");
