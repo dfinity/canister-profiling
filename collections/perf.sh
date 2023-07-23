@@ -46,7 +46,7 @@ function perf(wasm, title, init) {
   flamegraph(cid, stringify(title, ".batch_remove"), svg);
 };
 
-let init_size = 1_000_000;
+let init_size = 800_000;
 perf(hashmap, "hashmap", init_size);
 perf(triemap, "triemap", init_size);
 perf(rbtree, "rbtree", init_size);
