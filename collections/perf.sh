@@ -12,11 +12,11 @@ let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm");
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm");
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm");
-let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
-let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
+//let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
+//let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n## Map\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Map\n\n| |binary_size|generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|--:|\n");
 
 function perf(wasm, title, init) {
   let cid = install(wasm, encode (), null);
@@ -46,7 +46,7 @@ function perf(wasm, title, init) {
   flamegraph(cid, stringify(title, ".batch_remove"), svg);
 };
 
-let init_size = 50000;
+let init_size = 1_000_000;
 perf(hashmap, "hashmap", init_size);
 perf(triemap, "triemap", init_size);
 perf(rbtree, "rbtree", init_size);
@@ -54,12 +54,14 @@ perf(splay, "splay", init_size);
 perf(btree, "btree", init_size);
 perf(zhenya, "zhenya_hashmap", init_size);
 perf(btreemap_rs, "btreemap_rs", init_size);
+perf(imrc_hashmap_rs, "imrc_hashmap_rs", init_size);
 perf(hashmap_rs, "hashmap_rs", init_size);
 
-output(file, "\n## Priority queue\n\n| |binary_size|heapify 50k|max mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Priority queue\n\n| |binary_size|heapify 1m|max mem|pop_min 50|put 50|\n|--:|--:|--:|--:|--:|--:|\n");
 perf(heap, "heap", init_size);
 perf(heap_rs, "heap_rs", init_size);
 
+/*
 let movm_size = 10000;
 output(file, "\n## MoVM\n\n| |binary_size|generate 10k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(hashmap, "hashmap", movm_size);
@@ -67,3 +69,4 @@ perf(hashmap_rs, "hashmap_rs", movm_size);
 perf(imrc_hashmap_rs, "imrc_hashmap_rs", movm_size);
 perf(movm_rs, "movm_rs", movm_size);
 perf(movm_dynamic_rs, "movm_dynamic_rs", movm_size);
+*/

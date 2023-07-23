@@ -8,7 +8,7 @@ let generational = wasm_profiling("generational.wasm", vec{"generational_gc"});
 let incremental = wasm_profiling("incremental.wasm", vec{"incremental_gc"});
 
 let file = "README.md";
-output(file, "\n\n## Garbage Collection\n\n| |generate 80k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n\n## Garbage Collection\n\n| |generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title, init) {
   let cid = install(wasm, encode (), null);
@@ -38,7 +38,7 @@ function perf_mo(wasm, title, init) {
   flamegraph(cid, stringify(title, ".batch_remove"), svg);
 };
 
-let init_size = 80000;
+let init_size = 1_000_000;
 perf_mo(default, "default", init_size);
 perf_mo(copying, "copying", init_size);
 perf_mo(compacting, "compacting", init_size);
