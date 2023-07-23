@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.15.0-beta.0
+      DFX_VERSION: 0.14.3
       IC_REPL_VERSION: 0.4.1
       MOC_VERSION: 0.9.7
       IC_WASM_VERSION: 0.4.0
@@ -69,8 +69,10 @@ jobs:
           wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-linux64
           cp ./ic-wasm-linux64 /usr/local/bin/ic-wasm
           chmod a+x /usr/local/bin/ic-wasm
-      - name: Start dfx
+      - name: Setup system subnet and start dfx
         run: |
+          mkdir -p $HOME/.config/dfx
+          cp networks.json $HOME/.config/dfx/
           dfx start --background
       - name: Run perf for base branch
         if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'build_base')
