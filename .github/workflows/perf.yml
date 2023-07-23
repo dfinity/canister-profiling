@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.14.3
+      DFX_VERSION: 0.15.0-beta.0
       IC_REPL_VERSION: 0.4.1
       MOC_VERSION: 0.9.7
       IC_WASM_VERSION: 0.4.0
