@@ -11,15 +11,6 @@ actor {
     var map = HashMap.HashMap<Nat64, Nat64>(0, Nat64.equal, hash);
     let rand = Random.new(null, 42);
 
-    stable var stable_map : [(Nat64, Nat64)] = [];
-
-    system func preupgrade() {
-        stable_map := Iter.toArray(map.entries());
-    };
-    system func postupgrade() {
-        map := HashMap.fromIter(stable_map.vals(), 50_000, Nat64.equal, hash);
-    };
-
     public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);
         let iter = Iter.map<Nat64, (Nat64, Nat64)>(rand, func x = (x, x));
@@ -40,6 +31,7 @@ actor {
         }
     };
     public func batch_remove(n : Nat) : async () {
+        let rand = Random.new(null, 1);
         for (_ in Iter.range(1, n)) {
             ignore map.remove(Option.get<Nat64>(rand.next(), 0));
         }

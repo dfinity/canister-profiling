@@ -83,14 +83,12 @@ fn batch_put(n: u32) {
 
 #[ic_cdk::update]
 fn batch_remove(n: u32) {
+    let mut rand = Random::new(None, 1);
     MAP.with(|map| {
         let mut map = map.borrow_mut();
-        RAND.with(|rand| {
-            let mut rand = rand.borrow_mut();
-            for _ in 0..n {
-                let k = rand.next().unwrap();
-                map.remove(&k);
-            }
-        })
+        for _ in 0..n {
+            let k = rand.next().unwrap();
+            map.remove(&k);
+        }
     })
 }

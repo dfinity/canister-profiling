@@ -32,6 +32,7 @@ actor {
         }
     };
     public func batch_remove(n : Nat) : async () {
+        let rand = Random.new(null, 1);
         for (_ in Iter.range(1, n)) {
             map.remove((Option.get<Nat64>(rand.next(), 0), 0));
         }
