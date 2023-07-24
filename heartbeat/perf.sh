@@ -13,6 +13,7 @@ function heartbeat_perf(wasm, title) {
   let svg = stringify(title, "_heartbeat.svg");
   let cost = flamegraph(cid, stringify(title, "_heartbeat"), svg);
   output(file, stringify("|", title, "|", wasm.size(), "|[", cost, "](", svg, ")|\n"));
+  uninstall(cid);
 };
 function timer_perf(wasm, title) {
   let cid = install(wasm, encode (), null);
@@ -32,6 +33,7 @@ function timer_perf(wasm, title) {
   let svg = stringify(title, "_cancelTimer.svg");
   flamegraph(cid, stringify(title, ".cancelTimer"), svg);
   output(file, stringify("[", __cost__, "](", svg, ")|\n"));
+  uninstall(cid);
 };
 
 output(file, "\n## Heartbeat\n\n| |binary_size|heartbeat|\n|--:|--:|--:|\n");

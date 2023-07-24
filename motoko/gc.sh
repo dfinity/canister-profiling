@@ -36,6 +36,8 @@ function perf_mo(wasm, title, init) {
   let svg = stringify(title, "_remove.svg");
   output(file, stringify("[", __cost__, "](",svg, ")|\n"));
   flamegraph(cid, stringify(title, ".batch_remove"), svg);
+
+  uninstall(cid);
 };
 
 let init_size = 800_000;
