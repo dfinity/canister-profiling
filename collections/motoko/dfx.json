@@ -32,7 +32,7 @@
   "defaults": {
     "build": {
       "packtool": "mops sources",
-      "args": ""
+      "args": "--incremental-gc"
     }
   }
 }
