@@ -8,6 +8,7 @@ Measure various features only available in Motoko.
   - copying. Compile with `--force-gc --copying-gc`.
   - compacting. Compile with `--force-gc --compacting-gc`.
   - generational. Compile with `--force-gc --generational-gc`.
+  - incremental. Compile with `--force-gc --incremental-gc`.
 
 * Actor class. Measure the cost of spawning actor class, using the [Actor classes example](https://github.com/dfinity/examples/tree/master/motoko/classes).
 
@@ -16,13 +17,13 @@ Measure various features only available in Motoko.
 
 ## Garbage Collection
 
-| |generate 80k|max mem|batch_get 50|batch_put 50|batch_remove 50|
+| |generate 800k|max mem|batch_get 50|batch_put 50|batch_remove 50|
 |--:|--:|--:|--:|--:|--:|
-|default|[251_928_001](default_init.svg)|15_539_816|[50](default_get.svg)|[50](default_put.svg)|[50](default_remove.svg)|
-|copying|[251_927_951](copying_init.svg)|15_539_816|[251_922_212](copying_get.svg)|[252_077_283](copying_put.svg)|[252_077_615](copying_remove.svg)|
-|compacting|[385_346_090](compacting_init.svg)|15_539_816|[295_775_337](compacting_get.svg)|[354_723_987](compacting_put.svg)|[339_091_086](compacting_remove.svg)|
-|generational|[590_168_177](generational_init.svg)|15_540_080|[51_200](generational_get.svg)|[1_051_273](generational_put.svg)|[594_436](generational_remove.svg)|
-|incremental|[192_660_140](incremental_init.svg)|4_628|[519_293_666](incremental_get.svg)|[129_819_032](incremental_put.svg)|[321_970_457](incremental_remove.svg)|
+|default|[1_012_258_524](default_init.svg)|59_396_752|[50](default_get.svg)|[50](default_put.svg)|[50](default_remove.svg)|
+|copying|[1_012_258_474](copying_init.svg)|59_396_752|[1_012_236_033](copying_get.svg)|[1_012_303_043](copying_put.svg)|[1_012_240_270](copying_remove.svg)|
+|compacting|[1_675_009_912](compacting_init.svg)|59_396_752|[1_292_955_487](compacting_get.svg)|[1_532_273_628](compacting_put.svg)|[1_558_502_973](compacting_remove.svg)|
+|generational|[2_517_025_054](generational_init.svg)|59_397_016|[977_578_942](generational_get.svg)|[1_052_786](generational_put.svg)|[967_410](generational_remove.svg)|
+|incremental|[32_320_741](incremental_init.svg)|4_624|[290_257_785](incremental_get.svg)|[292_951_006](incremental_put.svg)|[292_977_552](incremental_remove.svg)|
 
 
 ## Actor class
