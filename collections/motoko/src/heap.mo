@@ -11,7 +11,11 @@ actor {
     
     public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);
-        map := Heap.fromIter(rand, Nat64.compare);
+        // TODO: use fromIter after https://github.com/dfinity/motoko-base/issues/578
+        // map := Heap.fromIter(rand, Nat64.compare);
+        for (x in rand) {
+            map.put(x);
+        }
     };
 
     public query func get_mem() : async (Nat,Nat,Nat) {

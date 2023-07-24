@@ -8,6 +8,7 @@ Measure various features only available in Motoko.
   - copying. Compile with `--force-gc --copying-gc`.
   - compacting. Compile with `--force-gc --compacting-gc`.
   - generational. Compile with `--force-gc --generational-gc`.
+  - incremental. Compile with `--force-gc --incremental-gc`.
 
 * Actor class. Measure the cost of spawning actor class, using the [Actor classes example](https://github.com/dfinity/examples/tree/master/motoko/classes).
 

@@ -23,6 +23,11 @@ function upgrade(id, wasm, args) {
   );
 };
 
+function uninstall(id) {
+  call ic.stop_canister(record { canister_id = id });
+  call ic.delete_canister(record { canister_id = id });
+};
+
 function get_memory(cid) {
   let _ = call ic.canister_status(record { canister_id = cid });
   _.memory_size
