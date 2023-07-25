@@ -32,7 +32,7 @@
   "defaults": {
     "build": {
       "packtool": "mops sources",
-      "args": "--incremental-gc"
+      "args": "--compacting-gc"
     }
   }
 }
