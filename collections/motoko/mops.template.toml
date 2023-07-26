@@ -1,6 +1,6 @@
 [dependencies]
 base = "https://github.com/dfinity/motoko-base#moc-$MOC_VERSION"
 stableheapbtreemap = "1.3.0"
-stable-hash-map = "0.0.1"
+map = "8.1.0"
 splay = "0.1.0"
 vector = "0.1.2"
