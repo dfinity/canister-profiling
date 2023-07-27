@@ -6,9 +6,9 @@ let sha_rs = wasm_profiling("rust/.dfx/local/canisters/sha/sha.wasm");
 let sample = file("sample_wasm.bin");
 
 let file = "README.md";
-output(file, "\n## SHA-2\n\n| |binary_size|Sha256|Sha512|to_account_id|to_neuron_id|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## SHA-2\n\n| |binary_size|Sha256|Sha512|account_id|neuron_id|\n|--:|--:|--:|--:|--:|--:|\n");
 
-function perf(wasm, title) {
+function perf_sha(wasm, title) {
   let cid = install(wasm, encode (), null);
 
   output(file, stringify("|", title, "|", wasm.size(), "|"));
@@ -37,5 +37,5 @@ function perf(wasm, title) {
   uninstall(cid);
 };
 
-perf(sha_mo, "Motoko");
-perf(sha_rs, "Rust");
+perf_sha(sha_mo, "Motoko");
+perf_sha(sha_rs, "Rust");

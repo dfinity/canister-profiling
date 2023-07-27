@@ -23,7 +23,7 @@ actor {
         digest.sum();
     };
     func nat64_to_be(x : Nat64) : [Nat8] {
-        tabulate<Nat8>(8, func i = x >> (Nat64fromNat i * 8) & 0xff |> toNat _ |> Nat8fromNat _);
+        tabulate<Nat8>(8, func i = x >> (Nat64fromNat (7-i) * 8) & 0xff |> toNat _ |> Nat8fromNat _);
     };
     public func principalToNeuron(id: Principal, nonce: Nat64) : async Blob {
         let digest = Sha256.Digest(#sha256);
