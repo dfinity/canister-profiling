@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
-use serde_bytes::ByteBuf;
-use sha2::{Sha224, Sha256, Digest};
 use candid::Principal;
+use serde_bytes::ByteBuf;
+use sha2::{Digest, Sha224, Sha256};
 
 const SUBACCOUNT_ZERO: [u8; 32] = [0; 32];
 const ACCOUNT_SEPERATOR: &[u8] = b"\x0Aaccount-id";

@@ -3,6 +3,8 @@ load "../prelude.sh";
 
 let sha_mo = wasm_profiling("motoko/.dfx/local/canisters/sha/sha.wasm");
 let sha_rs = wasm_profiling("rust/.dfx/local/canisters/sha/sha.wasm");
+let map_mo = wasm_profiling("motoko/.dfx/local/canisters/certified_map/certified_map.wasm");
+let map_rs = wasm_profiling("rust/.dfx/local/canisters/certified_map/certified_map.wasm");
 let sample = file("sample_wasm.bin");
 
 let file = "README.md";
@@ -36,6 +38,27 @@ function perf_sha(wasm, title) {
   output(file, "\n");
   uninstall(cid);
 };
+function perf_map(wasm, title) {
+  let cid = install(wasm, encode (), null);
+  output(file, stringify("|", title, "|", wasm.size(), "|"));
+  call cid.inc();
+  call cid.inc();
+  let svg = stringify(title, "_inc.svg");
+  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".inc()"), svg);
+
+  call cid.witness();
+  let svg = stringify(title, "_witness.svg");
+  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".witness()"), svg);
+
+  output(file, "\n");
+  uninstall(cid);
+};
 
 perf_sha(sha_mo, "Motoko");
 perf_sha(sha_rs, "Rust");
+
+output(file, "\n## Certified map\n\n| |binary_size|inc|witness|\n|--:|--:|--:|--:|\n");
+perf_map(map_mo, "Motoko");
+perf_map(map_rs, "Rust");
