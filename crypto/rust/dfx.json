@@ -1,0 +1,15 @@
+{
+  "canisters": {
+    "sha": {
+      "type": "rust",
+      "candid": "sha.did",
+      "package": "sha"
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "",
+      "args": ""
+    }
+  }
+}

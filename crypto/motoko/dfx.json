@@ -1,0 +1,14 @@
+{
+  "canisters": {
+    "sha": {
+      "type": "motoko",
+      "main": "src/sha.mo"
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "mops sources",
+      "args": ""
+    }
+  }
+}
