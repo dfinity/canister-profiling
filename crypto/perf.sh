@@ -3,7 +3,7 @@ load "../prelude.sh";
 
 let sha_mo = wasm_profiling("motoko/.dfx/local/canisters/sha/sha.wasm");
 let sha_rs = wasm_profiling("rust/.dfx/local/canisters/sha/sha.wasm");
-let sample = file("sample.wasm");
+let sample = file("sample_wasm.bin");
 
 let file = "README.md";
 output(file, "\n## SHA-2\n\n| |binary_size|Sha256|Sha512|to_account_id|to_neuron_id|\n|--:|--:|--:|--:|--:|--:|\n");

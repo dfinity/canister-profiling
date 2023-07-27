@@ -17,6 +17,7 @@ Performance reports are generated in `gh-pages` branch. The reported Wasm binary
 
 ## How to reproduce performance report
 
+* Make sure that local replica is configured as system subnet. If not, run `cp networks.json ~/.config/dfx/`
 * `dfx start --clean`
 * Run `make -e MOC_VERSION=<MOC_VERSION>`
 * The results are stored in `_out/`
