@@ -1,9 +1,9 @@
-use ic_certified_map::{leaf_hash, Hash, RbTree};
+use ic_certified_map::{Hash, RbTree};
 use serde_bytes::ByteBuf;
 use std::cell::{Cell, RefCell};
 
 thread_local! {
-    static COUNTER: Cell<u64> = Cell::new(0);
+    static COUNTER: Cell<u8> = Cell::new(0);
     static TREE: RefCell<RbTree<&'static str, Hash>> = RefCell::new(RbTree::new());
 }
 
@@ -16,7 +16,9 @@ fn inc() {
     });
     TREE.with(|tree| {
         let mut tree = tree.borrow_mut();
-        tree.insert("counter", leaf_hash(&count.to_be_bytes()));
+        let mut val: Hash = [0; 32];
+        val[0] = count;
+        tree.insert("counter", val);
     })
 }
 

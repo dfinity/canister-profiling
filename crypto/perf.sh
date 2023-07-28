@@ -14,29 +14,30 @@ function perf_sha(wasm, title) {
   let cid = install(wasm, encode (), null);
 
   output(file, stringify("|", title, "|", wasm.size(), "|"));
-  call cid.sha256(sample);
+  let sha256 = call cid.sha256(sample);
   let svg = stringify(title, "_sha256.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  output(file, stringify("[", __cost_sha256, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".sha256"), svg);
   
-  call cid.sha512(sample);
+  let sha512 = call cid.sha512(sample);
   let svg = stringify(title, "_sha512.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  output(file, stringify("[", __cost_sha512, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".sha512"), svg);
 
   let id = principal "rjstn-nz3de-deedb-beeff-eefff-fffff-fa";
-  call cid.principalToAccount(id);
+  let account = call cid.principalToAccount(id);
   let svg = stringify(title, "_to_account.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  output(file, stringify("[", __cost_account, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".principalToAccount"), svg);
 
-  call cid.principalToNeuron(id, 42);
+  let neuron = call cid.principalToNeuron(id, 42);
   let svg = stringify(title, "_to_neuron.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  output(file, stringify("[", __cost_neuron, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".principalToNeuron"), svg);
   
   output(file, "\n");
   uninstall(cid);
+  vec {sha256; sha512; account; neuron};
 };
 function perf_map(wasm, title) {
   let cid = install(wasm, encode (), null);
@@ -47,18 +48,21 @@ function perf_map(wasm, title) {
   output(file, stringify("[", __cost__, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".inc()"), svg);
 
-  call cid.witness();
+  let witness = call cid.witness();
   let svg = stringify(title, "_witness.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  output(file, stringify("[", __cost_witness, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".witness()"), svg);
 
   output(file, "\n");
   uninstall(cid);
+  witness;
 };
-
-perf_sha(sha_mo, "Motoko");
-perf_sha(sha_rs, "Rust");
-
+/*
+let res1 = perf_sha(sha_mo, "Motoko");
+let res2 = perf_sha(sha_rs, "Rust");
+assert res1 == res2;
+*/
 output(file, "\n## Certified map\n\n| |binary_size|inc|witness|\n|--:|--:|--:|--:|\n");
-perf_map(map_mo, "Motoko");
-perf_map(map_rs, "Rust");
+let res1 = perf_map(map_mo, "Motoko");
+let res2 = perf_map(map_rs, "Rust");
+assert res1 == res2;
