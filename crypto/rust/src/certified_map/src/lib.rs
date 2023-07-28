@@ -1,10 +1,10 @@
-use ic_certified_map::{Hash, RbTree};
+use ic_certified_map::RbTree;
 use serde_bytes::ByteBuf;
 use std::cell::{Cell, RefCell};
 
 thread_local! {
     static COUNTER: Cell<u8> = Cell::new(0);
-    static TREE: RefCell<RbTree<&'static str, Hash>> = RefCell::new(RbTree::new());
+    static TREE: RefCell<RbTree<&'static str, Vec<u8>>> = RefCell::new(RbTree::new());
 }
 
 #[ic_cdk::update]
@@ -16,9 +16,7 @@ fn inc() {
     });
     TREE.with(|tree| {
         let mut tree = tree.borrow_mut();
-        let mut val: Hash = [0; 32];
-        val[0] = count;
-        tree.insert("counter", val);
+        tree.insert("counter", vec![count]);
     })
 }
 

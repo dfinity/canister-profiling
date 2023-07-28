@@ -4,6 +4,7 @@ APP = crypto
 all: build perf
 
 motoko:
+	set -e; \
 	cd motoko; \
 	envsubst < mops.template.toml > mops.toml; \
 	mops install; \
@@ -15,6 +16,7 @@ motoko:
 	cd ..
 
 rust:
+	set -e; \
 	cd rust; \
 	dfx canister create --all; \
 	dfx build; \
