@@ -7,7 +7,7 @@ We use the same random number generator with fixed seed to ensure that all colle
 the same elements, and the queries are exactly the same. Below we explain the measurements of each column in the table:
 
 * generate 1m. Insert 1m Nat64 integers into the collection. For Motoko collections, it usually triggers the GC; the rest of the column are not likely to trigger GC.
-* max mem. For Motoko, it reports `rts_max_live_size` after `generate` call; For Rust, it reports the Wasm's memory page * 32Kb.
+* max mem. For Motoko, it reports `rts_max_heap_size` after `generate` call; For Rust, it reports the Wasm's memory page * 32Kb.
 * batch_get 50. Find 50 elements from the collection.
 * batch_put 50. Insert 50 elements to the collection.
 * batch_remove 50. Remove 50 elements from the collection.
@@ -15,7 +15,7 @@ the same elements, and the queries are exactly the same. Below we explain the me
 ## **💎 Takeaways**
 
 * The platform only charges for instruction count. Data structures which make use of caching and locality have no impact on the cost.
-* We have a limit on the maximal cycles per round. This means asymptotic behavior doesn't matter much. We care more about the performance up to a fixed N. In the extreme cases, you may see an `O(10000 nlogn)` algorithm hitting the limit, while an `O(n^2)` algorithm runs just fine.
+* We have a limit on the maximal cycles per round. This means asymptotic behavior doesn't matter much. We care more about the performance up to a fixed N. In the extreme cases, you may see an $O(10000 n\log n)$ algorithm hitting the limit, while an $O(n^2)$ algorithm runs just fine.
 * Amortized algorithms/GC may need to be more eager to avoid hitting the cycle limit on a particular round.
 * Rust costs more cycles to process complicated Candid data, but it is more efficient in performing core computations.
 
@@ -24,8 +24,9 @@ the same elements, and the queries are exactly the same. Below we explain the me
 > * The Candid interface of the benchmark is minimal, therefore the serialization cost is negligible in this measurement.
 > * Due to the instrumentation overhead and cycle limit, we cannot profile computations with large collections. Hopefully, when deterministic time slicing is ready, we can measure the performance on larger memory footprint.
 > * `hashmap` uses amortized data structure. When the initial capacity is reached, it has to copy the whole array, thus the cost of `batch_put 50` is much higher than other data structures.
-> * `btree` comes from [Byron Becker's stable BTreeMap library](https://github.com/canscale/StableHeapBTreeMap).
-> * `zhenya_hashmap` comes from [Zhenya Usenko's stable HashMap library](https://github.com/ZhenyaUsenko/motoko-hash-map).
+> * `btree` comes from [mops.one/stableheapbtreemap](https://mops.one/stableheapbtreemap).
+> * `zhenya_hashmap` comes from [mops.one/map](https://mops.one/map).
+> * `vector` comes from [mops.one/vector](https://mops.one/vector). Compare with `buffer`, `put` has better worst case time and space complexity ($O(\sqrt{n})$ vs $O(n)$); `get` has a slightly larger constant overhead.
 > * `hashmap_rs` uses the `fxhash` crate, which is the same as `std::collections::HashMap`, but with a deterministic hasher. This ensures reproducible result.
 > * `imrc_hashmap_rs` uses the `im-rc` crate, which is the immutable version hashmap in Rust.
-> * The MoVM table measures the performance of an experimental implementation of Motoko interpreter. External developers can ignore this table for now.
+

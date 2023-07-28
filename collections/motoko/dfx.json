@@ -27,6 +27,14 @@
     "zhenya_hashmap": {
       "type": "motoko",
       "main": "src/ZhenyaHashmap.mo"
+    },
+    "buffer": {
+      "type": "motoko",
+      "main": "src/buffer.mo"
+    },
+    "vector": {
+      "type": "motoko",
+      "main": "src/vector.mo"
     }
   },
   "defaults": {

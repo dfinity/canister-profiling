@@ -19,7 +19,7 @@ function perf_mo(wasm, title, init) {
   output(file, stringify("[", __cost__, "](", svg, ")|"));
   flamegraph(cid, stringify(title, ".generate"), svg);
   call cid.get_mem();
-  output(file, stringify(_[2], "|"));
+  output(file, stringify(_[1], "|"));
   
   call cid.batch_get(50);
   let svg = stringify(title, "_get.svg");

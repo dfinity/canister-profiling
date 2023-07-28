@@ -10,12 +10,14 @@ Performance reports are generated in `gh-pages` branch. The reported Wasm binary
 
 * [Sample dapps](http://dfinity.github.io/canister-profiling/dapps)
 * [Collection libraries](http://dfinity.github.io/canister-profiling/collections)
+* [Cryptographic libraries](http://dfinity.github.io/canister-profiling/crypto)
 * [Publisher & Subscriber](http://dfinity.github.io/canister-profiling/pub-sub)
 * [Heartbeat / Timer](http://dfinity.github.io/canister-profiling/heartbeat)
 * [Motoko specific benchmarks](http://dfinity.github.io/canister-profiling/motoko)
 
 ## How to reproduce performance report
 
+* Make sure that local replica is configured as system subnet. If not, run `cp networks.json ~/.config/dfx/`
 * `dfx start --clean`
 * Run `make -e MOC_VERSION=<MOC_VERSION>`
 * The results are stored in `_out/`

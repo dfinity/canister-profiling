@@ -1,4 +1,4 @@
-import HashMap "mo:stable-hash-map";
+import HashMap "mo:map/Map";
 import Nat64 "mo:base/Nat64";
 import Hash "mo:base/Hash";
 import Iter "mo:base/Iter";

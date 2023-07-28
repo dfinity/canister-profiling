@@ -1,0 +1,18 @@
+{
+  "canisters": {
+    "sha": {
+      "type": "motoko",
+      "main": "src/sha.mo"
+    },
+    "certified_map": {
+      "type": "motoko",
+      "main": "src/certified_map.mo"
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "mops sources",
+      "args": ""
+    }
+  }
+}
