@@ -2,9 +2,61 @@ use ic_certified_map::RbTree;
 use serde_bytes::ByteBuf;
 use std::cell::{Cell, RefCell};
 
+struct Random {
+    state: u64,
+}
+impl Random {
+    fn new(seed: u64) -> Self {
+        Random { state: seed }
+    }
+}
+impl Iterator for Random {
+    type Item = u64;
+    fn next(&mut self) -> Option<Self::Item> {
+        self.state = self.state * 48271 % 0x7fffffff;
+        Some(self.state)
+    }
+}
+struct Word(Random);
+impl Word {
+    fn new(seed: u64) -> Self {
+        Word(Random::new(seed))
+    }
+}
+impl Iterator for Word {
+    type Item = [u8; 7];
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut res: Self::Item = [0; 7];
+        for i in 0..7 {
+            let x = self.0.next()?;
+            let x = x % 57 + 65;
+            res[i] = x as u8;
+        }
+        Some(res)
+    }
+}
+
 thread_local! {
     static COUNTER: Cell<u8> = Cell::new(0);
-    static TREE: RefCell<RbTree<&'static str, Vec<u8>>> = RefCell::new(RbTree::new());
+    static TREE: RefCell<RbTree<Vec<u8>, Vec<u8>>> = RefCell::new(RbTree::new());
+}
+
+#[ic_cdk::update]
+fn generate(size: u64) {
+    let mut iter = Word::new(1);
+    TREE.with(|tree| {
+        let mut tree = tree.borrow_mut();
+        for _ in 0..size as usize {
+            let w: Vec<u8> = iter.next().unwrap().into();
+            tree.insert(w.clone(), w);
+        }
+    })
+}
+
+#[ic_cdk::query]
+fn get_mem() -> (u128, u128, u128) {
+    let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
+    (size, size, size)
 }
 
 #[ic_cdk::update]
@@ -16,7 +68,7 @@ fn inc() {
     });
     TREE.with(|tree| {
         let mut tree = tree.borrow_mut();
-        tree.insert("counter", vec![count]);
+        tree.insert("counter".into(), vec![count]);
     })
 }
 
