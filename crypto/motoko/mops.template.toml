@@ -1,4 +1,4 @@
 [dependencies]
 base = "https://github.com/dfinity/motoko-base#moc-$MOC_VERSION"
 sha2 = "0.0.2"
-ic-certification = "0.1.1"
+ic-certification = "https://github.com/chenyan2002/ic-certification#bump-sha2"
