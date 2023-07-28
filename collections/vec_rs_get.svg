@@ -1,0 +1,491 @@
+<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" width="1024" height="278" onload="init(evt)" viewBox="0 0 1024 278" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:fg="http://github.com/jonhoo/inferno"><!--Flame graph stack visualization. See https://github.com/brendangregg/FlameGraph for latest version, and http://www.brendangregg.com/flamegraphs.html for examples.--><!--NOTES: --><defs><linearGradient id="background" y1="0" y2="1" x1="0" x2="0"><stop stop-color="#eeeeee" offset="5%"/><stop stop-color="#eeeeb0" offset="95%"/></linearGradient></defs><style type="text/css">
+text { font-family:monospace; font-size:12px }
+#title { text-anchor:middle; font-size:17px; }
+#matched { text-anchor:end; }
+#search { text-anchor:end; opacity:0.1; cursor:pointer; }
+#search:hover, #search.show { opacity:1; }
+#subtitle { text-anchor:middle; font-color:rgb(160,160,160); }
+#unzoom { cursor:pointer; }
+#frames > *:hover { stroke:black; stroke-width:0.5; cursor:pointer; }
+.hide { display:none; }
+.parent { opacity:0.5; }
+</style><script type="text/ecmascript"><![CDATA[
+        var nametype = 'Function:';
+        var fontsize = 12;
+        var fontwidth = 0.59;
+        var xpad = 10;
+        var inverted = false;
+        var searchcolor = 'rgb(230,0,230)';
+        var fluiddrawing = false;
+        var truncate_text_right = false;
+    ]]><![CDATA["use strict";
+var details, searchbtn, unzoombtn, matchedtxt, svg, searching, frames, known_font_width;
+function init(evt) {
+    details = document.getElementById("details").firstChild;
+    searchbtn = document.getElementById("search");
+    unzoombtn = document.getElementById("unzoom");
+    matchedtxt = document.getElementById("matched");
+    svg = document.getElementsByTagName("svg")[0];
+    frames = document.getElementById("frames");
+    known_font_width = get_monospace_width(frames);
+    total_samples = parseInt(frames.attributes.total_samples.value);
+    searching = 0;
+
+    // Use GET parameters to restore a flamegraph's state.
+    var restore_state = function() {
+        var params = get_params();
+        if (params.x && params.y)
+            zoom(find_group(document.querySelector('[*|x="' + params.x + '"][y="' + params.y + '"]')));
+        if (params.s)
+            search(params.s);
+    };
+
+    if (fluiddrawing) {
+        // Make width dynamic so the SVG fits its parent's width.
+        svg.removeAttribute("width");
+        // Edge requires us to have a viewBox that gets updated with size changes.
+        var isEdge = /Edge\/\d./i.test(navigator.userAgent);
+        if (!isEdge) {
+            svg.removeAttribute("viewBox");
+        }
+        var update_for_width_change = function() {
+            if (isEdge) {
+                svg.attributes.viewBox.value = "0 0 " + svg.width.baseVal.value + " " + svg.height.baseVal.value;
+            }
+
+            // Keep consistent padding on left and right of frames container.
+            frames.attributes.width.value = svg.width.baseVal.value - xpad * 2;
+
+            // Text truncation needs to be adjusted for the current width.
+            update_text_for_elements(frames.children);
+
+            // Keep search elements at a fixed distance from right edge.
+            var svgWidth = svg.width.baseVal.value;
+            searchbtn.attributes.x.value = svgWidth - xpad;
+            matchedtxt.attributes.x.value = svgWidth - xpad;
+        };
+        window.addEventListener('resize', function() {
+            update_for_width_change();
+        });
+        // This needs to be done asynchronously for Safari to work.
+        setTimeout(function() {
+            unzoom();
+            update_for_width_change();
+            restore_state();
+        }, 0);
+    } else {
+        restore_state();
+    }
+}
+// event listeners
+window.addEventListener("click", function(e) {
+    var target = find_group(e.target);
+    if (target) {
+        if (target.nodeName == "a") {
+            if (e.ctrlKey === false) return;
+            e.preventDefault();
+        }
+        if (target.classList.contains("parent")) unzoom();
+        zoom(target);
+
+        // set parameters for zoom state
+        var el = target.querySelector("rect");
+        if (el && el.attributes && el.attributes.y && el.attributes["fg:x"]) {
+            var params = get_params()
+            params.x = el.attributes["fg:x"].value;
+            params.y = el.attributes.y.value;
+            history.replaceState(null, null, parse_params(params));
+        }
+    }
+    else if (e.target.id == "unzoom") {
+        unzoom();
+
+        // remove zoom state
+        var params = get_params();
+        if (params.x) delete params.x;
+        if (params.y) delete params.y;
+        history.replaceState(null, null, parse_params(params));
+    }
+    else if (e.target.id == "search") search_prompt();
+}, false)
+// mouse-over for info
+// show
+window.addEventListener("mouseover", function(e) {
+    var target = find_group(e.target);
+    if (target) details.nodeValue = nametype + " " + g_to_text(target);
+}, false)
+// clear
+window.addEventListener("mouseout", function(e) {
+    var target = find_group(e.target);
+    if (target) details.nodeValue = ' ';
+}, false)
+// ctrl-F for search
+window.addEventListener("keydown",function (e) {
+    if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+        e.preventDefault();
+        search_prompt();
+    }
+}, false)
+// functions
+function get_params() {
+    var params = {};
+    var paramsarr = window.location.search.substr(1).split('&');
+    for (var i = 0; i < paramsarr.length; ++i) {
+        var tmp = paramsarr[i].split("=");
+        if (!tmp[0] || !tmp[1]) continue;
+        params[tmp[0]]  = decodeURIComponent(tmp[1]);
+    }
+    return params;
+}
+function parse_params(params) {
+    var uri = "?";
+    for (var key in params) {
+        uri += key + '=' + encodeURIComponent(params[key]) + '&';
+    }
+    if (uri.slice(-1) == "&")
+        uri = uri.substring(0, uri.length - 1);
+    if (uri == '?')
+        uri = window.location.href.split('?')[0];
+    return uri;
+}
+function find_child(node, selector) {
+    var children = node.querySelectorAll(selector);
+    if (children.length) return children[0];
+    return;
+}
+function find_group(node) {
+    var parent = node.parentElement;
+    if (!parent) return;
+    if (parent.id == "frames") return node;
+    return find_group(parent);
+}
+function orig_save(e, attr, val) {
+    if (e.attributes["fg:orig_" + attr] != undefined) return;
+    if (e.attributes[attr] == undefined) return;
+    if (val == undefined) val = e.attributes[attr].value;
+    e.setAttribute("fg:orig_" + attr, val);
+}
+function orig_load(e, attr) {
+    if (e.attributes["fg:orig_"+attr] == undefined) return;
+    e.attributes[attr].value = e.attributes["fg:orig_" + attr].value;
+    e.removeAttribute("fg:orig_" + attr);
+}
+function g_to_text(e) {
+    var text = find_child(e, "title").firstChild.nodeValue;
+    return (text)
+}
+function g_to_func(e) {
+    var func = g_to_text(e);
+    // if there's any manipulation we want to do to the function
+    // name before it's searched, do it here before returning.
+    return (func);
+}
+function get_monospace_width(frames) {
+    // Given the id="frames" element, return the width of text characters if
+    // this is a monospace font, otherwise return 0.
+    text = find_child(frames.children[0], "text");
+    originalContent = text.textContent;
+    text.textContent = "!";
+    bangWidth = text.getComputedTextLength();
+    text.textContent = "W";
+    wWidth = text.getComputedTextLength();
+    text.textContent = originalContent;
+    if (bangWidth === wWidth) {
+        return bangWidth;
+    } else {
+        return 0;
+    }
+}
+function update_text_for_elements(elements) {
+    // In order to render quickly in the browser, you want to do one pass of
+    // reading attributes, and one pass of mutating attributes. See
+    // https://web.dev/avoid-large-complex-layouts-and-layout-thrashing/ for details.
+
+    // Fall back to inefficient calculation, if we're variable-width font.
+    // TODO This should be optimized somehow too.
+    if (known_font_width === 0) {
+        for (var i = 0; i < elements.length; i++) {
+            update_text(elements[i]);
+        }
+        return;
+    }
+
+    var textElemNewAttributes = [];
+    for (var i = 0; i < elements.length; i++) {
+        var e = elements[i];
+        var r = find_child(e, "rect");
+        var t = find_child(e, "text");
+        var w = parseFloat(r.attributes.width.value) * frames.attributes.width.value / 100 - 3;
+        var txt = find_child(e, "title").textContent.replace(/\([^(]*\)$/,"");
+        var newX = format_percent((parseFloat(r.attributes.x.value) + (100 * 3 / frames.attributes.width.value)));
+
+        // Smaller than this size won't fit anything
+        if (w < 2 * known_font_width) {
+            textElemNewAttributes.push([newX, ""]);
+            continue;
+        }
+
+        // Fit in full text width
+        if (txt.length * known_font_width < w) {
+            textElemNewAttributes.push([newX, txt]);
+            continue;
+        }
+
+        var substringLength = Math.floor(w / known_font_width) - 2;
+        if (truncate_text_right) {
+            // Truncate the right side of the text.
+            textElemNewAttributes.push([newX, txt.substring(0, substringLength) + ".."]);
+            continue;
+        } else {
+            // Truncate the left side of the text.
+            textElemNewAttributes.push([newX, ".." + txt.substring(txt.length - substringLength, txt.length)]);
+            continue;
+        }
+    }
+
+    console.assert(textElemNewAttributes.length === elements.length, "Resize failed, please file a bug at https://github.com/jonhoo/inferno/");
+
+    // Now that we know new textContent, set it all in one go so we don't refresh a bazillion times.
+    for (var i = 0; i < elements.length; i++) {
+        var e = elements[i];
+        var values = textElemNewAttributes[i];
+        var t = find_child(e, "text");
+        t.attributes.x.value = values[0];
+        t.textContent = values[1];
+    }
+}
+
+function update_text(e) {
+    var r = find_child(e, "rect");
+    var t = find_child(e, "text");
+    var w = parseFloat(r.attributes.width.value) * frames.attributes.width.value / 100 - 3;
+    var txt = find_child(e, "title").textContent.replace(/\([^(]*\)$/,"");
+    t.attributes.x.value = format_percent((parseFloat(r.attributes.x.value) + (100 * 3 / frames.attributes.width.value)));
+
+    // Smaller than this size won't fit anything
+    if (w < 2 * fontsize * fontwidth) {
+        t.textContent = "";
+        return;
+    }
+    t.textContent = txt;
+    // Fit in full text width
+    if (t.getComputedTextLength() < w)
+        return;
+    if (truncate_text_right) {
+        // Truncate the right side of the text.
+        for (var x = txt.length - 2; x > 0; x--) {
+            if (t.getSubStringLength(0, x + 2) <= w) {
+                t.textContent = txt.substring(0, x) + "..";
+                return;
+            }
+        }
+    } else {
+        // Truncate the left side of the text.
+        for (var x = 2; x < txt.length; x++) {
+            if (t.getSubStringLength(x - 2, txt.length) <= w) {
+                t.textContent = ".." + txt.substring(x, txt.length);
+                return;
+            }
+        }
+    }
+    t.textContent = "";
+}
+// zoom
+function zoom_reset(e) {
+    if (e.tagName == "rect") {
+        e.attributes.x.value = format_percent(100 * parseInt(e.attributes["fg:x"].value) / total_samples);
+        e.attributes.width.value = format_percent(100 * parseInt(e.attributes["fg:w"].value) / total_samples);
+    }
+    if (e.childNodes == undefined) return;
+    for(var i = 0, c = e.childNodes; i < c.length; i++) {
+        zoom_reset(c[i]);
+    }
+}
+function zoom_child(e, x, zoomed_width_samples) {
+    if (e.tagName == "text") {
+        var parent_x = parseFloat(find_child(e.parentNode, "rect[x]").attributes.x.value);
+        e.attributes.x.value = format_percent(parent_x + (100 * 3 / frames.attributes.width.value));
+    } else if (e.tagName == "rect") {
+        e.attributes.x.value = format_percent(100 * (parseInt(e.attributes["fg:x"].value) - x) / zoomed_width_samples);
+        e.attributes.width.value = format_percent(100 * parseInt(e.attributes["fg:w"].value) / zoomed_width_samples);
+    }
+    if (e.childNodes == undefined) return;
+    for(var i = 0, c = e.childNodes; i < c.length; i++) {
+        zoom_child(c[i], x, zoomed_width_samples);
+    }
+}
+function zoom_parent(e) {
+    if (e.attributes) {
+        if (e.attributes.x != undefined) {
+            e.attributes.x.value = "0.0%";
+        }
+        if (e.attributes.width != undefined) {
+            e.attributes.width.value = "100.0%";
+        }
+    }
+    if (e.childNodes == undefined) return;
+    for(var i = 0, c = e.childNodes; i < c.length; i++) {
+        zoom_parent(c[i]);
+    }
+}
+function zoom(node) {
+    var attr = find_child(node, "rect").attributes;
+    var width = parseInt(attr["fg:w"].value);
+    var xmin = parseInt(attr["fg:x"].value);
+    var xmax = xmin + width;
+    var ymin = parseFloat(attr.y.value);
+    unzoombtn.classList.remove("hide");
+    var el = frames.children;
+    var to_update_text = [];
+    for (var i = 0; i < el.length; i++) {
+        var e = el[i];
+        var a = find_child(e, "rect").attributes;
+        var ex = parseInt(a["fg:x"].value);
+        var ew = parseInt(a["fg:w"].value);
+        // Is it an ancestor
+        if (!inverted) {
+            var upstack = parseFloat(a.y.value) > ymin;
+        } else {
+            var upstack = parseFloat(a.y.value) < ymin;
+        }
+        if (upstack) {
+            // Direct ancestor
+            if (ex <= xmin && (ex+ew) >= xmax) {
+                e.classList.add("parent");
+                zoom_parent(e);
+                to_update_text.push(e);
+            }
+            // not in current path
+            else
+                e.classList.add("hide");
+        }
+        // Children maybe
+        else {
+            // no common path
+            if (ex < xmin || ex >= xmax) {
+                e.classList.add("hide");
+            }
+            else {
+                zoom_child(e, xmin, width);
+                to_update_text.push(e);
+            }
+        }
+    }
+    update_text_for_elements(to_update_text);
+}
+function unzoom() {
+    unzoombtn.classList.add("hide");
+    var el = frames.children;
+    for(var i = 0; i < el.length; i++) {
+        el[i].classList.remove("parent");
+        el[i].classList.remove("hide");
+        zoom_reset(el[i]);
+    }
+    update_text_for_elements(el);
+}
+// search
+function reset_search() {
+    var el = document.querySelectorAll("#frames rect");
+    for (var i = 0; i < el.length; i++) {
+        orig_load(el[i], "fill")
+    }
+    var params = get_params();
+    delete params.s;
+    history.replaceState(null, null, parse_params(params));
+}
+function search_prompt() {
+    if (!searching) {
+        var term = prompt("Enter a search term (regexp " +
+            "allowed, eg: ^ext4_)", "");
+        if (term != null) {
+            search(term)
+        }
+    } else {
+        reset_search();
+        searching = 0;
+        searchbtn.classList.remove("show");
+        searchbtn.firstChild.nodeValue = "Search"
+        matchedtxt.classList.add("hide");
+        matchedtxt.firstChild.nodeValue = ""
+    }
+}
+function search(term) {
+    var re = new RegExp(term);
+    var el = frames.children;
+    var matches = new Object();
+    var maxwidth = 0;
+    for (var i = 0; i < el.length; i++) {
+        var e = el[i];
+        // Skip over frames which are either not visible, or below the zoomed-to frame
+        if (e.classList.contains("hide") || e.classList.contains("parent")) {
+            continue;
+        }
+        var func = g_to_func(e);
+        var rect = find_child(e, "rect");
+        if (func == null || rect == null)
+            continue;
+        // Save max width. Only works as we have a root frame
+        var w = parseInt(rect.attributes["fg:w"].value);
+        if (w > maxwidth)
+            maxwidth = w;
+        if (func.match(re)) {
+            // highlight
+            var x = parseInt(rect.attributes["fg:x"].value);
+            orig_save(rect, "fill");
+            rect.attributes.fill.value = searchcolor;
+            // remember matches
+            if (matches[x] == undefined) {
+                matches[x] = w;
+            } else {
+                if (w > matches[x]) {
+                    // overwrite with parent
+                    matches[x] = w;
+                }
+            }
+            searching = 1;
+        }
+    }
+    if (!searching)
+        return;
+    var params = get_params();
+    params.s = term;
+    history.replaceState(null, null, parse_params(params));
+
+    searchbtn.classList.add("show");
+    searchbtn.firstChild.nodeValue = "Reset Search";
+    // calculate percent matched, excluding vertical overlap
+    var count = 0;
+    var lastx = -1;
+    var lastw = 0;
+    var keys = Array();
+    for (k in matches) {
+        if (matches.hasOwnProperty(k))
+            keys.push(k);
+    }
+    // sort the matched frames by their x location
+    // ascending, then width descending
+    keys.sort(function(a, b){
+        return a - b;
+    });
+    // Step through frames saving only the biggest bottom-up frames
+    // thanks to the sort order. This relies on the tree property
+    // where children are always smaller than their parents.
+    for (var k in keys) {
+        var x = parseInt(keys[k]);
+        var w = matches[keys[k]];
+        if (x >= lastx + lastw) {
+            count += w;
+            lastx = x;
+            lastw = w;
+        }
+    }
+    // display matched percent
+    matchedtxt.classList.remove("hide");
+    var pct = 100 * count / maxwidth;
+    if (pct != 100) pct = pct.toFixed(1);
+    matchedtxt.firstChild.nodeValue = "Matched: " + pct + "%";
+}
+function format_percent(n) {
+    return n.toFixed(4) + "%";
+}
+]]></script><rect x="0" y="0" width="100%" height="278" fill="url(#background)"/><text id="title" fill="rgb(0,0,0)" x="50.0000%" y="24.00">vec_rs.batch_get</text><text id="details" fill="rgb(0,0,0)" x="10" y="261.00"> </text><text id="unzoom" class="hide" fill="rgb(0,0,0)" x="10" y="24.00">Reset Zoom</text><text id="search" fill="rgb(0,0,0)" x="1014" y="24.00">Search</text><text id="matched" fill="rgb(0,0,0)" x="1014" y="261.00"> </text><svg id="frames" x="10" width="1004" total_samples="12824"><g><title>ic_cdk::setup (19 instructions, 0.15%)</title><rect x="0.0000%" y="197" width="0.1482%" height="15" fill="rgb(222,113,51)" fg:x="0" fg:w="19"/><text x="0.2930%" y="207.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="0.1482%" y="197" width="0.5926%" height="15" fill="rgb(214,102,28)" fg:x="19" fg:w="76"/><text x="0.4411%" y="207.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="0.7408%" y="197" width="0.5926%" height="15" fill="rgb(251,66,44)" fg:x="95" fg:w="76"/><text x="1.0338%" y="207.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="1.3334%" y="165" width="0.5926%" height="15" fill="rgb(217,142,40)" fg:x="171" fg:w="76"/><text x="1.6264%" y="175.50"></text></g><g><title>binread::binary_template::write_start_struct (71 instructions, 0.55%)</title><rect x="1.9261%" y="149" width="0.5536%" height="15" fill="rgb(243,14,28)" fg:x="247" fg:w="71"/><text x="2.2190%" y="159.50"></text></g><g><title>memcmp (4 instructions, 0.03%)</title><rect x="2.4797%" y="133" width="0.0312%" height="15" fill="rgb(237,190,21)" fg:x="318" fg:w="4"/><text x="2.7727%" y="143.50"></text></g><g><title>core::str::pattern::StrSearcher::new (400 instructions, 3.12%)</title><rect x="2.4797%" y="149" width="3.1192%" height="15" fill="rgb(222,193,30)" fg:x="318" fg:w="400"/><text x="2.7727%" y="159.50">co..</text></g><g><title>binread::binary_template::write_vec_named (85 instructions, 0.66%)</title><rect x="5.5989%" y="149" width="0.6628%" height="15" fill="rgb(213,174,9)" fg:x="718" fg:w="85"/><text x="5.8918%" y="159.50"></text></g><g><title>binread::binread_impls::&lt;impl binread::BinRead for u8&gt;::read_options (54 instructions, 0.42%)</title><rect x="6.2617%" y="149" width="0.4211%" height="15" fill="rgb(208,35,20)" fg:x="803" fg:w="54"/><text x="6.5547%" y="159.50"></text></g><g><title>binread::binread_impls::&lt;impl binread::BinRead for u8&gt;::read_options (54 instructions, 0.42%)</title><rect x="6.6828%" y="149" width="0.4211%" height="15" fill="rgb(233,221,0)" fg:x="857" fg:w="54"/><text x="6.9758%" y="159.50"></text></g><g><title>binread::binread_impls::&lt;impl binread::BinRead for u8&gt;::read_options (54 instructions, 0.42%)</title><rect x="7.1039%" y="149" width="0.4211%" height="15" fill="rgb(207,37,53)" fg:x="911" fg:w="54"/><text x="7.3968%" y="159.50"></text></g><g><title>binread::binread_impls::&lt;impl binread::BinRead for u8&gt;::read_options (54 instructions, 0.42%)</title><rect x="7.5250%" y="149" width="0.4211%" height="15" fill="rgb(225,209,45)" fg:x="965" fg:w="54"/><text x="7.8179%" y="159.50"></text></g><g><title>binread::binary_template::write_start_struct (71 instructions, 0.55%)</title><rect x="7.9460%" y="149" width="0.5536%" height="15" fill="rgb(253,182,27)" fg:x="1019" fg:w="71"/><text x="8.2390%" y="159.50"></text></g><g><title>candid::binary_parser::read_leb (65 instructions, 0.51%)</title><rect x="8.4997%" y="149" width="0.5069%" height="15" fill="rgb(225,165,49)" fg:x="1090" fg:w="65"/><text x="8.7927%" y="159.50"></text></g><g><title>memcmp (4 instructions, 0.03%)</title><rect x="9.0066%" y="133" width="0.0312%" height="15" fill="rgb(206,124,37)" fg:x="1155" fg:w="4"/><text x="9.2995%" y="143.50"></text></g><g><title>core::str::pattern::StrSearcher::new (400 instructions, 3.12%)</title><rect x="9.0066%" y="149" width="3.1192%" height="15" fill="rgb(248,213,32)" fg:x="1155" fg:w="400"/><text x="9.2995%" y="159.50">co..</text></g><g><title>memcmp (16 instructions, 0.12%)</title><rect x="12.1257%" y="149" width="0.1248%" height="15" fill="rgb(251,11,14)" fg:x="1555" fg:w="16"/><text x="12.4187%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="12.2505%" y="133" width="0.5926%" height="15" fill="rgb(217,217,7)" fg:x="1571" fg:w="76"/><text x="12.5434%" y="143.50"></text></g><g><title>memcpy (60 instructions, 0.47%)</title><rect x="12.8431%" y="101" width="0.4679%" height="15" fill="rgb(231,86,20)" fg:x="1647" fg:w="60"/><text x="13.1361%" y="111.50"></text></g><g><title>&lt;&amp;mut W as core::fmt::Write&gt;::write_str (85 instructions, 0.66%)</title><rect x="12.8431%" y="117" width="0.6628%" height="15" fill="rgb(206,52,6)" fg:x="1647" fg:w="85"/><text x="13.1361%" y="127.50"></text></g><g><title>core::fmt::Formatter::pad_integral::write_prefix (9 instructions, 0.07%)</title><rect x="13.5059%" y="69" width="0.0702%" height="15" fill="rgb(219,148,13)" fg:x="1732" fg:w="9"/><text x="13.7989%" y="79.50"></text></g><g><title>memcpy (30 instructions, 0.23%)</title><rect x="13.5761%" y="53" width="0.2339%" height="15" fill="rgb(239,26,49)" fg:x="1741" fg:w="30"/><text x="13.8691%" y="63.50"></text></g><g><title>&lt;&amp;mut W as core::fmt::Write&gt;::write_str (55 instructions, 0.43%)</title><rect x="13.5761%" y="69" width="0.4289%" height="15" fill="rgb(243,42,52)" fg:x="1741" fg:w="55"/><text x="13.8691%" y="79.50"></text></g><g><title>core::fmt::Formatter::pad_integral (118 instructions, 0.92%)</title><rect x="13.5059%" y="85" width="0.9201%" height="15" fill="rgb(205,59,30)" fg:x="1732" fg:w="118"/><text x="13.7989%" y="95.50"></text></g><g><title>core::fmt::num::imp::fmt_u64 (171 instructions, 1.33%)</title><rect x="13.5059%" y="101" width="1.3334%" height="15" fill="rgb(216,100,7)" fg:x="1732" fg:w="171"/><text x="13.7989%" y="111.50"></text></g><g><title>core::fmt::num::imp::&lt;impl core::fmt::Display for u32&gt;::fmt (176 instructions, 1.37%)</title><rect x="13.5059%" y="117" width="1.3724%" height="15" fill="rgb(220,103,19)" fg:x="1732" fg:w="176"/><text x="13.7989%" y="127.50"></text></g><g><title>core::fmt::write (372 instructions, 2.90%)</title><rect x="12.8431%" y="133" width="2.9008%" height="15" fill="rgb(251,128,7)" fg:x="1647" fg:w="372"/><text x="13.1361%" y="143.50">co..</text></g><g><title>alloc::fmt::format::format_inner (594 instructions, 4.63%)</title><rect x="12.2505%" y="149" width="4.6319%" height="15" fill="rgb(245,39,50)" fg:x="1571" fg:w="594"/><text x="12.5434%" y="159.50">allo..</text></g><g><title>binread::binary_template::write_vec_named (85 instructions, 0.66%)</title><rect x="16.8824%" y="149" width="0.6628%" height="15" fill="rgb(235,108,46)" fg:x="2165" fg:w="85"/><text x="17.1754%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (55 instructions, 0.43%)</title><rect x="17.5452%" y="149" width="0.4289%" height="15" fill="rgb(213,157,30)" fg:x="2250" fg:w="55"/><text x="17.8382%" y="159.50"></text></g><g><title>binread::binary_template::write_end_struct (66 instructions, 0.51%)</title><rect x="17.9741%" y="149" width="0.5147%" height="15" fill="rgb(243,82,24)" fg:x="2305" fg:w="66"/><text x="18.2671%" y="159.50"></text></g><g><title>candid::binary_parser::read_leb (65 instructions, 0.51%)</title><rect x="18.4888%" y="149" width="0.5069%" height="15" fill="rgb(248,110,53)" fg:x="2371" fg:w="65"/><text x="18.7817%" y="159.50"></text></g><g><title>memcmp (4 instructions, 0.03%)</title><rect x="18.9956%" y="117" width="0.0312%" height="15" fill="rgb(252,177,38)" fg:x="2436" fg:w="4"/><text x="19.2886%" y="127.50"></text></g><g><title>core::str::pattern::StrSearcher::new (400 instructions, 3.12%)</title><rect x="18.9956%" y="133" width="3.1192%" height="15" fill="rgb(230,95,1)" fg:x="2436" fg:w="400"/><text x="19.2886%" y="143.50">co..</text></g><g><title>memcmp (16 instructions, 0.12%)</title><rect x="22.1148%" y="133" width="0.1248%" height="15" fill="rgb(241,214,16)" fg:x="2836" fg:w="16"/><text x="22.4078%" y="143.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="22.2396%" y="117" width="0.5926%" height="15" fill="rgb(250,74,9)" fg:x="2852" fg:w="76"/><text x="22.5325%" y="127.50"></text></g><g><title>memcpy (60 instructions, 0.47%)</title><rect x="22.8322%" y="85" width="0.4679%" height="15" fill="rgb(231,227,30)" fg:x="2928" fg:w="60"/><text x="23.1252%" y="95.50"></text></g><g><title>&lt;&amp;mut W as core::fmt::Write&gt;::write_str (85 instructions, 0.66%)</title><rect x="22.8322%" y="101" width="0.6628%" height="15" fill="rgb(252,189,12)" fg:x="2928" fg:w="85"/><text x="23.1252%" y="111.50"></text></g><g><title>core::fmt::Formatter::pad_integral::write_prefix (9 instructions, 0.07%)</title><rect x="23.4950%" y="53" width="0.0702%" height="15" fill="rgb(247,117,6)" fg:x="3013" fg:w="9"/><text x="23.7880%" y="63.50"></text></g><g><title>memcpy (30 instructions, 0.23%)</title><rect x="23.5652%" y="37" width="0.2339%" height="15" fill="rgb(210,126,31)" fg:x="3022" fg:w="30"/><text x="23.8582%" y="47.50"></text></g><g><title>&lt;&amp;mut W as core::fmt::Write&gt;::write_str (55 instructions, 0.43%)</title><rect x="23.5652%" y="53" width="0.4289%" height="15" fill="rgb(214,7,46)" fg:x="3022" fg:w="55"/><text x="23.8582%" y="63.50"></text></g><g><title>core::fmt::Formatter::pad_integral (118 instructions, 0.92%)</title><rect x="23.4950%" y="69" width="0.9201%" height="15" fill="rgb(234,43,28)" fg:x="3013" fg:w="118"/><text x="23.7880%" y="79.50"></text></g><g><title>core::fmt::num::imp::fmt_u64 (171 instructions, 1.33%)</title><rect x="23.4950%" y="85" width="1.3334%" height="15" fill="rgb(240,43,39)" fg:x="3013" fg:w="171"/><text x="23.7880%" y="95.50"></text></g><g><title>core::fmt::num::imp::&lt;impl core::fmt::Display for u32&gt;::fmt (176 instructions, 1.37%)</title><rect x="23.4950%" y="101" width="1.3724%" height="15" fill="rgb(249,71,9)" fg:x="3013" fg:w="176"/><text x="23.7880%" y="111.50"></text></g><g><title>core::fmt::write (372 instructions, 2.90%)</title><rect x="22.8322%" y="117" width="2.9008%" height="15" fill="rgb(241,109,29)" fg:x="2928" fg:w="372"/><text x="23.1252%" y="127.50">co..</text></g><g><title>alloc::fmt::format::format_inner (594 instructions, 4.63%)</title><rect x="22.2396%" y="133" width="4.6319%" height="15" fill="rgb(250,210,50)" fg:x="2852" fg:w="594"/><text x="22.5325%" y="143.50">allo..</text></g><g><title>binread::binary_template::write_vec_named (85 instructions, 0.66%)</title><rect x="26.8715%" y="133" width="0.6628%" height="15" fill="rgb(210,202,31)" fg:x="3446" fg:w="85"/><text x="27.1645%" y="143.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (55 instructions, 0.43%)</title><rect x="27.5343%" y="133" width="0.4289%" height="15" fill="rgb(223,136,47)" fg:x="3531" fg:w="55"/><text x="27.8273%" y="143.50"></text></g><g><title>binread::binary_template::write_start_struct (71 instructions, 0.55%)</title><rect x="27.9632%" y="117" width="0.5536%" height="15" fill="rgb(229,134,51)" fg:x="3586" fg:w="71"/><text x="28.2562%" y="127.50"></text></g><g><title>candid::binary_parser::read_sleb (91 instructions, 0.71%)</title><rect x="28.5168%" y="117" width="0.7096%" height="15" fill="rgb(227,195,23)" fg:x="3657" fg:w="91"/><text x="28.8098%" y="127.50"></text></g><g><title>binread::binary_template::write_end_struct (66 instructions, 0.51%)</title><rect x="29.2265%" y="117" width="0.5147%" height="15" fill="rgb(206,28,11)" fg:x="3748" fg:w="66"/><text x="29.5194%" y="127.50"></text></g><g><title>&lt;candid::binary_parser::IndexType as binread::BinRead&gt;::read_options (287 instructions, 2.24%)</title><rect x="27.9632%" y="133" width="2.2380%" height="15" fill="rgb(227,187,4)" fg:x="3586" fg:w="287"/><text x="28.2562%" y="143.50">&lt;..</text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="30.2012%" y="133" width="0.5926%" height="15" fill="rgb(222,181,10)" fg:x="3873" fg:w="76"/><text x="30.4942%" y="143.50"></text></g><g><title>binread::binread_impls::&lt;impl binread::BinRead for alloc::vec::Vec&lt;B&gt;&gt;::read_options (1,714 instructions, 13.37%)</title><rect x="18.9956%" y="149" width="13.3656%" height="15" fill="rgb(254,197,10)" fg:x="2436" fg:w="1714"/><text x="19.2886%" y="159.50">binread::binread_..</text></g><g><title>binread::binary_template::write_end_struct (66 instructions, 0.51%)</title><rect x="32.3612%" y="149" width="0.5147%" height="15" fill="rgb(231,31,12)" fg:x="4150" fg:w="66"/><text x="32.6542%" y="159.50"></text></g><g><title>&lt;alloc::collections::btree::map::Iter&lt;K,V&gt; as core::iter::traits::iterator::Iterator&gt;::next (13 instructions, 0.10%)</title><rect x="32.8759%" y="149" width="0.1014%" height="15" fill="rgb(252,135,52)" fg:x="4216" fg:w="13"/><text x="33.1688%" y="159.50"></text></g><g><title>&lt;alloc::collections::btree::map::Iter&lt;K,V&gt; as core::iter::traits::iterator::Iterator&gt;::next (13 instructions, 0.10%)</title><rect x="32.9772%" y="149" width="0.1014%" height="15" fill="rgb(223,159,42)" fg:x="4229" fg:w="13"/><text x="33.2702%" y="159.50"></text></g><g><title>&lt;alloc::collections::btree::set::Iter&lt;T&gt; as core::iter::traits::iterator::Iterator&gt;::next (7 instructions, 0.05%)</title><rect x="33.0786%" y="149" width="0.0546%" height="15" fill="rgb(217,163,33)" fg:x="4242" fg:w="7"/><text x="33.3716%" y="159.50"></text></g><g><title>alloc::collections::btree::map::IntoIter&lt;K,V,A&gt;::dying_next (15 instructions, 0.12%)</title><rect x="33.1332%" y="149" width="0.1170%" height="15" fill="rgb(239,56,31)" fg:x="4249" fg:w="15"/><text x="33.4262%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="33.2502%" y="133" width="0.5926%" height="15" fill="rgb(233,164,51)" fg:x="4264" fg:w="76"/><text x="33.5431%" y="143.50"></text></g><g><title>candid::binary_parser::IndexType::to_type (159 instructions, 1.24%)</title><rect x="33.2502%" y="149" width="1.2399%" height="15" fill="rgb(247,170,1)" fg:x="4264" fg:w="159"/><text x="33.5431%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="34.4900%" y="117" width="0.5926%" height="15" fill="rgb(231,189,13)" fg:x="4423" fg:w="76"/><text x="34.7830%" y="127.50"></text></g><g><title>alloc::raw_vec::finish_grow (111 instructions, 0.87%)</title><rect x="34.4900%" y="133" width="0.8656%" height="15" fill="rgb(247,21,13)" fg:x="4423" fg:w="111"/><text x="34.7830%" y="143.50"></text></g><g><title>alloc::raw_vec::RawVec&lt;T,A&gt;::reserve_for_push (179 instructions, 1.40%)</title><rect x="34.4900%" y="149" width="1.3958%" height="15" fill="rgb(245,22,12)" fg:x="4423" fg:w="179"/><text x="34.7830%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="35.8858%" y="149" width="0.5926%" height="15" fill="rgb(218,102,51)" fg:x="4602" fg:w="76"/><text x="36.1788%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (81 instructions, 0.63%)</title><rect x="36.4785%" y="149" width="0.6316%" height="15" fill="rgb(219,191,34)" fg:x="4678" fg:w="81"/><text x="36.7714%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="37.1101%" y="149" width="0.5926%" height="15" fill="rgb(237,87,38)" fg:x="4759" fg:w="76"/><text x="37.4031%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="37.7027%" y="149" width="0.5926%" height="15" fill="rgb(214,179,23)" fg:x="4835" fg:w="76"/><text x="37.9957%" y="159.50"></text></g><g><title>&lt;alloc::vec::Vec&lt;T,A&gt; as core::ops::drop::Drop&gt;::drop (2 instructions, 0.02%)</title><rect x="38.2954%" y="149" width="0.0156%" height="15" fill="rgb(209,129,0)" fg:x="4911" fg:w="2"/><text x="38.5884%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (81 instructions, 0.63%)</title><rect x="38.3110%" y="149" width="0.6316%" height="15" fill="rgb(254,127,7)" fg:x="4913" fg:w="81"/><text x="38.6039%" y="159.50"></text></g><g><title>memcpy (381 instructions, 2.97%)</title><rect x="38.9426%" y="149" width="2.9710%" height="15" fill="rgb(208,204,36)" fg:x="4994" fg:w="381"/><text x="39.2356%" y="159.50">me..</text></g><g><title>memcpy (381 instructions, 2.97%)</title><rect x="41.9136%" y="149" width="2.9710%" height="15" fill="rgb(234,36,28)" fg:x="5375" fg:w="381"/><text x="42.2066%" y="159.50">me..</text></g><g><title>candid::de::IDLDeserialize::new (6,424 instructions, 50.09%)</title><rect x="1.9261%" y="165" width="50.0936%" height="15" fill="rgb(206,183,42)" fg:x="247" fg:w="6424"/><text x="2.2190%" y="175.50">candid::de::IDLDeserialize::new</text></g><g><title>memcpy (336 instructions, 2.62%)</title><rect x="52.0197%" y="165" width="2.6201%" height="15" fill="rgb(210,139,15)" fg:x="6671" fg:w="336"/><text x="52.3126%" y="175.50">m..</text></g><g><title>candid::types::internal::ENV::__getit (5 instructions, 0.04%)</title><rect x="54.6397%" y="149" width="0.0390%" height="15" fill="rgb(224,90,19)" fg:x="7007" fg:w="5"/><text x="54.9327%" y="159.50"></text></g><g><title>std::thread::local::LocalKey&lt;T&gt;::with (39 instructions, 0.30%)</title><rect x="54.6397%" y="165" width="0.3041%" height="15" fill="rgb(231,214,54)" fg:x="7007" fg:w="39"/><text x="54.9327%" y="175.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (73 instructions, 0.57%)</title><rect x="54.9439%" y="165" width="0.5692%" height="15" fill="rgb(242,127,51)" fg:x="7046" fg:w="73"/><text x="55.2368%" y="175.50"></text></g><g><title>candid::types::internal::ENV::__getit (5 instructions, 0.04%)</title><rect x="55.5131%" y="149" width="0.0390%" height="15" fill="rgb(219,224,50)" fg:x="7119" fg:w="5"/><text x="55.8061%" y="159.50"></text></g><g><title>&lt;core::hash::sip::Hasher&lt;S&gt; as core::hash::Hasher&gt;::write (53 instructions, 0.41%)</title><rect x="55.5521%" y="133" width="0.4133%" height="15" fill="rgb(206,48,37)" fg:x="7124" fg:w="53"/><text x="55.8451%" y="143.50"></text></g><g><title>&lt;core::hash::sip::Hasher&lt;S&gt; as core::hash::Hasher&gt;::write (89 instructions, 0.69%)</title><rect x="55.9654%" y="133" width="0.6940%" height="15" fill="rgb(231,158,12)" fg:x="7177" fg:w="89"/><text x="56.2583%" y="143.50"></text></g><g><title>&lt;core::hash::sip::Hasher&lt;S&gt; as core::hash::Hasher&gt;::write (161 instructions, 1.26%)</title><rect x="56.6594%" y="133" width="1.2555%" height="15" fill="rgb(236,37,30)" fg:x="7266" fg:w="161"/><text x="56.9524%" y="143.50"></text></g><g><title>core::hash::BuildHasher::hash_one (540 instructions, 4.21%)</title><rect x="55.5521%" y="149" width="4.2109%" height="15" fill="rgb(246,179,20)" fg:x="7124" fg:w="540"/><text x="55.8451%" y="159.50">core..</text></g><g><title>candid::types::internal::env_add (755 instructions, 5.89%)</title><rect x="55.5131%" y="165" width="5.8874%" height="15" fill="rgb(230,4,42)" fg:x="7119" fg:w="755"/><text x="55.8061%" y="175.50">candid..</text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::unlink_large_chunk (55 instructions, 0.43%)</title><rect x="61.4005%" y="149" width="0.4289%" height="15" fill="rgb(241,131,18)" fg:x="7874" fg:w="55"/><text x="61.6935%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (162 instructions, 1.26%)</title><rect x="61.4005%" y="165" width="1.2633%" height="15" fill="rgb(252,170,41)" fg:x="7874" fg:w="162"/><text x="61.6935%" y="175.50"></text></g><g><title>candid::types::internal::ENV::__getit (5 instructions, 0.04%)</title><rect x="62.6638%" y="149" width="0.0390%" height="15" fill="rgb(208,197,47)" fg:x="8036" fg:w="5"/><text x="62.9567%" y="159.50"></text></g><g><title>&lt;core::hash::sip::Hasher&lt;S&gt; as core::hash::Hasher&gt;::write (53 instructions, 0.41%)</title><rect x="62.7027%" y="133" width="0.4133%" height="15" fill="rgb(236,201,36)" fg:x="8041" fg:w="53"/><text x="62.9957%" y="143.50"></text></g><g><title>&lt;core::hash::sip::Hasher&lt;S&gt; as core::hash::Hasher&gt;::write (89 instructions, 0.69%)</title><rect x="63.1160%" y="133" width="0.6940%" height="15" fill="rgb(251,73,9)" fg:x="8094" fg:w="89"/><text x="63.4090%" y="143.50"></text></g><g><title>&lt;core::hash::sip::Hasher&lt;S&gt; as core::hash::Hasher&gt;::write (161 instructions, 1.26%)</title><rect x="63.8100%" y="133" width="1.2555%" height="15" fill="rgb(210,105,50)" fg:x="8183" fg:w="161"/><text x="64.1030%" y="143.50"></text></g><g><title>core::hash::BuildHasher::hash_one (540 instructions, 4.21%)</title><rect x="62.7027%" y="149" width="4.2109%" height="15" fill="rgb(224,117,12)" fg:x="8041" fg:w="540"/><text x="62.9957%" y="159.50">core..</text></g><g><title>memcmp (68 instructions, 0.53%)</title><rect x="66.9136%" y="149" width="0.5303%" height="15" fill="rgb(241,74,43)" fg:x="8581" fg:w="68"/><text x="67.2066%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (81 instructions, 0.63%)</title><rect x="67.4439%" y="133" width="0.6316%" height="15" fill="rgb(249,178,44)" fg:x="8649" fg:w="81"/><text x="67.7368%" y="143.50"></text></g><g><title>&lt;alloc::rc::Rc&lt;T&gt; as core::ops::drop::Drop&gt;::drop (108 instructions, 0.84%)</title><rect x="67.4439%" y="149" width="0.8422%" height="15" fill="rgb(206,127,20)" fg:x="8649" fg:w="108"/><text x="67.7368%" y="159.50"></text></g><g><title>candid::types::internal::env_add (889 instructions, 6.93%)</title><rect x="62.6638%" y="165" width="6.9323%" height="15" fill="rgb(214,3,30)" fg:x="8036" fg:w="889"/><text x="62.9567%" y="175.50">candid::..</text></g><g><title>&lt;core::hash::sip::Hasher&lt;S&gt; as core::hash::Hasher&gt;::write (53 instructions, 0.41%)</title><rect x="69.5961%" y="117" width="0.4133%" height="15" fill="rgb(253,151,2)" fg:x="8925" fg:w="53"/><text x="69.8890%" y="127.50"></text></g><g><title>&lt;candid::types::internal::Type as core::hash::Hash&gt;::hash (79 instructions, 0.62%)</title><rect x="69.5961%" y="133" width="0.6160%" height="15" fill="rgb(224,124,18)" fg:x="8925" fg:w="79"/><text x="69.8890%" y="143.50"></text></g><g><title>core::hash::BuildHasher::hash_one (292 instructions, 2.28%)</title><rect x="69.5961%" y="149" width="2.2770%" height="15" fill="rgb(245,161,48)" fg:x="8925" fg:w="292"/><text x="69.8890%" y="159.50">c..</text></g><g><title>&lt;candid::types::internal::TypeInner as core::cmp::PartialEq&gt;::eq.176 (15 instructions, 0.12%)</title><rect x="71.8731%" y="149" width="0.1170%" height="15" fill="rgb(243,192,22)" fg:x="9217" fg:w="15"/><text x="72.1660%" y="159.50"></text></g><g><title>&lt;alloc::rc::Rc&lt;T&gt; as core::ops::drop::Drop&gt;::drop (11 instructions, 0.09%)</title><rect x="71.9900%" y="149" width="0.0858%" height="15" fill="rgb(207,114,53)" fg:x="9232" fg:w="11"/><text x="72.2830%" y="159.50"></text></g><g><title>candid::types::internal::env_id (478 instructions, 3.73%)</title><rect x="69.5961%" y="165" width="3.7274%" height="15" fill="rgb(207,224,35)" fg:x="8925" fg:w="478"/><text x="69.8890%" y="175.50">can..</text></g><g><title>candid::types::type_env::TypeEnv::trace_type (33 instructions, 0.26%)</title><rect x="73.3235%" y="165" width="0.2573%" height="15" fill="rgb(230,61,42)" fg:x="9403" fg:w="33"/><text x="73.6164%" y="175.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (123 instructions, 0.96%)</title><rect x="73.5808%" y="149" width="0.9591%" height="15" fill="rgb(237,94,39)" fg:x="9436" fg:w="123"/><text x="73.8738%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (123 instructions, 0.96%)</title><rect x="74.7505%" y="149" width="0.9591%" height="15" fill="rgb(222,14,42)" fg:x="9586" fg:w="123"/><text x="75.0434%" y="159.50"></text></g><g><title>&lt;alloc::rc::Rc&lt;T&gt; as core::ops::drop::Drop&gt;::drop (300 instructions, 2.34%)</title><rect x="73.5808%" y="165" width="2.3394%" height="15" fill="rgb(235,196,0)" fg:x="9436" fg:w="300"/><text x="73.8738%" y="175.50">&lt;..</text></g><g><title>candid::de::Deserializer::unroll_type (28 instructions, 0.22%)</title><rect x="75.9201%" y="149" width="0.2183%" height="15" fill="rgb(244,132,15)" fg:x="9736" fg:w="28"/><text x="76.2131%" y="159.50"></text></g><g><title>serde::de::impls::&lt;impl serde::de::Deserialize for u32&gt;::deserialize (97 instructions, 0.76%)</title><rect x="75.9201%" y="165" width="0.7564%" height="15" fill="rgb(233,200,43)" fg:x="9736" fg:w="97"/><text x="76.2131%" y="175.50"></text></g><g><title>&lt;alloc::rc::Rc&lt;T&gt; as core::ops::drop::Drop&gt;::drop (11 instructions, 0.09%)</title><rect x="76.6765%" y="165" width="0.0858%" height="15" fill="rgb(254,136,23)" fg:x="9833" fg:w="11"/><text x="76.9695%" y="175.50"></text></g><g><title>&lt;alloc::rc::Rc&lt;T&gt; as core::ops::drop::Drop&gt;::drop (11 instructions, 0.09%)</title><rect x="76.7623%" y="165" width="0.0858%" height="15" fill="rgb(214,89,27)" fg:x="9844" fg:w="11"/><text x="77.0553%" y="175.50"></text></g><g><title>&lt;alloc::rc::Rc&lt;T&gt; as core::ops::drop::Drop&gt;::drop (11 instructions, 0.09%)</title><rect x="76.8481%" y="165" width="0.0858%" height="15" fill="rgb(205,57,3)" fg:x="9855" fg:w="11"/><text x="77.1411%" y="175.50"></text></g><g><title>memcpy (411 instructions, 3.20%)</title><rect x="76.9339%" y="165" width="3.2049%" height="15" fill="rgb(251,58,45)" fg:x="9866" fg:w="411"/><text x="77.2268%" y="175.50">me..</text></g><g><title>&lt;alloc::collections::btree::map::BTreeMap&lt;K,V,A&gt; as core::ops::drop::Drop&gt;::drop (12 instructions, 0.09%)</title><rect x="80.1388%" y="133" width="0.0936%" height="15" fill="rgb(247,78,4)" fg:x="10277" fg:w="12"/><text x="80.4318%" y="143.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (168 instructions, 1.31%)</title><rect x="80.2324%" y="133" width="1.3100%" height="15" fill="rgb(214,45,3)" fg:x="10289" fg:w="168"/><text x="80.5253%" y="143.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::insert_large_chunk (63 instructions, 0.49%)</title><rect x="81.5424%" y="101" width="0.4913%" height="15" fill="rgb(249,226,33)" fg:x="10457" fg:w="63"/><text x="81.8354%" y="111.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (209 instructions, 1.63%)</title><rect x="81.5424%" y="117" width="1.6298%" height="15" fill="rgb(215,21,28)" fg:x="10457" fg:w="209"/><text x="81.8354%" y="127.50"></text></g><g><title>&lt;alloc::rc::Rc&lt;T&gt; as core::ops::drop::Drop&gt;::drop (236 instructions, 1.84%)</title><rect x="81.5424%" y="133" width="1.8403%" height="15" fill="rgb(224,57,50)" fg:x="10457" fg:w="236"/><text x="81.8354%" y="143.50"></text></g><g><title>&lt;alloc::rc::Rc&lt;T&gt; as core::ops::drop::Drop&gt;::drop (11 instructions, 0.09%)</title><rect x="83.3827%" y="133" width="0.0858%" height="15" fill="rgb(232,146,26)" fg:x="10693" fg:w="11"/><text x="83.6757%" y="143.50"></text></g><g><title>core::ptr::drop_in_place&lt;candid::de::Deserializer&gt; (469 instructions, 3.66%)</title><rect x="80.1388%" y="149" width="3.6572%" height="15" fill="rgb(222,85,37)" fg:x="10277" fg:w="469"/><text x="80.4318%" y="159.50">cor..</text></g><g><title>candid::de::IDLDeserialize::done (503 instructions, 3.92%)</title><rect x="80.1388%" y="165" width="3.9223%" height="15" fill="rgb(238,210,49)" fg:x="10277" fg:w="503"/><text x="80.4318%" y="175.50">can..</text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::unlink_large_chunk (55 instructions, 0.43%)</title><rect x="84.0611%" y="149" width="0.4289%" height="15" fill="rgb(207,60,11)" fg:x="10780" fg:w="55"/><text x="84.3541%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::insert_large_chunk (63 instructions, 0.49%)</title><rect x="84.4900%" y="149" width="0.4913%" height="15" fill="rgb(231,21,23)" fg:x="10835" fg:w="63"/><text x="84.7830%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (200 instructions, 1.56%)</title><rect x="84.0611%" y="165" width="1.5596%" height="15" fill="rgb(229,174,3)" fg:x="10780" fg:w="200"/><text x="84.3541%" y="175.50"></text></g><g><title>ic_cdk::api::call::arg_data (11,200 instructions, 87.34%)</title><rect x="1.3334%" y="181" width="87.3362%" height="15" fill="rgb(240,130,26)" fg:x="171" fg:w="11200"/><text x="1.6264%" y="191.50">ic_cdk::api::call::arg_data</text></g><g><title>candid::types::internal::ENV::__getit (5 instructions, 0.04%)</title><rect x="88.6697%" y="149" width="0.0390%" height="15" fill="rgb(238,40,35)" fg:x="11371" fg:w="5"/><text x="88.9627%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (55 instructions, 0.43%)</title><rect x="88.7087%" y="133" width="0.4289%" height="15" fill="rgb(235,103,41)" fg:x="11376" fg:w="55"/><text x="89.0016%" y="143.50"></text></g><g><title>&lt;alloc::rc::Rc&lt;T&gt; as core::ops::drop::Drop&gt;::drop (82 instructions, 0.64%)</title><rect x="88.7087%" y="149" width="0.6394%" height="15" fill="rgb(254,215,12)" fg:x="11376" fg:w="82"/><text x="89.0016%" y="159.50"></text></g><g><title>memset (136 instructions, 1.06%)</title><rect x="89.3481%" y="149" width="1.0605%" height="15" fill="rgb(243,14,50)" fg:x="11458" fg:w="136"/><text x="89.6411%" y="159.50"></text></g><g><title>candid::ser::IDLBuilder::new (382 instructions, 2.98%)</title><rect x="88.6697%" y="165" width="2.9788%" height="15" fill="rgb(206,86,7)" fg:x="11371" fg:w="382"/><text x="88.9627%" y="175.50">ca..</text></g><g><title>std::io::Write::write_all (32 instructions, 0.25%)</title><rect x="91.6485%" y="149" width="0.2495%" height="15" fill="rgb(219,34,51)" fg:x="11753" fg:w="32"/><text x="91.9414%" y="159.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::malloc (76 instructions, 0.59%)</title><rect x="91.8980%" y="117" width="0.5926%" height="15" fill="rgb(208,145,4)" fg:x="11785" fg:w="76"/><text x="92.1910%" y="127.50"></text></g><g><title>alloc::raw_vec::finish_grow (111 instructions, 0.87%)</title><rect x="91.8980%" y="133" width="0.8656%" height="15" fill="rgb(236,106,29)" fg:x="11785" fg:w="111"/><text x="92.1910%" y="143.50"></text></g><g><title>alloc::raw_vec::RawVec&lt;T,A&gt;::reserve::do_reserve_and_handle (176 instructions, 1.37%)</title><rect x="91.8980%" y="149" width="1.3724%" height="15" fill="rgb(226,66,21)" fg:x="11785" fg:w="176"/><text x="92.1910%" y="159.50"></text></g><g><title>memcpy (11 instructions, 0.09%)</title><rect x="93.2704%" y="149" width="0.0858%" height="15" fill="rgb(232,41,22)" fg:x="11961" fg:w="11"/><text x="93.5634%" y="159.50"></text></g><g><title>memcpy (11 instructions, 0.09%)</title><rect x="93.3562%" y="149" width="0.0858%" height="15" fill="rgb(221,68,11)" fg:x="11972" fg:w="11"/><text x="93.6492%" y="159.50"></text></g><g><title>std::io::Write::write_all (30 instructions, 0.23%)</title><rect x="93.4420%" y="149" width="0.2339%" height="15" fill="rgb(221,111,10)" fg:x="11983" fg:w="30"/><text x="93.7350%" y="159.50"></text></g><g><title>std::io::Write::write_all (5 instructions, 0.04%)</title><rect x="93.6759%" y="149" width="0.0390%" height="15" fill="rgb(222,49,9)" fg:x="12013" fg:w="5"/><text x="93.9689%" y="159.50"></text></g><g><title>candid::ser::IDLBuilder::serialize (472 instructions, 3.68%)</title><rect x="91.6485%" y="165" width="3.6806%" height="15" fill="rgb(219,121,51)" fg:x="11753" fg:w="472"/><text x="91.9414%" y="175.50">can..</text></g><g><title>&lt;alloc::collections::btree::map::BTreeMap&lt;K,V,A&gt; as core::ops::drop::Drop&gt;::drop (5 instructions, 0.04%)</title><rect x="95.3291%" y="165" width="0.0390%" height="15" fill="rgb(246,48,44)" fg:x="12225" fg:w="5"/><text x="95.6220%" y="175.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (55 instructions, 0.43%)</title><rect x="95.3681%" y="165" width="0.4289%" height="15" fill="rgb(240,97,52)" fg:x="12230" fg:w="55"/><text x="95.6610%" y="175.50"></text></g><g><title>ic_cdk::api::call::reply (988 instructions, 7.70%)</title><rect x="88.6697%" y="181" width="7.7043%" height="15" fill="rgb(217,141,54)" fg:x="11371" fg:w="988"/><text x="88.9627%" y="191.50">ic_cdk::a..</text></g><g><title>vector::batch_get_2_::{{closure}} (12,217 instructions, 95.27%)</title><rect x="1.3334%" y="197" width="95.2667%" height="15" fill="rgb(254,153,4)" fg:x="171" fg:w="12217"/><text x="1.6264%" y="207.50">vector::batch_get_2_::{{closure}}</text></g><g><title>ic_cdk::futures::waker::drop (12 instructions, 0.09%)</title><rect x="96.6001%" y="197" width="0.0936%" height="15" fill="rgb(225,72,7)" fg:x="12388" fg:w="12"/><text x="96.8931%" y="207.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::unlink_large_chunk (55 instructions, 0.43%)</title><rect x="97.3253%" y="181" width="0.4289%" height="15" fill="rgb(207,49,46)" fg:x="12481" fg:w="55"/><text x="97.6183%" y="191.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::insert_large_chunk (63 instructions, 0.49%)</title><rect x="97.7542%" y="181" width="0.4913%" height="15" fill="rgb(247,211,27)" fg:x="12536" fg:w="63"/><text x="98.0472%" y="191.50"></text></g><g><title>dlmalloc::dlmalloc::Dlmalloc&lt;A&gt;::free (326 instructions, 2.54%)</title><rect x="96.6937%" y="197" width="2.5421%" height="15" fill="rgb(244,52,38)" fg:x="12400" fg:w="326"/><text x="96.9867%" y="207.50">d..</text></g><g><title>all (12,824 instructions, 100%)</title><rect x="0.0000%" y="229" width="100.0000%" height="15" fill="rgb(220,122,1)" fg:x="0" fg:w="12824"/><text x="0.2930%" y="239.50"></text></g><g><title>canister_update batch_get (12,824 instructions, 100.00%)</title><rect x="0.0000%" y="213" width="100.0000%" height="15" fill="rgb(231,133,19)" fg:x="0" fg:w="12824"/><text x="0.2930%" y="223.50">canister_update batch_get</text></g></svg></svg>
