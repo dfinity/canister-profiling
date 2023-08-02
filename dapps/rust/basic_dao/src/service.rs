@@ -1,6 +1,6 @@
 use crate::env::{EmptyEnvironment, Environment};
 use crate::types::*;
-use ic_cdk::export::Principal;
+use candid::Principal;
 use std::collections::HashMap;
 
 /// Implements the Basic DAO interface

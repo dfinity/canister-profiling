@@ -1,2 +1,2 @@
-#[ic_cdk_macros::heartbeat]
+#[ic_cdk::heartbeat]
 async fn heartbeat() {}

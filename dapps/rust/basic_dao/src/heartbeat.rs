@@ -1,4 +1,4 @@
-//use ic_cdk_macros::heartbeat;
+//use ic_cdk::heartbeat;
 use crate::types::{Proposal, ProposalState};
 use crate::SERVICE;
 

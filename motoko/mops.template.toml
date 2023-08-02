@@ -1,0 +1,3 @@
+[dependencies]
+base = "https://github.com/dfinity/motoko-base#moc-$MOC_VERSION"
+

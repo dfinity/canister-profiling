@@ -1,0 +1,20 @@
+{
+  "canisters": {
+    "sha": {
+      "type": "rust",
+      "candid": "sha.did",
+      "package": "sha"
+    },
+    "certified_map" : {
+      "type": "rust",
+      "candid": "map.did",
+      "package": "certified_map"
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "",
+      "args": ""
+    }
+  }
+}

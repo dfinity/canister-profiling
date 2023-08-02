@@ -1,7 +1,4 @@
-use ic_cdk::export::{
-    candid::{CandidType, Deserialize},
-    Principal,
-};
+use candid::{CandidType, Deserialize, Principal};
 use std::ops::{Add, AddAssign, Mul, SubAssign};
 
 #[derive(Clone, Debug, Default, CandidType, Deserialize)]

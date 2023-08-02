@@ -1,10 +1,5 @@
 #![allow(clippy::collapsible_else_if)]
 
-#[macro_use]
-extern crate ic_cdk_macros;
-#[macro_use]
-extern crate serde;
-
 use std::borrow::Cow;
 use std::cell::RefCell;
 use std::collections::{HashMap, HashSet};
@@ -14,11 +9,10 @@ use std::mem;
 use std::num::TryFromIntError;
 use std::result::Result as StdResult;
 
-use candid::{CandidType, Encode, Principal};
+use candid::{CandidType, Deserialize, Encode, Principal};
 use ic_cdk::{
     api::{self, call},
-    export::candid,
-    storage,
+    init, post_upgrade, pre_upgrade, query, storage, update,
 };
 
 const MGMT: Principal = Principal::from_slice(&[]);
@@ -247,7 +241,7 @@ fn transfer_from_notify(from: Principal, to: Principal, token_id: u64, data: Vec
     let res = transfer_from(from, to, token_id)?;
     if let Ok(arg) = Encode!(&api::caller(), &from, &token_id, &data) {
         // Using call_raw ensures we don't need to await the future for the call to be executed.
-        // Calling an arbitrary function like this means that a malicious recipient could call 
+        // Calling an arbitrary function like this means that a malicious recipient could call
         // transferFromNotifyDip721 in their onDIP721Received function, resulting in an infinite loop.
         // This will trap eventually, but the transfer will have already been completed and the state-change persisted.
         // That means the original transfer must reply before that happens, or the caller will be
@@ -359,10 +353,7 @@ fn is_approved_for_all(operator: Principal) -> bool {
 // --------------
 
 #[update(name = "mintDip721")]
-fn mint(
-    to: Principal,
-    metadata: MetadataDesc,
-) -> Result<MintResult, ConstrainedError> {
+fn mint(to: Principal, metadata: MetadataDesc) -> Result<MintResult, ConstrainedError> {
     let (txid, tkid) = STATE.with(|state| {
         let mut state = state.borrow_mut();
         if !state.custodians.contains(&api::caller()) {

@@ -1,0 +1,5 @@
+service : {
+  generate : (nat64) -> ();
+  inc : () -> ();
+  witness : () -> (blob, blob);
+}

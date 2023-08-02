@@ -5,11 +5,11 @@ let class = wasm_profiling(".dfx/local/canisters/classes/classes.wasm");
 let map = install(class, encode (), null);
 
 let file = "README.md";
-output(file, "\n\n## Actor class\n\n|binary size|put new bucket|put existing bucket|get|\n|--:|--:|--:|--:|\n");
+output(file, "\n\n## Actor class\n\n| |binary size|put new bucket|put existing bucket|get|\n|--|--:|--:|--:|--:|\n");
 
 call map.put(1, "Test1");
-flamegraph(map, "Map.put(1, \"Test1\"", "map_put.svg");
-output(file, stringify("|", class.size(), "|[", __cost__, "](map_put.svg)|"));
+flamegraph(map, "Map.put(1, \"Test1\")", "map_put.svg");
+output(file, stringify("|Map|", class.size(), "|[", __cost__, "](map_put.svg)|"));
 
 call map.put(5, "Test5");
 flamegraph(map, "Map.put(5, \"Test5\") (no new instantiation)", "map_put_existing.svg");

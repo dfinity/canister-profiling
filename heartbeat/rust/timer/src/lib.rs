@@ -1,9 +1,9 @@
 #![allow(non_snake_case)]
 
 use ic_cdk::update;
+use ic_cdk_timers::{clear_timer, set_timer, TimerId};
 use std::cell::RefCell;
 use std::time::Duration;
-use ic_cdk_timers::{set_timer, clear_timer, TimerId};
 
 thread_local! {
     static ID: RefCell<TimerId> = RefCell::default();

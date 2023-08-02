@@ -1,0 +1,6 @@
+service : {
+  principalToAccount: (principal) -> (blob);
+  principalToNeuron: (principal, nat64) -> (blob);
+  sha256: (blob) -> (blob);
+  sha512: (blob) -> (blob);
+}

@@ -4,8 +4,9 @@ members = [
     "collections/rust/src/btreemap",
     "collections/rust/src/heap",
     "collections/rust/src/imrc_hashmap",
-    "collections/rust/src/movm",
-    "collections/rust/src/movm_dynamic",
+    "collections/rust/src/vector",
+    "crypto/rust/src/sha",
+    "crypto/rust/src/certified_map",
     "dapps/rust/dip721-nft",
     "dapps/rust/basic_dao",
     "heartbeat/rust/heartbeat",
@@ -13,3 +14,14 @@ members = [
     "pub-sub/rust/publisher",
     "pub-sub/rust/subscriber",
 ]
+
+[profile.release]
+panic = "abort"
+lto = true
+opt-level = 2
+
+[workspace.dependencies]
+ic-cdk = "0.10.0"
+ic-cdk-timers = "0.4.0"
+candid = "0.9"
+serde = "1"
