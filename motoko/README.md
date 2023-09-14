@@ -19,15 +19,15 @@ Measure various features only available in Motoko.
 
 | |generate 800k|max mem|batch_get 50|batch_put 50|batch_remove 50|
 |--:|--:|--:|--:|--:|--:|
-|default|[1_012_258_524](default_init.svg)|59_396_776|[50](default_get.svg)|[50](default_put.svg)|[50](default_remove.svg)|
-|copying|[1_012_258_474](copying_init.svg)|59_396_776|[1_012_236_033](copying_get.svg)|[1_012_303_043](copying_put.svg)|[1_012_240_270](copying_remove.svg)|
-|compacting|[1_675_009_912](compacting_init.svg)|59_396_776|[1_292_955_487](compacting_get.svg)|[1_532_273_628](compacting_put.svg)|[1_558_502_973](compacting_remove.svg)|
-|generational|[2_517_025_054](generational_init.svg)|59_405_240|[977_578_942](generational_get.svg)|[1_052_786](generational_put.svg)|[967_410](generational_remove.svg)|
-|incremental|[32_320_741](incremental_init.svg)|1_136_153_832|[290_257_785](incremental_get.svg)|[292_951_006](incremental_put.svg)|[292_977_552](incremental_remove.svg)|
+|default|[1_012_258_537](default_init.svg)|59_396_776|[50](default_get.svg)|[50](default_put.svg)|[50](default_remove.svg)|
+|copying|[1_012_258_487](copying_init.svg)|59_396_776|[1_012_236_046](copying_get.svg)|[1_012_303_056](copying_put.svg)|[1_012_240_283](copying_remove.svg)|
+|compacting|[1_675_009_925](compacting_init.svg)|59_396_776|[1_292_955_500](compacting_get.svg)|[1_532_273_641](compacting_put.svg)|[1_558_502_986](compacting_remove.svg)|
+|generational|[2_498_146_508](generational_init.svg)|59_405_240|[977_578_983](generational_get.svg)|[1_044_991](generational_put.svg)|[960_405](generational_remove.svg)|
+|incremental|[32_320_754](incremental_init.svg)|1_136_155_048|[290_257_785](incremental_get.svg)|[292_951_006](incremental_put.svg)|[292_977_552](incremental_remove.svg)|
 
 
 ## Actor class
 
 | |binary size|put new bucket|put existing bucket|get|
 |--|--:|--:|--:|--:|
-|Map|254_076|[638_613](map_put.svg)|[4_449](map_put_existing.svg)|[4_909](map_get.svg)|
+|Map|261_606|[656_047](map_put.svg)|[4_459](map_put_existing.svg)|[4_919](map_get.svg)|
