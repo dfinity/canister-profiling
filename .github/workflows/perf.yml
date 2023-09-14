@@ -11,9 +11,9 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.14.3
+      DFX_VERSION: 0.14.4
       IC_REPL_VERSION: 0.4.1
-      MOC_VERSION: 0.9.7
+      MOC_VERSION: 0.10.0
       IC_WASM_VERSION: 0.4.0
     steps:
       - uses: actions/checkout@v3
