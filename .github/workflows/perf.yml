@@ -85,6 +85,7 @@ jobs:
           unzip $MOC_ARTIFACT.zip
           chmod a+x bin/moc
           cp -rf bin/moc $(dfx cache show)
+          rm -f /usr/local/bin/ic-repl
           cargo install --git https://github.com/dfinity/ic-repl.git --branch new-meter
           dfx start --clean --background
       - name: Run perf
