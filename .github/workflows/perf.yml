@@ -11,10 +11,10 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.14.3
+      DFX_VERSION: 0.14.4
       IC_REPL_VERSION: 0.4.1
       MOC_ARTIFACT: 923960883
-      MOC_VERSION: 0.9.7
+      MOC_VERSION: 0.10.0
       IC_WASM_VERSION: 0.4.0
     steps:
       - uses: actions/checkout@v3
@@ -62,10 +62,9 @@ jobs:
           cargo install --git https://github.com/dfinity/ic-repl.git --branch new-meter
           npm i -g ic-mops
           dfx cache install
-          wget https://nightly.link/dfinity/motoko/actions/artifacts/$MOC_ARTIFACT.zip
-          unzip $MOC_ARTIFACT.zip
-          chmod a+x bin/moc
-          cp -rf bin/moc $(dfx cache show)
+          cd $(dfx cache show)
+          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-Linux-x86_64-$MOC_VERSION.tar.gz
+          tar zxvf motoko-Linux-x86_64-$MOC_VERSION.tar.gz
           wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-linux64
           cp ./ic-wasm-linux64 /usr/local/bin/ic-wasm
           chmod a+x /usr/local/bin/ic-wasm
@@ -80,6 +79,10 @@ jobs:
           cd main
           make
           dfx stop
+          wget https://nightly.link/dfinity/motoko/actions/artifacts/$MOC_ARTIFACT.zip
+          unzip $MOC_ARTIFACT.zip
+          chmod a+x bin/moc
+          cp -rf bin/moc $(dfx cache show)
           dfx start --clean --background
       - name: Run perf
         run: make
