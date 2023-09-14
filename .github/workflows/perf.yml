@@ -64,8 +64,8 @@ jobs:
           npm i -g ic-mops
           dfx cache install
           cd $(dfx cache show)
-          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-linux64-$MOC_VERSION.tar.gz
-          tar zxvf motoko-linux64-$MOC_VERSION.tar.gz
+          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-Linux-x86_64-$MOC_VERSION.tar.gz
+          tar zxvf motoko-Linux-x86_64-$MOC_VERSION.tar.gz
           wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-linux64
           cp ./ic-wasm-linux64 /usr/local/bin/ic-wasm
           chmod a+x /usr/local/bin/ic-wasm
