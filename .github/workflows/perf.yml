@@ -59,9 +59,7 @@ jobs:
       - name: Install ic-repl, mops, dfx, and moc
         run: |
           echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
-          wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-linux64
-          cp ./ic-repl-linux64 /usr/local/bin/ic-repl
-          chmod a+x /usr/local/bin/ic-repl
+          cargo install --git https://github.com/dfinity/ic-repl.git --branch new-meter
           npm i -g ic-mops
           dfx cache install
           cd $(dfx cache show)
@@ -85,8 +83,6 @@ jobs:
           unzip $MOC_ARTIFACT.zip
           chmod a+x bin/moc
           cp -rf bin/moc $(dfx cache show)
-          rm -f /usr/local/bin/ic-repl
-          cargo install --git https://github.com/dfinity/ic-repl.git --branch new-meter
           dfx start --clean --background
       - name: Run perf
         run: make
