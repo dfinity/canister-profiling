@@ -1,26 +1,15 @@
-APP = dapps
+include ../*.mk
 
 .PHONY: all motoko rust build perf
 all: build perf
 
 motoko:
-	cd motoko; \
-	dfx canister create --all; \
-	dfx build; \
-	cd ..
+	$(call build,motoko)
 
 rust:
-	cd rust; \
-	dfx canister create --all; \
-	dfx build; \
-	cd ..
+	$(call build,rust)
 
 build: motoko rust
 
 perf:
-	set -e; \
-	mkdir -p ../_out/$(APP); \
-	cp README.md ../_out/$(APP); \
-	cd ../_out/$(APP); \
-	ic-repl ../../$(APP)/basic_dao.sh; \
-	ic-repl ../../$(APP)/nft.sh
+	$(call perf_two,dapps,basic_dao.sh,nft.sh)
