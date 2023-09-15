@@ -1,0 +1,54 @@
+{
+  "canisters": {
+    "classes": {
+      "type": "motoko",
+      "main": "src/Map.mo"
+    },
+    "default": {
+      "type": "custom",
+      "candid": "../../collections/rust/collection.did",
+      "wasm": "default.wasm",
+      "build": [
+        "sh -c '$(dfx cache show)/moc ../../collections/motoko/src/triemap.mo -o default.wasm --public-metadata candid:service $(mops sources)'"
+      ]
+    },
+    "copying": {
+      "type": "custom",
+      "candid": "../../collections/rust/collection.did",
+      "wasm": "copying.wasm",
+      "build": [
+        "sh -c '$(dfx cache show)/moc ../../collections/motoko/src/triemap.mo -o copying.wasm --public-metadata candid:service $(mops sources) --force-gc --copying-gc'"
+      ]
+    },
+    "compacting": {
+      "type": "custom",
+      "candid": "../../collections/rust/collection.did",
+      "wasm": "compacting.wasm",
+      "build": [
+        "sh -c '$(dfx cache show)/moc ../../collections/motoko/src/triemap.mo -o compacting.wasm --public-metadata candid:service $(mops sources) --force-gc --compacting-gc'"
+      ]
+    },
+    "generational": {
+      "type": "custom",
+      "candid": "../../collections/rust/collection.did",
+      "wasm": "generational.wasm",
+      "build": [
+        "sh -c '$(dfx cache show)/moc ../../collections/motoko/src/triemap.mo -o generational.wasm --public-metadata candid:service $(mops sources) --force-gc --generational-gc'"
+      ]
+    },
+    "incremental": {
+      "type": "custom",
+      "candid": "../../collections/rust/collection.did",
+      "wasm": "incremental.wasm",
+      "build": [
+        "sh -c '$(dfx cache show)/moc ../../collections/motoko/src/triemap.mo -o incremental.wasm --public-metadata candid:service $(mops sources) --force-gc --incremental-gc'"
+      ]
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "mops sources",
+      "args": ""
+    }
+  }
+}
