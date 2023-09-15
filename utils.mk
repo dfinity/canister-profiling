@@ -1,5 +1,6 @@
 define ic-wasm
-	echo "No Optimize!"
+	echo "Aggressive optimize with ic-wasm"; \
+	for f in $(1)/*/*.wasm; do ic-wasm -o $$f $$f optimize O4 --inline-functions-with-loops --always-inline-max-function-size 100 --keep-name-section; done
 endef
 
 define build_with_mops
