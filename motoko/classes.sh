@@ -1,7 +1,7 @@
 #!ic-repl
 load "../prelude.sh";
 
-let class = wasm_profiling(".dfx/local/canisters/classes/classes.wasm");
+let class = wasm_profiling("motoko/.dfx/local/canisters/classes/classes.wasm");
 let map = install(class, encode (), null);
 
 let file = "README.md";
