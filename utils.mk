@@ -1,6 +1,6 @@
 define ic-wasm
 	echo "optimize with ic-wasm O3"; \
-	for f in $(1)/*/*.wasm; do ic-wasm -o $$f $$f optimize O3 --keep-name-section; done
+	for f in $(1)/*/*.wasm; do ic-wasm -o $$f $$f optimize O4 --keep-name-section; done
 endef
 
 define build_with_mops
