@@ -6,5 +6,11 @@
     "sub": {
       "main": "src/sub/Main.mo"
     }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "mops sources",
+      "args": ""
+    }
   }
 }
