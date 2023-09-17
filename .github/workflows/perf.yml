@@ -66,6 +66,9 @@ jobs:
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-Linux-x86_64-$MOC_VERSION.tar.gz
           tar zxvf motoko-Linux-x86_64-$MOC_VERSION.tar.gz
           cargo install --git https://github.com/dfinity/ic-repl.git --branch new-meter
+          wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-linux64
+          cp ./ic-wasm-linux64 /usr/local/bin/ic-wasm
+          chmod a+x /usr/local/bin/ic-wasm
       - name: Setup system subnet and start dfx
         run: |
           mkdir -p $HOME/.config/dfx
