@@ -16,12 +16,12 @@ Measure different cryptographic libraries written in both Motoko and Rust.
 
 | |binary_size|SHA-256|SHA-512|account_id|neuron_id|
 |--:|--:|--:|--:|--:|--:|
-|Motoko|174_597|[264_156_360](Motoko_sha256.svg)|[235_099_580](Motoko_sha512.svg)|[35_153](Motoko_to_account.svg)|[23_262](Motoko_to_neuron.svg)|
+|Motoko|172_890|[247_480_401](Motoko_sha256.svg)|[228_033_044](Motoko_sha512.svg)|[30_017](Motoko_to_account.svg)|[20_760](Motoko_to_neuron.svg)|
 |Rust|498_272|[82_512_024](Rust_sha256.svg)|[56_525_977](Rust_sha512.svg)|[42_551](Rust_to_account.svg)|[44_574](Rust_to_neuron.svg)|
 
 ## Certified map
 
 | |binary_size|generate 10k|max mem|inc|witness|
 |--:|--:|--:|--:|--:|--:|
-|Motoko|178_273|5_013_614_870|3_429_924|[594_192](Motoko_inc.svg)|[327_767](Motoko_witness.svg)|
+|Motoko|176_829|4_390_018_085|3_429_924|[519_711](Motoko_inc.svg)|[327_767](Motoko_witness.svg)|
 |Rust|441_794|6_202_163_062|1_081_344|[983_904](Rust_inc.svg)|[288_469](Rust_witness.svg)|
