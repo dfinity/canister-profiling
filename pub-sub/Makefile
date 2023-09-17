@@ -4,7 +4,7 @@ include ../*.mk
 all: build perf
 
 motoko:
-	$(call build,motoko)
+	$(call build_with_mops,motoko)
 
 rust:
 	$(call build,rust)
