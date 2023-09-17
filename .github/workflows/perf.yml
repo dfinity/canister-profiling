@@ -15,7 +15,7 @@ jobs:
       IC_REPL_VERSION: 0.4.1
       MOC_ARTIFACT: 927804830
       MOC_VERSION: 0.10.0
-      IC_WASM_VERSION: 0.4.0
+      IC_WASM_VERSION: 0.5.0
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
@@ -65,9 +65,7 @@ jobs:
           cd $(dfx cache show)
           wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-Linux-x86_64-$MOC_VERSION.tar.gz
           tar zxvf motoko-Linux-x86_64-$MOC_VERSION.tar.gz
-          wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-linux64
-          cp ./ic-wasm-linux64 /usr/local/bin/ic-wasm
-          chmod a+x /usr/local/bin/ic-wasm
+          cargo install --git https://github.com/dfinity/ic-repl.git --branch new-meter
       - name: Setup system subnet and start dfx
         run: |
           mkdir -p $HOME/.config/dfx
