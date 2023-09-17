@@ -13,7 +13,7 @@ jobs:
     env:
       DFX_VERSION: 0.14.4
       IC_REPL_VERSION: 0.4.1
-      MOC_ARTIFACT: 923960883
+      MOC_ARTIFACT: 927804830
       MOC_VERSION: 0.10.0
       IC_WASM_VERSION: 0.4.0
     steps:
