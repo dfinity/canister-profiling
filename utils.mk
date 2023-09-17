@@ -22,7 +22,6 @@ define build
 	dfx canister create --all; \
 	dfx ledger fabricate-cycles --t 100 --canister $$(dfx identity get-wallet); \
 	dfx build; \
-	$(call ic-wasm,.dfx/local/canisters/); \
 	cd ..
 endef
 
