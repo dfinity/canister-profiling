@@ -8,7 +8,7 @@ let generational = wasm_profiling("motoko/generational.wasm", vec{"generational_
 let incremental = wasm_profiling("motoko/incremental.wasm", vec{"incremental_gc"});
 
 let file = "README.md";
-output(file, "\n\n## Garbage Collection\n\n| |generate 800k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n\n## Garbage Collection\n\n| |generate 700k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title, init) {
   let cid = install(wasm, encode (), null);
@@ -40,7 +40,7 @@ function perf_mo(wasm, title, init) {
   uninstall(cid);
 };
 
-let init_size = 800_000;
+let init_size = 700_000;
 perf_mo(default, "default", init_size);
 perf_mo(copying, "copying", init_size);
 perf_mo(compacting, "compacting", init_size);
