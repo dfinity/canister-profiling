@@ -40,17 +40,17 @@ the same elements, and the queries are exactly the same. Below we explain the me
 |rbtree|140_562|5_979_229_508|57_995_940|[88_905](rbtree_get.svg)|[268_573](rbtree_put.svg)|[278_352](rbtree_remove.svg)|
 |splay|136_342|11_568_250_621|53_995_876|[551_926](splay_get.svg)|[581_651](splay_put.svg)|[810_220](splay_remove.svg)|
 |btree|181_449|8_224_241_444|31_103_892|[277_542](btree_get.svg)|[384_171](btree_put.svg)|[429_041](btree_remove.svg)|
-|zhenya_hashmap|146_485|2_634_116_314|65_987_480|[65_396](zhenya_hashmap_get.svg)|[80_204](zhenya_hashmap_put.svg)|[94_825](zhenya_hashmap_remove.svg)|
-|btreemap_rs|420_066|1_654_114_188|13_762_560|[66_890](btreemap_rs_get.svg)|[112_562](btreemap_rs_put.svg)|[81_308](btreemap_rs_remove.svg)|
-|imrc_hashmap_rs|419_753|2_386_381_104|122_454_016|[32_903](imrc_hashmap_rs_get.svg)|[162_822](imrc_hashmap_rs_put.svg)|[98_526](imrc_hashmap_rs_remove.svg)|
-|hashmap_rs|413_537|402_296_850|36_536_320|[16_697](hashmap_rs_get.svg)|[21_601](hashmap_rs_put.svg)|[20_052](hashmap_rs_remove.svg)|
+|zhenya_hashmap|153_793|2_201_621_425|22_772_980|[48_627](zhenya_hashmap_get.svg)|[61_839](zhenya_hashmap_put.svg)|[70_872](zhenya_hashmap_remove.svg)|
+|btreemap_rs|418_496|1_654_114_123|13_762_560|[66_828](btreemap_rs_get.svg)|[112_500](btreemap_rs_put.svg)|[81_246](btreemap_rs_remove.svg)|
+|imrc_hashmap_rs|418_054|2_386_381_040|122_454_016|[32_841](imrc_hashmap_rs_get.svg)|[162_760](imrc_hashmap_rs_put.svg)|[98_464](imrc_hashmap_rs_remove.svg)|
+|hashmap_rs|411_843|402_296_785|36_536_320|[16_635](hashmap_rs_get.svg)|[21_539](hashmap_rs_put.svg)|[19_990](hashmap_rs_remove.svg)|
 
 ## Priority queue
 
 | |binary_size|heapify 1m|max mem|pop_min 50|put 50|
 |--:|--:|--:|--:|--:|--:|
 |heap|132_227|4_684_517_324|29_995_836|[511_499](heap_get.svg)|[186_465](heap_put.svg)|[487_206](heap_remove.svg)|
-|heap_rs|411_165|123_102_416|9_109_504|[53_382](heap_rs_get.svg)|[18_202](heap_rs_put.svg)|[53_607](heap_rs_remove.svg)|
+|heap_rs|409_392|123_102_351|9_109_504|[53_320](heap_rs_get.svg)|[18_140](heap_rs_put.svg)|[53_545](heap_rs_remove.svg)|
 
 ## Growable array
 
@@ -58,4 +58,4 @@ the same elements, and the queries are exactly the same. Below we explain the me
 |--:|--:|--:|--:|--:|--:|--:|
 |buffer|139_908|2_082_623|65_508|[73_092](buffer_get.svg)|[671_517](buffer_put.svg)|[127_592](buffer_remove.svg)|
 |vector|138_344|1_728_571|24_764|[121_219](vector_get.svg)|[163_947](vector_put.svg)|[161_609](vector_remove.svg)|
-|vec_rs|409_961|265_856|655_360|[12_902](vec_rs_get.svg)|[25_331](vec_rs_put.svg)|[21_215](vec_rs_remove.svg)|
+|vec_rs|408_280|265_791|655_360|[12_840](vec_rs_get.svg)|[25_269](vec_rs_put.svg)|[21_153](vec_rs_remove.svg)|

@@ -17,17 +17,17 @@ Measure various features only available in Motoko.
 
 ## Garbage Collection
 
-| |generate 800k|max mem|batch_get 50|batch_put 50|batch_remove 50|
+| |generate 700k|max mem|batch_get 50|batch_put 50|batch_remove 50|
 |--:|--:|--:|--:|--:|--:|
-|default|[1_012_258_537](default_init.svg)|59_396_776|[50](default_get.svg)|[50](default_put.svg)|[50](default_remove.svg)|
-|copying|[1_012_258_487](copying_init.svg)|59_396_776|[1_012_236_046](copying_get.svg)|[1_012_303_056](copying_put.svg)|[1_012_240_283](copying_remove.svg)|
-|compacting|[1_675_009_925](compacting_init.svg)|59_396_776|[1_292_955_500](compacting_get.svg)|[1_532_273_641](compacting_put.svg)|[1_558_502_986](compacting_remove.svg)|
-|generational|[2_498_146_508](generational_init.svg)|59_405_240|[977_578_983](generational_get.svg)|[1_044_991](generational_put.svg)|[960_405](generational_remove.svg)|
-|incremental|[32_320_754](incremental_init.svg)|1_136_155_048|[290_257_785](incremental_get.svg)|[292_951_006](incremental_put.svg)|[292_977_552](incremental_remove.svg)|
+|default|[886_040_881](default_init.svg)|51_991_272|[50](default_get.svg)|[50](default_put.svg)|[50](default_remove.svg)|
+|copying|[886_040_831](copying_init.svg)|51_991_272|[886_021_215](copying_get.svg)|[886_090_303](copying_put.svg)|[886_023_374](copying_remove.svg)|
+|compacting|[1_465_250_036](compacting_init.svg)|51_991_272|[1_131_730_142](compacting_get.svg)|[1_337_769_727](compacting_put.svg)|[1_364_175_167](compacting_remove.svg)|
+|generational|[2_184_686_556](generational_init.svg)|51_999_736|[855_706_700](generational_get.svg)|[1_058_853](generational_put.svg)|[948_937](generational_remove.svg)|
+|incremental|[28_518_084](incremental_init.svg)|985_883_928|[290_276_117](incremental_get.svg)|[292_998_383](incremental_put.svg)|[292_988_797](incremental_remove.svg)|
 
 
 ## Actor class
 
 | |binary size|put new bucket|put existing bucket|get|
 |--|--:|--:|--:|--:|
-|Map|261_606|[656_047](map_put.svg)|[4_459](map_put_existing.svg)|[4_919](map_get.svg)|
+|Map|261_335|[654_501](map_put.svg)|[4_459](map_put_existing.svg)|[4_919](map_get.svg)|

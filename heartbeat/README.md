@@ -11,7 +11,7 @@ of the replica can affect how we measure this. Typically, a correct flamegraph c
 
 | |binary_size|heartbeat|
 |--:|--:|--:|
-|Motoko|123_357|[7_399](Motoko_heartbeat.svg)|
+|Motoko|123_357|[3_758](Motoko_heartbeat.svg)|
 |Rust|23_625|[785](Rust_heartbeat.svg)|
 
 ## Timer
@@ -19,4 +19,4 @@ of the replica can affect how we measure this. Typically, a correct flamegraph c
 | |binary_size|setTimer|cancelTimer|
 |--:|--:|--:|--:|
 |Motoko|129_636|[15_227](Motoko_setTimer.svg)|[1_684](Motoko_cancelTimer.svg)|
-|Rust|443_367|[43_417](Rust_setTimer.svg)|[7_497](Rust_cancelTimer.svg)|
+|Rust|442_239|[43_295](Rust_setTimer.svg)|[7_521](Rust_cancelTimer.svg)|
