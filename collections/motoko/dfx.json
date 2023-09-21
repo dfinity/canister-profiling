@@ -35,6 +35,10 @@
     "vector": {
       "type": "motoko",
       "main": "src/vector.mo"
+    },
+    "StableBTree": {
+      "type": "motoko",
+      "main": "src/StableBTree.mo"
     }
   },
   "defaults": {
