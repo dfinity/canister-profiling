@@ -6,6 +6,7 @@ let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm")
 let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm");
 let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm");
 let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm");
+let sbtree = wasm_profiling("motoko/.dfx/local/canisters/StableBTree/StableBTree.wasm");
 let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm");
 let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm");
 let buffer = wasm_profiling("motoko/.dfx/local/canisters/buffer/buffer.wasm");
@@ -61,6 +62,7 @@ perf(triemap, "triemap", init_size, batch_size);
 perf(rbtree, "rbtree", init_size, batch_size);
 perf(splay, "splay", init_size, batch_size);
 perf(btree, "btree", init_size, batch_size);
+perf(sbtree, "sbtree", init_size, batch_size);
 perf(zhenya, "zhenya_hashmap", init_size, batch_size);
 perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
 perf(imrc_hashmap_rs, "imrc_hashmap_rs", init_size, batch_size);
