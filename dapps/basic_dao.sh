@@ -8,14 +8,14 @@ identity cathy;
 identity dory;
 identity genesis;
 
-let motoko = wasm_profiling("motoko/.dfx/local/canisters/basic_dao/basic_dao.wasm");
-let rust = wasm_profiling("rust/.dfx/local/canisters/basic_dao/basic_dao.wasm");
+let motoko = wasm_profiling("motoko/.dfx/local/canisters/basic_dao/basic_dao.wasm", record { start_page = 16 });
+let rust = wasm_profiling("rust/.dfx/local/canisters/basic_dao/basic_dao.wasm", record { start_page = 1 });
 
 let file = "README.md";
-output(file, "\n## Basic DAO\n\n| |binary_size|init|transfer_token|submit_proposal|vote_proposal|\n|--|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Basic DAO\n\n| |binary_size|init|transfer_token|submit_proposal|vote_proposal|upgrade|\n|--|--:|--:|--:|--:|--:|--:|\n");
 
-function perf(wasm, title, init_args) {
-let init = encode init_args.__init_args(
+function perf(wasm, title) {
+let init = encode wasm.__init_args(
   record {
     accounts = vec {
       record { owner = genesis; tokens = record { amount_e8s = 1_000_000_000_000 } };
@@ -61,12 +61,18 @@ flamegraph(DAO, "DAO.submit_proposal", svg);
 identity bob;
 call DAO.vote(record { proposal_id = alice_id; vote = variant { Yes } });
 let svg = stringify(title, "_vote.svg");
-output(file, stringify("[", __cost__, "](", svg, ")|\n"));
+output(file, stringify("[", __cost__, "](", svg, ")|"));
 flamegraph(DAO, "DAO.vote", svg);
+
+// upgrade
+identity genesis;
+upgrade(DAO, wasm, init);
+let svg = stringify(title, "_upgrade.svg");
+flamegraph(DAO, "DAO.upgrade", svg);
+output(file, stringify("[", _, "](", svg, ")|\n"));
+call DAO.get_proposal(0);
+assert _?.proposer == alice;
 };
 
-import init = "2vxsx-fae" as "motoko/.dfx/local/canisters/basic_dao/constructor.did";
-perf(motoko, "Motoko", init);
-import init = "2vxsx-fae" as "rust/.dfx/local/canisters/basic_dao/constructor.did";
-perf(rust, "Rust", init);
-
+perf(motoko, "Motoko");
+perf(rust, "Rust");
