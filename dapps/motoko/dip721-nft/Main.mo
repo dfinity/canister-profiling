@@ -9,8 +9,11 @@ import Option "mo:base/Option";
 import Bool "mo:base/Bool";
 import Principal "mo:base/Principal";
 import Types "./Types";
+import Profiling "../../../Profiling";
 
 shared (creator) actor class Dip721NFT(init : Types.Dip721NonFungibleToken) = Self {
+  stable let profiling = Profiling.init(32);
+    
   stable var transactionId: Types.TransactionId = 0;
   stable var nfts = List.nil<Types.Nft>();
   stable var custodians = List.make<Principal>(creator.caller);

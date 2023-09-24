@@ -7,6 +7,7 @@ edition = "2018"
 ic-cdk.workspace = true
 candid.workspace = true
 serde.workspace = true
+ic-stable-structures.workspace = true
 
 [lib]
 crate-type = ["cdylib"]
