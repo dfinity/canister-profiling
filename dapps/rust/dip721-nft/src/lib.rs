@@ -8,7 +8,7 @@ use std::iter::FromIterator;
 use std::num::TryFromIntError;
 use std::result::Result as StdResult;
 
-use candid::{CandidType, Deserialize, Encode, Decode, Principal};
+use candid::{CandidType, Decode, Deserialize, Encode, Principal};
 use ic_cdk::{
     api::{self, call},
     init, post_upgrade, pre_upgrade, query, update,

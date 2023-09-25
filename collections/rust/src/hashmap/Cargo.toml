@@ -11,4 +11,5 @@ crate-type = ["cdylib"]
 [dependencies]
 candid.workspace = true
 ic-cdk.workspace = true
+ic-stable-structures.workspace = true
 fxhash = "0.2.1"

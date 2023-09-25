@@ -3,20 +3,19 @@ mod heartbeat;
 mod service;
 mod types;
 
+use crate::env::CanisterEnvironment;
 use crate::service::BasicDaoService;
 use crate::types::*;
-use crate::env::CanisterEnvironment;
-use ic_cdk::{query, update, pre_upgrade, post_upgrade, init};
+use ic_cdk::{init, post_upgrade, pre_upgrade, query, update};
 use std::cell::RefCell;
 use std::collections::HashMap;
 
-
+use candid::{Decode, Encode, Principal};
 use ic_stable_structures::{
     memory_manager::{MemoryId, MemoryManager},
     writer::Writer,
     DefaultMemoryImpl, Memory,
 };
-use candid::{Encode, Decode, Principal};
 
 thread_local! {
     static SERVICE: RefCell<BasicDaoService> = RefCell::default();
@@ -36,12 +35,20 @@ fn init(init_state: BasicDaoStableStorage) {
     let mut init_service = BasicDaoService::from(init_state);
     init_service.env = Box::new(CanisterEnvironment {});
 
-    SERVICE.with(|service| *service.borrow_mut() = init_service);    
+    SERVICE.with(|service| *service.borrow_mut() = init_service);
 }
 
 #[pre_upgrade]
 fn pre_upgrade() {
-    let bytes = SERVICE.with(|serv| Encode!(&serv.borrow().accounts, &serv.borrow().proposals, &serv.borrow().next_proposal_id, &serv.borrow().system_params).unwrap());
+    let bytes = SERVICE.with(|serv| {
+        Encode!(
+            &serv.borrow().accounts,
+            &serv.borrow().proposals,
+            &serv.borrow().next_proposal_id,
+            &serv.borrow().system_params
+        )
+        .unwrap()
+    });
     let len = bytes.len() as u32;
     let mut memory = MEMORY_MANAGER.with(|m| m.borrow().get(UPGRADES));
     let mut writer = Writer::new(&mut memory, 0);
@@ -56,13 +63,17 @@ fn post_upgrade() {
     let len = u32::from_le_bytes(len_bytes) as usize;
     let mut bytes = vec![0; len];
     memory.read(4, &mut bytes);
-    let (accounts, proposals, next_proposal_id, system_params) = Decode!(&bytes, HashMap<Principal, Tokens>, HashMap<u64, Proposal>, u64, SystemParams).unwrap();
-    SERVICE.with(|cell| *cell.borrow_mut() = BasicDaoService {
-        env: Box::new(CanisterEnvironment {}),
-        accounts,
-        proposals,
-        next_proposal_id,
-        system_params,
+    let (accounts, proposals, next_proposal_id, system_params) =
+        Decode!(&bytes, HashMap<Principal, Tokens>, HashMap<u64, Proposal>, u64, SystemParams)
+            .unwrap();
+    SERVICE.with(|cell| {
+        *cell.borrow_mut() = BasicDaoService {
+            env: Box::new(CanisterEnvironment {}),
+            accounts,
+            proposals,
+            next_proposal_id,
+            system_params,
+        }
     });
 }
 
