@@ -3,8 +3,11 @@ import Nat64 "mo:base/Nat64";
 import Iter "mo:base/Iter";
 import Option "mo:base/Option";
 import Random "random";
+import Profiling "../../../Profiling";
 
 actor {
+    stable let profiling = Profiling.init(32);
+    
     stable var map = Map.init<Nat64, Nat64>(null);
     let rand = Random.new(null, 42);
 
