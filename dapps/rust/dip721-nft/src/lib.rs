@@ -262,7 +262,7 @@ fn transfer_from_notify(from: Principal, to: Principal, token_id: u64, data: Vec
         // That means the original transfer must reply before that happens, or the caller will be
         // convinced that the transfer failed when it actually succeeded. So we don't await the call,
         // so that we'll reply immediately regardless of how long the notification call takes.
-        let _ = api::call::call_raw(to, "onDIP721Received", &arg, 0);
+        std::mem::drop(api::call::call_raw(to, "onDIP721Received", &arg, 0));
     }
     Ok(res)
 }

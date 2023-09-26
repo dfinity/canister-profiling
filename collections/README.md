@@ -11,6 +11,7 @@ the same elements, and the queries are exactly the same. Below we explain the me
 * batch_get 50. Find 50 elements from the collection.
 * batch_put 50. Insert 50 elements to the collection.
 * batch_remove 50. Remove 50 elements from the collection.
+* upgrade. Upgrade the canister with the same Wasm module. The map state is persisted by serializing and deserializing states into stable memory.
 
 ## **💎 Takeaways**
 

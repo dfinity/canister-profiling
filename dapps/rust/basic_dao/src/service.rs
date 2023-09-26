@@ -56,7 +56,7 @@ impl BasicDaoService {
         let caller = self.env.caller();
 
         if let Some(account) = self.accounts.get_mut(&caller) {
-            if account.clone() < transfer.amount {
+            if *account < transfer.amount {
                 return Err(format!(
                     "Caller's account has insufficient funds to transfer {:?}",
                     transfer.amount
@@ -76,10 +76,7 @@ impl BasicDaoService {
     /// Return the account balance of the caller
     pub fn account_balance(&self) -> Tokens {
         let caller = self.env.caller();
-        self.accounts
-            .get(&caller)
-            .cloned()
-            .unwrap_or_else(|| Default::default())
+        self.accounts.get(&caller).cloned().unwrap_or_default()
     }
 
     /// Lists all accounts
@@ -143,11 +140,10 @@ impl BasicDaoService {
             ));
         }
 
-        let voting_tokens = self
+        let voting_tokens = *self
             .accounts
             .get(&caller)
-            .ok_or_else(|| "Caller does not have any tokens to vote with".to_string())?
-            .clone();
+            .ok_or_else(|| "Caller does not have any tokens to vote with".to_string())?;
 
         if proposal.voters.contains(&self.env.caller()) {
             return Err("Already voted".to_string());
@@ -163,7 +159,7 @@ impl BasicDaoService {
         if proposal.votes_yes >= self.system_params.proposal_vote_threshold {
             // Refund the proposal deposit when the proposal is accepted
             if let Some(account) = self.accounts.get_mut(&proposal.proposer) {
-                *account += self.system_params.proposal_submission_deposit.clone();
+                *account += self.system_params.proposal_submission_deposit;
             }
 
             proposal.state = ProposalState::Accepted;
@@ -208,13 +204,13 @@ impl BasicDaoService {
     fn deduct_proposal_submission_deposit(&mut self) -> Result<(), String> {
         let caller = self.env.caller();
         if let Some(account) = self.accounts.get_mut(&caller) {
-            if account.clone() < self.system_params.proposal_submission_deposit {
+            if *account < self.system_params.proposal_submission_deposit {
                 return Err(format!(
                     "Caller's account must have at least {:?} to submit a proposal",
                     self.system_params.proposal_submission_deposit
                 ));
             } else {
-                *account -= self.system_params.proposal_submission_deposit.clone();
+                *account -= self.system_params.proposal_submission_deposit;
             }
         } else {
             return Err("Caller needs an account to submit a proposal".to_string());
