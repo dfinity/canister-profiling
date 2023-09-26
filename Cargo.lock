@@ -77,7 +77,7 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
- "ic-stable-structures",
+ "utils",
 ]
 
 [[package]]
@@ -355,7 +355,7 @@ dependencies = [
  "candid",
  "fxhash",
  "ic-cdk",
- "ic-stable-structures",
+ "utils",
 ]
 
 [[package]]
@@ -364,8 +364,8 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
- "ic-stable-structures",
  "serde",
+ "utils",
 ]
 
 [[package]]
@@ -467,8 +467,8 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
- "ic-stable-structures",
  "im-rc",
+ "utils",
 ]
 
 [[package]]
@@ -901,7 +901,7 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
- "ic-stable-structures",
+ "utils",
 ]
 
 [[package]]

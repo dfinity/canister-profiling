@@ -11,4 +11,4 @@ crate-type = ["cdylib"]
 [dependencies]
 candid.workspace = true
 ic-cdk.workspace = true
-ic-stable-structures.workspace = true
+utils = { path = "../../../../utils/rust" }
