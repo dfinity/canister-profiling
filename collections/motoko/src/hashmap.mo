@@ -5,10 +5,10 @@ import Hash "mo:base/Hash";
 import Iter "mo:base/Iter";
 import Option "mo:base/Option";
 import Random "random";
-import Profiling "../../../Profiling";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
-    stable let profiling = Profiling.init(32);
+    stable let profiling = Profiling.init();
     
     func hash(x: Nat64) : Nat32 = Hash.hash(Nat64.toNat x);
     var map = HashMap.HashMap<Nat64, Nat64>(0, Nat64.equal, hash);

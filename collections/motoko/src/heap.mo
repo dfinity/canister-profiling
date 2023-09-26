@@ -4,10 +4,10 @@ import Iter "mo:base/Iter";
 import Option "mo:base/Option";
 import Random "random";
 import O "mo:base/Order";
-import Profiling "../../../Profiling";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
-    stable let profiling = Profiling.init(32);
+    stable let profiling = Profiling.init();
     
     var map = Heap.Heap<Nat64>(Nat64.compare);
     stable var stableMap : Heap.Tree<Nat64> = null;

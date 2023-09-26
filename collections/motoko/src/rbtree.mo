@@ -3,10 +3,10 @@ import Nat64 "mo:base/Nat64";
 import Iter "mo:base/Iter";
 import Option "mo:base/Option";
 import Random "random";
-import Profiling "../../../Profiling";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
-    stable let profiling = Profiling.init(32);
+    stable let profiling = Profiling.init();
     
     var map = RBTree.RBTree<Nat64, Nat64>(Nat64.compare);
     stable var stableMap : RBTree.Tree<Nat64, Nat64> = #leaf;

@@ -3,10 +3,10 @@ import Iter "mo:base/Iter";
 import Random "random";
 import Nat64 "mo:base/Nat64";
 import Option "mo:base/Option";
-import Profiling "../../../Profiling";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
-    stable let profiling = Profiling.init(32);
+    stable let profiling = Profiling.init();
     
     var buffer = Buffer.Buffer<Nat64>(0);
     stable var stableBuffer : [Nat64] = [];
