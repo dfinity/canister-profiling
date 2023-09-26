@@ -23,7 +23,12 @@ the same elements, and the queries are exactly the same. Below we explain the me
 > **Note**
 >
 > * The Candid interface of the benchmark is minimal, therefore the serialization cost is negligible in this measurement.
-> * Due to the instrumentation overhead and cycle limit, we cannot profile computations with large collections. Hopefully, when deterministic time slicing is ready, we can measure the performance on larger memory footprint.
+> * Due to the instrumentation overhead and cycle limit, we cannot profile computations with very large collections.
+> * The `upgrade` column uses Candid for serializing stable data. In Rust, you may get better cycle cost by using a different serialization format. Another slowdown in Rust is that `ic-stable-structures` tends to be slower than the region memory in Motoko.
+> * Different library has different ways for persisting data, there are mainly three categories:
+>   + Use stable variable directly in Motoko: `zhenya_hashmap`, `btree`, `vector`
+>   + Expose and serialize external state (`share/unshare` in Motoko, `candid::Encode` in Rust): `rbtree`, `heap`, `btreemap_rs`, `hashmap_rs`, `heap_rs`, `vector_rs`
+>   + Use pre/post-upgrade hooks to convert data into an array: `hashmap`, `splay`, `triemap`, `buffer`, `imrc_hashmap_rs`
 > * `hashmap` uses amortized data structure. When the initial capacity is reached, it has to copy the whole array, thus the cost of `batch_put 50` is much higher than other data structures.
 > * `btree` comes from [mops.one/stableheapbtreemap](https://mops.one/stableheapbtreemap).
 > * `zhenya_hashmap` comes from [mops.one/map](https://mops.one/map).
