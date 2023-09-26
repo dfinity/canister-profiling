@@ -1,5 +1,5 @@
 use ic_certified_map::RbTree;
-use serde_bytes::ByteBuf;
+use serde_bytes::{ByteBuf, Bytes};
 use std::cell::{Cell, RefCell};
 
 struct Random {
@@ -27,10 +27,10 @@ impl Iterator for Word {
     type Item = [u8; 7];
     fn next(&mut self) -> Option<Self::Item> {
         let mut res: Self::Item = [0; 7];
-        for i in 0..7 {
+        for item in &mut res {
             let x = self.0.next()?;
             let x = x % 57 + 65;
-            res[i] = x as u8;
+            *item = x as u8;
         }
         Some(res)
     }
@@ -39,6 +39,32 @@ impl Iterator for Word {
 thread_local! {
     static COUNTER: Cell<u8> = Cell::new(0);
     static TREE: RefCell<RbTree<Vec<u8>, Vec<u8>>> = RefCell::new(RbTree::new());
+}
+
+#[ic_cdk::init]
+fn init() {
+    utils::profiling_init();
+}
+#[ic_cdk::pre_upgrade]
+fn pre_upgrade() {
+    TREE.with(|tree| {
+        let tree = tree.borrow();
+        let vec: Vec<(&Bytes, &Bytes)> = tree
+            .iter()
+            .map(|(a, b)| (Bytes::new(a), Bytes::new(b)))
+            .collect();
+        utils::save_stable(&vec)
+    });
+}
+#[ic_cdk::post_upgrade]
+fn post_upgrade() {
+    let value: Vec<(ByteBuf, ByteBuf)> = utils::restore_stable();
+    TREE.with(|cell| {
+        *cell.borrow_mut() = value
+            .into_iter()
+            .map(|(a, b)| (a.into_vec(), b.into_vec()))
+            .collect()
+    });
 }
 
 #[ic_cdk::update]
@@ -55,8 +81,7 @@ fn generate(size: u64) {
 
 #[ic_cdk::query]
 fn get_mem() -> (u128, u128, u128) {
-    let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
-    (size, size, size)
+    utils::get_mem()
 }
 
 #[ic_cdk::update]
