@@ -71,7 +71,7 @@ perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
 perf(imrc_hashmap_rs, "imrc_hashmap_rs", init_size, batch_size);
 perf(hashmap_rs, "hashmap_rs", init_size, batch_size);
 
-output(file, "\n## Priority queue\n\n| |binary_size|heapify 1m|max mem|pop_min 50|put 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Priority queue\n\n| |binary_size|heapify 1m|max mem|pop_min 50|put 50|pop_min 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(heap, "heap", init_size, batch_size);
 perf(heap_rs, "heap_rs", init_size, batch_size);
 
