@@ -9,10 +9,10 @@ import ICRaw "mo:base/ExperimentalInternetComputer";
 import List "mo:base/List";
 import Time "mo:base/Time";
 import Types "./Types";
-import Profiling "../../../Profiling";
+import Profiling "../../../utils/motoko/Profiling";
 
 shared actor class DAO(init : Types.BasicDaoStableStorage) = Self {
-    stable let profiling = Profiling.init(32);
+    stable let profiling = Profiling.init();
     
     stable var accounts = Types.accounts_fromArray(init.accounts);
     stable var proposals = Types.proposals_fromArray(init.proposals);
