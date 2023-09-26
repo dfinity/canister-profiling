@@ -1,11 +1,18 @@
 use crate::env::{EmptyEnvironment, Environment};
 use crate::types::*;
-use candid::Principal;
+use candid::{CandidType, Deserialize, Principal};
 use std::collections::HashMap;
 
 /// Implements the Basic DAO interface
 pub struct BasicDaoService {
     pub env: Box<dyn Environment>,
+    pub accounts: HashMap<Principal, Tokens>,
+    pub proposals: HashMap<u64, Proposal>,
+    pub next_proposal_id: u64,
+    pub system_params: SystemParams,
+}
+#[derive(CandidType, Deserialize)]
+pub struct StableState {
     pub accounts: HashMap<Principal, Tokens>,
     pub proposals: HashMap<u64, Proposal>,
     pub next_proposal_id: u64,

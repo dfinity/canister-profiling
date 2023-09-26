@@ -7,7 +7,7 @@ edition = "2018"
 ic-cdk.workspace = true
 candid.workspace = true
 serde.workspace = true
-ic-stable-structures.workspace = true
+utils = { path = "../../../utils/rust" }
 
 [lib]
 crate-type = ["cdylib"]

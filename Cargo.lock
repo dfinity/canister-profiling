@@ -26,8 +26,8 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
- "ic-stable-structures",
  "serde",
+ "utils",
 ]
 
 [[package]]
@@ -212,8 +212,8 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
- "ic-stable-structures",
  "serde",
+ "utils",
 ]
 
 [[package]]
@@ -886,6 +886,14 @@ name = "unicode-width"
 version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c0edd1e5b14653f783770bce4a4dabb4a5108a5370a5f5d8cfe8710c361f6c8b"
+
+[[package]]
+name = "utils"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-stable-structures",
+]
 
 [[package]]
 name = "vector"

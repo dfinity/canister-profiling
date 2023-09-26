@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "utils/rust",
     "collections/rust/src/hashmap",
     "collections/rust/src/btreemap",
     "collections/rust/src/heap",

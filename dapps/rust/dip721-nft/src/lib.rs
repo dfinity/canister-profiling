@@ -8,46 +8,27 @@ use std::iter::FromIterator;
 use std::num::TryFromIntError;
 use std::result::Result as StdResult;
 
-use candid::{CandidType, Decode, Deserialize, Encode, Principal};
+use candid::{CandidType, Deserialize, Encode, Principal};
 use ic_cdk::{
     api::{self, call},
     init, post_upgrade, pre_upgrade, query, update,
-};
-use ic_stable_structures::{
-    memory_manager::{MemoryId, MemoryManager},
-    writer::Writer,
-    DefaultMemoryImpl, Memory,
 };
 
 const MGMT: Principal = Principal::from_slice(&[]);
 
 thread_local! {
     static STATE: RefCell<State> = RefCell::default();
-    static MEMORY_MANAGER: RefCell<MemoryManager<DefaultMemoryImpl>> =
-        RefCell::new(MemoryManager::init(DefaultMemoryImpl::default()));
 }
-
-const PROFILING: MemoryId = MemoryId::new(100);
-const UPGRADES: MemoryId = MemoryId::new(0);
 
 #[pre_upgrade]
 fn pre_upgrade() {
-    let bytes = STATE.with(|state| Encode!(&state).unwrap());
-    let len = bytes.len() as u32;
-    let mut memory = MEMORY_MANAGER.with(|m| m.borrow().get(UPGRADES));
-    let mut writer = Writer::new(&mut memory, 0);
-    writer.write(&len.to_le_bytes()).unwrap();
-    writer.write(&bytes).unwrap();
+    STATE.with(|state| {
+        utils::save_stable(&state);
+    });
 }
 #[post_upgrade]
 fn post_upgrade() {
-    let memory = MEMORY_MANAGER.with(|m| m.borrow().get(UPGRADES));
-    let mut len_bytes = [0; 4];
-    memory.read(0, &mut len_bytes);
-    let len = u32::from_le_bytes(len_bytes) as usize;
-    let mut bytes = vec![0; len];
-    memory.read(4, &mut bytes);
-    let value = Decode!(&bytes, State).unwrap();
+    let value: State = utils::restore_stable();
     STATE.with(|cell| *cell.borrow_mut() = value);
 }
 
@@ -61,8 +42,7 @@ struct InitArgs {
 
 #[init]
 fn init(args: InitArgs) {
-    let memory = MEMORY_MANAGER.with(|m| m.borrow().get(PROFILING));
-    memory.grow(32);
+    utils::profiling_init();
     STATE.with(|state| {
         let mut state = state.borrow_mut();
         state.custodians = args
