@@ -1,8 +1,6 @@
 #!ic-repl
 load "../prelude.sh";
 
-import fake = "2vxsx-fae" as "motoko/.dfx/local/canisters/dip721_nft/constructor.did";
-
 // Setup initial account
 identity alice;
 identity bob;
@@ -14,7 +12,7 @@ let file = "README.md";
 output(file, "\n## DIP721 NFT\n\n| |binary_size|init|mint_token|transfer_token|upgrade|\n|--|--:|--:|--:|--:|--:|\n");
 
 function perf(wasm, title) {
-  let init = encode fake.__init_args(
+  let init = encode wasm.__init_args(
     record {
       logo = record {
         logo_type = "image/png";
