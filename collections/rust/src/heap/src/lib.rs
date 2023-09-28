@@ -1,28 +1,10 @@
-use candid::{CandidType, Deserialize};
 use std::cell::RefCell;
 use std::cmp::Reverse;
 use std::collections::BinaryHeap;
 use utils::Random;
 
-// TODO: remove this after we impl Reverse in Candid
-#[derive(Deserialize, Eq, Ord, PartialEq, PartialOrd)]
-struct RevU64(Reverse<u64>);
-impl CandidType for RevU64 {
-    fn _ty() -> candid::types::Type {
-        u64::ty()
-    }
-    fn idl_serialize<S: candid::types::Serializer>(&self, serializer: S) -> Result<(), S::Error> {
-        serializer.serialize_nat64(self.0 .0)
-    }
-}
-impl From<u64> for RevU64 {
-    fn from(v: u64) -> Self {
-        Self(Reverse(v))
-    }
-}
-
 thread_local! {
-    static MAP: RefCell<BinaryHeap<RevU64>> = RefCell::default();
+    static MAP: RefCell<BinaryHeap<Reverse<u64>>> = RefCell::default();
     static RAND: RefCell<Random> = RefCell::new(Random::new(None, 42));
 }
 
@@ -36,17 +18,17 @@ fn pre_upgrade() {
 }
 #[ic_cdk::post_upgrade]
 fn post_upgrade() {
-    let value: BinaryHeap<RevU64> = utils::restore_stable();
+    let value: BinaryHeap<Reverse<u64>> = utils::restore_stable();
     MAP.with(|cell| *cell.borrow_mut() = value);
 }
 
 #[ic_cdk::update]
 fn generate(size: u32) {
     let rand = Random::new(Some(size), 1);
-    let iter = rand.map(|x| x.into());
+    let iter = rand.map(Reverse);
     MAP.with(|map| {
         let mut map = map.borrow_mut();
-        *map = iter.collect::<BinaryHeap<RevU64>>();
+        *map = iter.collect::<BinaryHeap<Reverse<u64>>>();
     });
 }
 
@@ -73,7 +55,7 @@ fn batch_put(n: u32) {
             let mut rand = rand.borrow_mut();
             for _ in 0..n {
                 let k = rand.next().unwrap();
-                map.push(k.into());
+                map.push(Reverse(k));
             }
         })
     })
