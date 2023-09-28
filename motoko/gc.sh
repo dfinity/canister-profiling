@@ -1,11 +1,11 @@
 #!ic-repl
 load "../prelude.sh";
 
-let default = wasm_profiling("motoko/default.wasm", vec{"schedule_copying_gc"});
-let copying = wasm_profiling("motoko/copying.wasm", vec {"copying_gc"});
-let compacting = wasm_profiling("motoko/compacting.wasm", vec{"compacting_gc"});
-let generational = wasm_profiling("motoko/generational.wasm", vec{"generational_gc"});
-let incremental = wasm_profiling("motoko/incremental.wasm", vec{"incremental_gc"});
+let default = wasm_profiling("motoko/default.wasm", record { trace_only_funcs = vec{"schedule_copying_gc"} });
+let copying = wasm_profiling("motoko/copying.wasm", record { trace_only_funcs = vec {"copying_gc"} });
+let compacting = wasm_profiling("motoko/compacting.wasm", record { trace_only_funcs = vec{"compacting_gc"} });
+let generational = wasm_profiling("motoko/generational.wasm", record { trace_only_funcs = vec{"generational_gc"} });
+let incremental = wasm_profiling("motoko/incremental.wasm", record { trace_only_funcs = vec{"incremental_gc"} });
 
 let file = "README.md";
 output(file, "\n\n## Garbage Collection\n\n| |generate 700k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");

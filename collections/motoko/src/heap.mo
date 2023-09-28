@@ -4,10 +4,21 @@ import Iter "mo:base/Iter";
 import Option "mo:base/Option";
 import Random "random";
 import O "mo:base/Order";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
+    stable let profiling = Profiling.init();
+    
     var map = Heap.Heap<Nat64>(Nat64.compare);
+    stable var stableMap : Heap.Tree<Nat64> = null;
     let rand = Random.new(null, 42);
+
+    system func preupgrade() {
+        stableMap := map.share();
+    };
+    system func postupgrade() {
+        map.unsafeUnshare(stableMap);
+    };
     
     public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);

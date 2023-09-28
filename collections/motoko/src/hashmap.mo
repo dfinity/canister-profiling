@@ -5,11 +5,22 @@ import Hash "mo:base/Hash";
 import Iter "mo:base/Iter";
 import Option "mo:base/Option";
 import Random "random";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
+    stable let profiling = Profiling.init();
+    
     func hash(x: Nat64) : Nat32 = Hash.hash(Nat64.toNat x);
     var map = HashMap.HashMap<Nat64, Nat64>(0, Nat64.equal, hash);
+    stable var stableMap: [(Nat64, Nat64)] = [];
     let rand = Random.new(null, 42);
+
+    system func preupgrade() {
+        stableMap := Iter.toArray(map.entries())
+    };
+    system func postupgrade() {
+        map := HashMap.fromIter(stableMap.vals(), stableMap.size(), Nat64.equal, hash);
+    };
 
     public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);

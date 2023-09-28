@@ -102,7 +102,7 @@ type BurnRequest = record {
 
 type InitArgs = record {
     custodians : opt vec principal;
-    logo : opt LogoResult;
+    logo : LogoResult;
     name : text;
     symbol : text;
 };
