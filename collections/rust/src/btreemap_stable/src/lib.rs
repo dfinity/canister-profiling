@@ -26,7 +26,9 @@ fn generate(size: u32) {
 
 #[ic_cdk::query]
 fn get_mem() -> (u128, u128, u128) {
-    utils::get_mem()
+    let memory = ic_cdk::api::stable::CanisterStableMemory::Default();
+    let size = memory.stable_size() as u128;
+    (size, size, size)
 }
 
 #[ic_cdk::update]
