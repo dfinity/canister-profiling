@@ -22,7 +22,6 @@ let vector_rs = wasm_profiling("rust/.dfx/local/canisters/vector/vector.wasm", r
 //let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n## Map\n\n| |binary_size|generate 600k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 
 function perf(wasm, title, init, batch) {
   let cid = install(wasm, encode (), null);
@@ -59,9 +58,15 @@ function perf(wasm, title, init, batch) {
   uninstall(cid);
 };
 
-let init_size = 600_000;
+let init_size = 50_000;
 let batch_size = 50;
+output(file, "\n## Stable structures\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
+perf(btree, "btree", init_size, batch_size);
+perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
 
+let init_size = 1_000_000;
+let batch_size = 50;
+output(file, "\n## Map\n\n| |binary_size|generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(hashmap, "hashmap", init_size, batch_size);
 perf(triemap, "triemap", init_size, batch_size);
 perf(rbtree, "rbtree", init_size, batch_size);
@@ -69,11 +74,10 @@ perf(splay, "splay", init_size, batch_size);
 perf(btree, "btree", init_size, batch_size);
 perf(zhenya, "zhenya_hashmap", init_size, batch_size);
 perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
-perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
 perf(imrc_hashmap_rs, "imrc_hashmap_rs", init_size, batch_size);
 perf(hashmap_rs, "hashmap_rs", init_size, batch_size);
 
-output(file, "\n## Priority queue\n\n| |binary_size|heapify 600k|max mem|pop_min 50|put 50|pop_min 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Priority queue\n\n| |binary_size|heapify 1m|max mem|pop_min 50|put 50|pop_min 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(heap, "heap", init_size, batch_size);
 perf(heap_rs, "heap_rs", init_size, batch_size);
 
