@@ -17,6 +17,7 @@ let btreemap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap_stab
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm", record { start_page = 1 });
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm", record { start_page = 1 });
 let vector_rs = wasm_profiling("rust/.dfx/local/canisters/vector/vector.wasm", record { start_page = 1 });
+let vector_stable_rs = wasm_profiling("rust/.dfx/local/canisters/vector_stable/vector_stable.wasm", record { start_page = 1 });
 
 //let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 //let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
@@ -63,6 +64,8 @@ let batch_size = 50;
 output(file, "\n## Stable structures\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
 perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
+perf(vector_rs, "vec_rs", init_size, batch_size);
+perf(vector_stable_rs, "vec_stable_rs", init_size, batch_size);
 
 let init_size = 1_000_000;
 let batch_size = 50;

@@ -7,6 +7,7 @@ members = [
     "collections/rust/src/heap",
     "collections/rust/src/imrc_hashmap",
     "collections/rust/src/vector",
+    "collections/rust/src/vector_stable",
     "crypto/rust/src/sha",
     "crypto/rust/src/certified_map",
     "dapps/rust/dip721-nft",

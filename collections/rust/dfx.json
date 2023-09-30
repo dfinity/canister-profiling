@@ -30,6 +30,11 @@
       "type": "rust",
       "candid": "collection.did",
       "package": "vector"
+    },
+    "vector_stable": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "vector_stable"
     }
   },
   "defaults": {

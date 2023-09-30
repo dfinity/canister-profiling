@@ -42,6 +42,11 @@ pub fn get_mem() -> (u128, u128, u128) {
 pub fn get_mem() -> (u128, u128, u128) {
     unimplemented!()
 }
+pub fn get_upgrade_mem_size() -> (u128, u128, u128) {
+    let memory = get_upgrade_memory();
+    let size = memory.size() as u128 * 65536;
+    (size, size, size)
+}
 
 thread_local! {
     static MEMORY_MANAGER: RefCell<MemoryManager<DefaultMemoryImpl>> =
