@@ -21,6 +21,11 @@
       "candid": "collection.did",
       "package": "heap"
     },
+    "heap_stable": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "heap_stable"
+    },
     "imrc_hashmap": {
       "type": "rust",
       "candid": "collection.did",

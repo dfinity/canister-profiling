@@ -375,7 +375,16 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
- "serde",
+ "utils",
+]
+
+[[package]]
+name = "heap_stable"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-stable-structures",
  "utils",
 ]
 
