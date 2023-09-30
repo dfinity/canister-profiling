@@ -11,6 +11,11 @@
       "candid": "collection.did",
       "package": "btreemap"
     },
+    "btreemap_stable": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "btreemap_stable"
+    },
     "heap": {
       "type": "rust",
       "candid": "collection.did",

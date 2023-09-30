@@ -81,6 +81,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "btreemap_stable"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-stable-structures",
+ "utils",
+]
+
+[[package]]
 name = "byteorder"
 version = "1.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"

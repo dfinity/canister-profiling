@@ -1,8 +1,8 @@
 use candid::{CandidType, Decode, Deserialize, Encode};
 use ic_stable_structures::{
-    memory_manager::{MemoryId, MemoryManager},
+    memory_manager::{MemoryId, MemoryManager, VirtualMemory},
     writer::Writer,
-    DefaultMemoryImpl, Memory,
+    DefaultMemoryImpl, Memory as _,
 };
 use std::cell::RefCell;
 
@@ -50,6 +50,12 @@ thread_local! {
 
 const PROFILING: MemoryId = MemoryId::new(100);
 const UPGRADES: MemoryId = MemoryId::new(0);
+
+pub type Memory = VirtualMemory<DefaultMemoryImpl>;
+
+pub fn get_upgrade_memory() -> Memory {
+    MEMORY_MANAGER.with(|m| m.borrow().get(UPGRADES))
+}
 
 pub fn profiling_init() {
     let memory = MEMORY_MANAGER.with(|m| m.borrow().get(PROFILING));
