@@ -61,7 +61,7 @@ function perf(wasm, title, init, batch) {
 let init_size = 50_000;
 let batch_size = 50;
 output(file, "\n## Stable structures\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
-perf(btree, "btree", init_size, batch_size);
+perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
 perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
 
 let init_size = 1_000_000;
