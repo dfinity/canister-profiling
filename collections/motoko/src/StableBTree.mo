@@ -12,7 +12,7 @@ import Memory "mo:StableBTree/memory";
 actor {
     stable var region = Region.new();
     
-    var map = StableBTree.init<K, V>(
+    var map = Map.init<Nat64, Nat64>(
       Memory.RegionMemory(region),
       BytesConverter.NAT64_CONVERTER,
       BytesConverter.textConverter(8)
@@ -46,7 +46,7 @@ actor {
         let rand = Random.new(null, 1);
         for (_ in Iter.range(1, n)) {
             let x = Option.get<Nat64>(rand.next(), 0);
-            ignore map.delete(x);
+            ignore map.remove(x);
         };
     };
 };
