@@ -4,12 +4,14 @@ import Option "mo:base/Option";
 import Region "mo:base/Region";
 
 import Random "random";
+import Profiling "../../../utils/motoko/Profiling";
 
 import BytesConverter "mo:StableBTree/bytesConverter";
 import Map "mo:StableBTree/btreemap";
 import Memory "mo:StableBTree/memory";
 
 actor {
+    stable let profiling = Profiling.init();
     stable var region = Region.new();
     
     var map = Map.init<Nat64, Nat64>(
