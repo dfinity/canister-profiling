@@ -3,9 +3,20 @@ import Iter "mo:base/Iter";
 import Random "random";
 import Nat64 "mo:base/Nat64";
 import Option "mo:base/Option";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
+    stable let profiling = Profiling.init();
+    
     var buffer = Buffer.Buffer<Nat64>(0);
+    stable var stableBuffer : [Nat64] = [];
+
+    system func preupgrade() {
+        stableBuffer := Buffer.toArray(buffer);
+    };
+    system func postupgrade() {
+        buffer := Buffer.fromArray(stableBuffer);
+    };
     
     public func generate(n: Nat) : async () {
         buffer.clear();

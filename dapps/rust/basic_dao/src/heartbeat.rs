@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 //use ic_cdk::heartbeat;
 use crate::types::{Proposal, ProposalState};
 use crate::SERVICE;

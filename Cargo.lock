@@ -27,6 +27,7 @@ dependencies = [
  "candid",
  "ic-cdk",
  "serde",
+ "utils",
 ]
 
 [[package]]
@@ -76,6 +77,7 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
+ "utils",
 ]
 
 [[package]]
@@ -86,9 +88,9 @@ checksum = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
 
 [[package]]
 name = "candid"
-version = "0.9.6"
+version = "0.9.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "88f6eec0ae850e006ef0fe306f362884d370624094ec55a6a26de18b251774be"
+checksum = "749938f355699c7dd0975e505d54541cd1d84db239374470bdf500a5d885530a"
 dependencies = [
  "anyhow",
  "binread",
@@ -142,6 +144,7 @@ dependencies = [
  "serde",
  "serde_bytes",
  "serde_cbor",
+ "utils",
 ]
 
 [[package]]
@@ -211,6 +214,7 @@ dependencies = [
  "candid",
  "ic-cdk",
  "serde",
+ "utils",
 ]
 
 [[package]]
@@ -352,6 +356,7 @@ dependencies = [
  "candid",
  "fxhash",
  "ic-cdk",
+ "utils",
 ]
 
 [[package]]
@@ -360,6 +365,8 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
+ "serde",
+ "utils",
 ]
 
 [[package]]
@@ -430,6 +437,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "ic-stable-structures"
+version = "0.5.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "95dce29e3ceb0e6da3e78b305d95365530f2efd2146ca18590c0ef3aa6038568"
+
+[[package]]
 name = "ic0"
 version = "0.18.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -456,6 +469,7 @@ dependencies = [
  "candid",
  "ic-cdk",
  "im-rc",
+ "utils",
 ]
 
 [[package]]
@@ -875,11 +889,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c0edd1e5b14653f783770bce4a4dabb4a5108a5370a5f5d8cfe8710c361f6c8b"
 
 [[package]]
+name = "utils"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-stable-structures",
+]
+
+[[package]]
 name = "vector"
 version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
+ "utils",
 ]
 
 [[package]]
