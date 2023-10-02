@@ -25,4 +25,4 @@ Measure different cryptographic libraries written in both Motoko and Rust.
 | |binary_size|generate 10k|max mem|inc|witness|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|
 |Motoko|206_295|4_390_018_572|3_429_984|[519_711](Motoko_inc.svg)|[327_767](Motoko_witness.svg)|[225_144_790](Motoko_upgrade.svg)|
-|Rust|521_776|6_202_432_827|2_228_224|[983_997](Rust_inc.svg)|[288_528](Rust_witness.svg)|[5_811_201_292](Rust_upgrade.svg)|
+|Rust|521_976|6_202_432_827|2_228_224|[983_997](Rust_inc.svg)|[288_528](Rust_witness.svg)|[5_811_201_292](Rust_upgrade.svg)|

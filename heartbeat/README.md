@@ -12,7 +12,7 @@ of the replica can affect how we measure this. Typically, a correct flamegraph c
 | |binary_size|heartbeat|
 |--:|--:|--:|
 |Motoko|123_509|[7_399](Motoko_heartbeat.svg)|
-|Rust|23_826|[785](Rust_heartbeat.svg)|
+|Rust|23_826|[469](Rust_heartbeat.svg)|
 
 ## Timer
 
