@@ -11,10 +11,20 @@
       "candid": "collection.did",
       "package": "btreemap"
     },
+    "btreemap_stable": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "btreemap_stable"
+    },
     "heap": {
       "type": "rust",
       "candid": "collection.did",
       "package": "heap"
+    },
+    "heap_stable": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "heap_stable"
     },
     "imrc_hashmap": {
       "type": "rust",
@@ -25,6 +35,11 @@
       "type": "rust",
       "candid": "collection.did",
       "package": "vector"
+    },
+    "vector_stable": {
+      "type": "rust",
+      "candid": "collection.did",
+      "package": "vector_stable"
     }
   },
   "defaults": {

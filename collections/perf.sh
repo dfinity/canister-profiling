@@ -13,15 +13,17 @@ let vector = wasm_profiling("motoko/.dfx/local/canisters/vector/vector.wasm", re
 
 let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm", record { start_page = 1 });
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm", record { start_page = 1 });
+let btreemap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", record { start_page = 1 });
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm", record { start_page = 1 });
+let heap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/heap_stable/heap_stable.wasm", record { start_page = 1 });
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm", record { start_page = 1 });
 let vector_rs = wasm_profiling("rust/.dfx/local/canisters/vector/vector.wasm", record { start_page = 1 });
+let vector_stable_rs = wasm_profiling("rust/.dfx/local/canisters/vector_stable/vector_stable.wasm", record { start_page = 1 });
 
 //let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 //let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
 
 let file = "README.md";
-output(file, "\n## Map\n\n| |binary_size|generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 
 function perf(wasm, title, init, batch) {
   let cid = install(wasm, encode (), null);
@@ -60,7 +62,7 @@ function perf(wasm, title, init, batch) {
 
 let init_size = 1_000_000;
 let batch_size = 50;
-
+output(file, "\n## Map\n\n| |binary_size|generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(hashmap, "hashmap", init_size, batch_size);
 perf(triemap, "triemap", init_size, batch_size);
 perf(rbtree, "rbtree", init_size, batch_size);
@@ -83,6 +85,15 @@ perf(buffer, "buffer", init_size, batch_size);
 perf(vector, "vector", init_size, batch_size);
 perf(vector_rs, "vec_rs", init_size, batch_size);
 
+let init_size = 50_000;
+let batch_size = 50;
+output(file, "\n## Stable structures\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
+perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
+perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
+perf(heap_rs, "heap_rs", init_size, batch_size);
+perf(heap_stable_rs, "heap_stable_rs", init_size, batch_size);
+perf(vector_rs, "vec_rs", init_size, batch_size);
+perf(vector_stable_rs, "vec_stable_rs", init_size, batch_size);
 
 /*
 let movm_size = 10000;
