@@ -81,6 +81,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "btreemap_stable"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-stable-structures",
+ "utils",
+]
+
+[[package]]
 name = "byteorder"
 version = "1.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -365,7 +375,16 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
- "serde",
+ "utils",
+]
+
+[[package]]
+name = "heap_stable"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-stable-structures",
  "utils",
 ]
 
@@ -902,6 +921,16 @@ version = "0.1.0"
 dependencies = [
  "candid",
  "ic-cdk",
+ "utils",
+]
+
+[[package]]
+name = "vector_stable"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "ic-cdk",
+ "ic-stable-structures",
  "utils",
 ]
 
