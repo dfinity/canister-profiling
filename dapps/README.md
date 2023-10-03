@@ -18,7 +18,7 @@ with `heartbeat` disabled to make profiling easier. We have a separate benchmark
 
 | |binary_size|init|transfer_token|submit_proposal|vote_proposal|upgrade|
 |--|--:|--:|--:|--:|--:|--:|
-|Motoko|236_673|491_766|[16_340](Motoko_dao_transfer.svg)|[12_672](Motoko_submit_proposal.svg)|[14_114](Motoko_vote.svg)|[122_439](Motoko_upgrade.svg)|
+|Motoko|236_673|491_790|[16_290](Motoko_dao_transfer.svg)|[12_672](Motoko_submit_proposal.svg)|[14_136](Motoko_vote.svg)|[122_439](Motoko_upgrade.svg)|
 |Rust|806_537|541_266|[86_052](Rust_dao_transfer.svg)|[107_287](Rust_submit_proposal.svg)|[117_056](Rust_vote.svg)|[1_686_510](Rust_upgrade.svg)|
 
 ## DIP721 NFT

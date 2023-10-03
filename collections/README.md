@@ -30,7 +30,7 @@ the same elements, and the queries are exactly the same. Below we explain the me
 >   + Use stable variable directly in Motoko: `zhenya_hashmap`, `btree`, `vector`
 >   + Expose and serialize external state (`share/unshare` in Motoko, `candid::Encode` in Rust): `rbtree`, `heap`, `btreemap_rs`, `hashmap_rs`, `heap_rs`, `vector_rs`
 >   + Use pre/post-upgrade hooks to convert data into an array: `hashmap`, `splay`, `triemap`, `buffer`, `imrc_hashmap_rs`
-> * The stable benchmarks are much more expensive than their non-stable counterpart, because the stable memory API is much more expensive. The benefit is that they get zero cost upgrade.
+> * The stable benchmarks are much more expensive than their non-stable counterpart, because the stable memory API is much more expensive. The benefit is that they get fast upgrade. The upgrade still needs to parse the metadata when initializing the upgraded Wasm module.
 > * `hashmap` uses amortized data structure. When the initial capacity is reached, it has to copy the whole array, thus the cost of `batch_put 50` is much higher than other data structures.
 > * `btree` comes from [mops.one/stableheapbtreemap](https://mops.one/stableheapbtreemap).
 > * `zhenya_hashmap` comes from [mops.one/map](https://mops.one/map).
@@ -73,8 +73,8 @@ the same elements, and the queries are exactly the same. Below we explain the me
 | |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|--:|
 |btreemap_rs|494_261|70_231_886|2_555_904|[57_208](btreemap_rs_get.svg)|[86_708](btreemap_rs_put.svg)|[79_740](btreemap_rs_remove.svg)|[100_477_350](btreemap_rs_upgrade.svg)|
-|btreemap_stable_rs|497_838|3_676_196_177|2_621_440|[2_190_807](btreemap_stable_rs_get.svg)|[4_013_463](btreemap_stable_rs_put.svg)|[6_777_299](btreemap_stable_rs_remove.svg)|[0](btreemap_stable_rs_upgrade.svg)|
+|btreemap_stable_rs|498_479|3_676_196_177|2_621_440|[2_190_807](btreemap_stable_rs_get.svg)|[4_013_463](btreemap_stable_rs_put.svg)|[6_777_299](btreemap_stable_rs_remove.svg)|[714_487](btreemap_stable_rs_upgrade.svg)|
 |heap_rs|481_753|6_214_821|2_293_760|[45_761](heap_rs_get.svg)|[18_496](heap_rs_put.svg)|[45_732](heap_rs_remove.svg)|[18_367_724](heap_rs_upgrade.svg)|
-|heap_stable_rs|469_093|240_377_401|458_752|[2_038_566](heap_stable_rs_get.svg)|[209_047](heap_stable_rs_put.svg)|[2_023_426](heap_stable_rs_remove.svg)|[0](heap_stable_rs_upgrade.svg)|
+|heap_stable_rs|469_772|240_377_401|458_752|[2_038_566](heap_stable_rs_get.svg)|[209_047](heap_stable_rs_put.svg)|[2_023_426](heap_stable_rs_remove.svg)|[714_446](heap_stable_rs_upgrade.svg)|
 |vec_rs|480_829|2_866_842|2_293_760|[12_986](vec_rs_get.svg)|[14_081](vec_rs_put.svg)|[13_678](vec_rs_remove.svg)|[16_575_110](vec_rs_upgrade.svg)|
-|vec_stable_rs|464_782|55_585_887|458_752|[52_650](vec_stable_rs_get.svg)|[67_745](vec_stable_rs_put.svg)|[69_641](vec_stable_rs_remove.svg)|[0](vec_stable_rs_upgrade.svg)|
+|vec_stable_rs|465_410|55_585_887|458_752|[52_650](vec_stable_rs_get.svg)|[67_745](vec_stable_rs_put.svg)|[69_641](vec_stable_rs_remove.svg)|[714_440](vec_stable_rs_upgrade.svg)|
