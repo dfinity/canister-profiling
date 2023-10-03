@@ -11,6 +11,11 @@ fn init() {
     utils::profiling_init();
 }
 
+#[ic_cdk::post_upgrade]
+fn post_upgrade() {
+    MAP.with(|map| drop(map.borrow()));
+}
+
 #[ic_cdk::update]
 fn generate(size: u32) {
     MAP.with(|map| {
