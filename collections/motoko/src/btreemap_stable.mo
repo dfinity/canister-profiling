@@ -30,7 +30,7 @@ actor {
         };
     };
     public query func get_mem() : async (Nat, Nat, Nat) {
-        let size = Region.size(region) * 65536;
+        let size = Nat64.toNat(Region.size(region)) * 65536;
         (size, size, size)
     };
     public func batch_get(n : Nat) : async () {
