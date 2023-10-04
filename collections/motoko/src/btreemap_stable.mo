@@ -17,7 +17,7 @@ actor {
     var map = Map.init<Nat64, Nat64>(
       Memory.RegionMemory(region),
       BytesConverter.NAT64_CONVERTER,
-      BytesConverter.textConverter(8)
+      BytesConverter.NAT64_CONVERTER,
     );
     
     let rand = Random.new(null, 42);
