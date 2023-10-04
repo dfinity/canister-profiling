@@ -30,7 +30,8 @@ actor {
         };
     };
     public query func get_mem() : async (Nat, Nat, Nat) {
-        Random.get_memory();
+        let size = Region.size(region) * 65536;
+        (size, size, size)
     };
     public func batch_get(n : Nat) : async () {
         for (_ in Iter.range(1, n)) {
