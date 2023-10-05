@@ -6,9 +6,9 @@ import Region "mo:base/Region";
 import Random "random";
 import Profiling "../../../utils/motoko/Profiling";
 
-import BytesConverter "mo:StableBTree/bytesConverter";
-import Map "mo:StableBTree/btreemap";
-import Memory "mo:StableBTree/memory";
+import BytesConverter "mo:StableBTree/modules/bytesConverter";
+import Map "mo:StableBTree/modules/btreemap";
+import Memory "mo:StableBTree/modules/memory";
 
 actor {
     stable let profiling = Profiling.init();
