@@ -14,7 +14,8 @@ let vector = wasm_profiling("motoko/.dfx/local/canisters/vector/vector.wasm", re
 
 let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm", record { start_page = 1 });
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm", record { start_page = 1 });
-let btreemap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", record { start_page = 1 });
+// disabling due to crash
+//let btreemap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", record { start_page = 1 });
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm", record { start_page = 1 });
 let heap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/heap_stable/heap_stable.wasm", record { start_page = 1 });
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm", record { start_page = 1 });
@@ -91,7 +92,8 @@ output(file, "\n## Stable structures\n\n| |binary_size|generate 50k|max mem|batc
 perf(btree, "btree", init_size, batch_size);
 perf(btree_stable, "btree_stable", init_size, batch_size);
 perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
-perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
+//disabling due to crash
+//perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
 perf(heap_rs, "heap_rs", init_size, batch_size);
 perf(heap_stable_rs, "heap_stable_rs", init_size, batch_size);
 perf(vector_rs, "vec_rs", init_size, batch_size);
