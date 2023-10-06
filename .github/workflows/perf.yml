@@ -32,7 +32,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: 1.72.1
           override: true
           target: wasm32-unknown-unknown
       - name: Cache cargo build
