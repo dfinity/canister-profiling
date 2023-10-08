@@ -88,7 +88,7 @@ let init_size = 50_000;
 let batch_size = 50;
 output(file, "\n## Stable structures\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
-perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
+//perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
 perf(heap_rs, "heap_rs", init_size, batch_size);
 perf(heap_stable_rs, "heap_stable_rs", init_size, batch_size);
 perf(vector_rs, "vec_rs", init_size, batch_size);
