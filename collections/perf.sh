@@ -59,7 +59,7 @@ function perf(wasm, title, init, batch) {
 
   uninstall(cid);
 };
-
+/*
 let init_size = 1_000_000;
 let batch_size = 50;
 output(file, "\n## Map\n\n| |binary_size|generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
@@ -83,7 +83,7 @@ output(file, "\n## Growable array\n\n| |binary_size|generate 5k|max mem|batch_ge
 perf(buffer, "buffer", init_size, batch_size);
 perf(vector, "vector", init_size, batch_size);
 perf(vector_rs, "vec_rs", init_size, batch_size);
-
+*/
 let init_size = 50_000;
 let batch_size = 50;
 output(file, "\n## Stable structures\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
