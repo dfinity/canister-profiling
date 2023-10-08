@@ -15,7 +15,7 @@ let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm", record { start_page = 1 });
 let btreemap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", record { start_page = 1 });
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm", record { start_page = 1 });
-let heap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/heap_stable/heap_stable.wasm", record { start_page = 1 });
+let heap_stable_rs = file("rust/.dfx/local/canisters/heap_stable/heap_stable.wasm");
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm", record { start_page = 1 });
 let vector_rs = wasm_profiling("rust/.dfx/local/canisters/vector/vector.wasm", record { start_page = 1 });
 let vector_stable_rs = wasm_profiling("rust/.dfx/local/canisters/vector_stable/vector_stable.wasm", record { start_page = 1 });
@@ -29,33 +29,33 @@ function perf(wasm, title, init, batch) {
   let cid = install(wasm, encode (), null);
 
   output(file, stringify("|", title, "|", wasm.size(), "|"));
-  call cid.__toggle_tracing();
+  //call cid.__toggle_tracing();
   call cid.generate(init);
-  output(file, stringify(__cost__, "|"));
+  //output(file, stringify(__cost__, "|"));
   call cid.get_mem();
-  output(file, stringify(_[1], "|")); // use max_heap
+  //output(file, stringify(_[1], "|")); // use max_heap
 
-  call cid.__toggle_tracing();
+  //call cid.__toggle_tracing();
   call cid.batch_get(batch);
-  let svg = stringify(title, "_get.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
-  flamegraph(cid, stringify(title, ".batch_get"), svg);
+  //let svg = stringify(title, "_get.svg");
+  //output(file, stringify("[", __cost__, "](", svg, ")|"));
+  //flamegraph(cid, stringify(title, ".batch_get"), svg);
 
   call cid.batch_put(batch);
-  let svg = stringify(title, "_put.svg");
-  output(file, stringify("[", __cost__, "](", svg, ")|"));
-  flamegraph(cid, stringify(title, ".batch_put"), svg);
+  //let svg = stringify(title, "_put.svg");
+  //output(file, stringify("[", __cost__, "](", svg, ")|"));
+  //flamegraph(cid, stringify(title, ".batch_put"), svg);
   call cid.get_mem();
 
   call cid.batch_remove(batch);
-  let svg = stringify(title, "_remove.svg");
-  output(file, stringify("[", __cost__, "](",svg, ")|"));
-  flamegraph(cid, stringify(title, ".batch_remove"), svg);
+  //let svg = stringify(title, "_remove.svg");
+  //output(file, stringify("[", __cost__, "](",svg, ")|"));
+  //flamegraph(cid, stringify(title, ".batch_remove"), svg);
 
   upgrade(cid, wasm, encode ());
-  let svg = stringify(title, "_upgrade.svg");
-  flamegraph(cid, stringify(title, ".upgrade"), svg);
-  output(file, stringify("[", _, "](", svg, ")|\n"));
+  //let svg = stringify(title, "_upgrade.svg");
+  //flamegraph(cid, stringify(title, ".upgrade"), svg);
+  //output(file, stringify("[", _, "](", svg, ")|\n"));
 
   uninstall(cid);
 };
@@ -84,10 +84,10 @@ perf(buffer, "buffer", init_size, batch_size);
 perf(vector, "vector", init_size, batch_size);
 perf(vector_rs, "vec_rs", init_size, batch_size);
 */
-let init_size = 10;
-let batch_size = 5;
+let init_size = 50_000;
+let batch_size = 50;
 output(file, "\n## Stable structures\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
-perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
+//perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
 perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
 perf(heap_rs, "heap_rs", init_size, batch_size);
 perf(heap_stable_rs, "heap_stable_rs", init_size, batch_size);
