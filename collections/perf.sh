@@ -50,7 +50,7 @@ function perf(wasm, title, init, batch) {
   call cid.batch_remove(batch);
   let svg = stringify(title, "_remove.svg");
   output(file, stringify("[", __cost__, "](",svg, ")|"));
-  flamegraph(cid, stringify(title, ".batch_remove"), svg);
+  //flamegraph(cid, stringify(title, ".batch_remove"), svg);
 
   upgrade(cid, wasm, encode ());
   let svg = stringify(title, "_upgrade.svg");
