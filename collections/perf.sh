@@ -29,31 +29,31 @@ function perf(wasm, title, init, batch) {
   let cid = install(wasm, encode (), null);
 
   output(file, stringify("|", title, "|", wasm.size(), "|"));
-  //call cid.__toggle_tracing();
+  call cid.__toggle_tracing();
   call cid.generate(init);
-  //output(file, stringify(__cost__, "|"));
+  output(file, stringify(__cost__, "|"));
   call cid.get_mem();
-  //output(file, stringify(_[1], "|")); // use max_heap
+  output(file, stringify(_[1], "|")); // use max_heap
 
-  //call cid.__toggle_tracing();
+  call cid.__toggle_tracing();
   call cid.batch_get(batch);
-  //let svg = stringify(title, "_get.svg");
-  //output(file, stringify("[", __cost__, "](", svg, ")|"));
-  //flamegraph(cid, stringify(title, ".batch_get"), svg);
+  let svg = stringify(title, "_get.svg");
+  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".batch_get"), svg);
 
   call cid.batch_put(batch);
-  //let svg = stringify(title, "_put.svg");
-  //output(file, stringify("[", __cost__, "](", svg, ")|"));
-  //flamegraph(cid, stringify(title, ".batch_put"), svg);
+  let svg = stringify(title, "_put.svg");
+  output(file, stringify("[", __cost__, "](", svg, ")|"));
+  flamegraph(cid, stringify(title, ".batch_put"), svg);
   call cid.get_mem();
 
   call cid.batch_remove(batch);
-  //let svg = stringify(title, "_remove.svg");
-  //output(file, stringify("[", __cost__, "](",svg, ")|"));
-  //flamegraph(cid, stringify(title, ".batch_remove"), svg);
+  let svg = stringify(title, "_remove.svg");
+  output(file, stringify("[", __cost__, "](",svg, ")|"));
+  flamegraph(cid, stringify(title, ".batch_remove"), svg);
 
   upgrade(cid, wasm, encode ());
-  //let svg = stringify(title, "_upgrade.svg");
+  let svg = stringify(title, "_upgrade.svg");
   //flamegraph(cid, stringify(title, ".upgrade"), svg);
   //output(file, stringify("[", _, "](", svg, ")|\n"));
 
