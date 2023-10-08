@@ -15,7 +15,7 @@ let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm"
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm", record { start_page = 1 });
 let btreemap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", record { start_page = 1 });
 let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm", record { start_page = 1 });
-let heap_stable_rs = file("rust/.dfx/local/canisters/heap_stable/heap_stable.wasm");
+let heap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/heap_stable/heap_stable.wasm", record { start_page = 1 });
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm", record { start_page = 1 });
 let vector_rs = wasm_profiling("rust/.dfx/local/canisters/vector/vector.wasm", record { start_page = 1 });
 let vector_stable_rs = wasm_profiling("rust/.dfx/local/canisters/vector_stable/vector_stable.wasm", record { start_page = 1 });
