@@ -15,6 +15,7 @@ jobs:
       IC_REPL_VERSION: 0.5.0
       MOC_VERSION: 0.10.0
       IC_WASM_VERSION: 0.5.1
+      RUSTC_VERSION: 1.72.1
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
@@ -32,7 +33,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: 1.72.1
+          toolchain: ${{ env.RUSTC_VERSION }}
           override: true
           target: wasm32-unknown-unknown
       - name: Cache cargo build
@@ -80,7 +81,9 @@ jobs:
           dfx stop
           dfx start --clean --background
       - name: Run perf
-        run: make
+        run: |
+          make
+          make emit_version
       - name: Generate table
         if: github.event_name == 'pull_request'
         env:
