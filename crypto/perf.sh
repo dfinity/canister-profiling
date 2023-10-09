@@ -3,8 +3,8 @@ load "../prelude.sh";
 
 let sha_mo = wasm_profiling("motoko/.dfx/local/canisters/sha/sha.wasm");
 let sha_rs = wasm_profiling("rust/.dfx/local/canisters/sha/sha.wasm");
-let map_mo = wasm_profiling("motoko/.dfx/local/canisters/certified_map/certified_map.wasm", record { start_page = 16 });
-let map_rs = wasm_profiling("rust/.dfx/local/canisters/certified_map/certified_map.wasm", record { start_page = 1 });
+let map_mo = wasm_profiling("motoko/.dfx/local/canisters/certified_map/certified_map.wasm", record { start_page = 16; page_limit = 127 });
+let map_rs = wasm_profiling("rust/.dfx/local/canisters/certified_map/certified_map.wasm", record { start_page = 1; page_limit = 127 });
 let sample = file("sample_wasm.bin");
 
 let file = "README.md";

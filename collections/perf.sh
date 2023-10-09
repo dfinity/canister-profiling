@@ -1,24 +1,24 @@
 #!ic-repl
 load "../prelude.sh";
 
-let hashmap = wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm", record { start_page = 16 });
-let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm", record { start_page = 16 });
-let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", record { start_page = 16 });
-let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm", record { start_page = 16 });
-let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm", record { start_page = 16 });
-let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm", record { start_page = 16 });
-let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm", record { start_page = 16 });
-let buffer = wasm_profiling("motoko/.dfx/local/canisters/buffer/buffer.wasm", record { start_page = 16 });
-let vector = wasm_profiling("motoko/.dfx/local/canisters/vector/vector.wasm", record { start_page = 16 });
+let hashmap = wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm", record { start_page = 16; page_limit = 127 });
+let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm", record { start_page = 16; page_limit = 127 });
+let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", record { start_page = 16; page_limit = 127 });
+let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm", record { start_page = 16; page_limit = 127 });
+let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm", record { start_page = 16; page_limit = 127 });
+let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm", record { start_page = 16; page_limit = 127 });
+let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm", record { start_page = 16; page_limit = 127 });
+let buffer = wasm_profiling("motoko/.dfx/local/canisters/buffer/buffer.wasm", record { start_page = 16; page_limit = 127 });
+let vector = wasm_profiling("motoko/.dfx/local/canisters/vector/vector.wasm", record { start_page = 16; page_limit = 127 });
 
-let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm", record { start_page = 1 });
-let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm", record { start_page = 1 });
-let btreemap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", record { start_page = 1 });
-let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm", record { start_page = 1 });
-let heap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/heap_stable/heap_stable.wasm", record { start_page = 1 });
-let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm", record { start_page = 1 });
-let vector_rs = wasm_profiling("rust/.dfx/local/canisters/vector/vector.wasm", record { start_page = 1 });
-let vector_stable_rs = wasm_profiling("rust/.dfx/local/canisters/vector_stable/vector_stable.wasm", record { start_page = 1 });
+let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm", record { start_page = 1; page_limit = 127 });
+let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm", record { start_page = 1; page_limit = 127 });
+let btreemap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", record { start_page = 1; page_limit = 127 });
+let heap_rs = wasm_profiling("rust/.dfx/local/canisters/heap/heap.wasm", record { start_page = 1; page_limit = 127 });
+let heap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/heap_stable/heap_stable.wasm", record { start_page = 1; page_limit = 127 });
+let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm", record { start_page = 1; page_limit = 127 });
+let vector_rs = wasm_profiling("rust/.dfx/local/canisters/vector/vector.wasm", record { start_page = 1; page_limit = 127 });
+let vector_stable_rs = wasm_profiling("rust/.dfx/local/canisters/vector_stable/vector_stable.wasm", record { start_page = 1; page_limit = 127 });
 
 //let movm_rs = wasm_profiling("rust/.dfx/local/canisters/movm/movm.wasm");
 //let movm_dynamic_rs = wasm_profiling("rust/.dfx/local/canisters/movm_dynamic/movm_dynamic.wasm");
