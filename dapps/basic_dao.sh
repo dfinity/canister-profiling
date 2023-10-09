@@ -8,8 +8,8 @@ identity cathy;
 identity dory;
 identity genesis;
 
-let motoko = wasm_profiling("motoko/.dfx/local/canisters/basic_dao/basic_dao.wasm", record { start_page = 16; page_limit = 127 });
-let rust = wasm_profiling("rust/.dfx/local/canisters/basic_dao/basic_dao.wasm", record { start_page = 1; page_limit = 127 });
+let motoko = wasm_profiling("motoko/.dfx/local/canisters/basic_dao/basic_dao.wasm", record { start_page = 16 });
+let rust = wasm_profiling("rust/.dfx/local/canisters/basic_dao/basic_dao.wasm", record { start_page = 1 });
 
 let file = "README.md";
 output(file, "\n## Basic DAO\n\n| |binary_size|init|transfer_token|submit_proposal|vote_proposal|upgrade|\n|--|--:|--:|--:|--:|--:|--:|\n");
