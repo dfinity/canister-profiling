@@ -36,7 +36,7 @@ define perf
 	set -e; \
 	$(call prepare_perf,$(1)); \
 	ic-repl ../../$(1)/$(2); \
-	du -h _out
+	du -h ../../_out
 endef
 
 define perf_two
@@ -44,5 +44,5 @@ define perf_two
 	$(call prepare_perf,$(1)); \
 	ic-repl ../../$(1)/$(2); \
 	ic-repl ../../$(1)/$(3); \
-	du -h _out
+	du -h ../../_out
 endef
