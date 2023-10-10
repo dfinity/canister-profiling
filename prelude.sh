@@ -33,3 +33,5 @@ function get_memory(cid) {
   _.memory_size
 };
 
+let mo_config = record { start_page = 16; page_limit = 256 };
+let rs_config = record { start_page = 1; page_limit = 256 };
