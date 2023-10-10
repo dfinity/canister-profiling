@@ -4,7 +4,7 @@ load "../prelude.sh";
 let mo_config = record { start_page = 16; page_limit = 1024 };
 let hashmap = wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm", mo_config);
 let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm", mo_config);
-//let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", mo_config);
+let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", mo_config);
 let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm", mo_config);
 let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm", mo_config);
 let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm", mo_config);
@@ -62,12 +62,12 @@ function perf(wasm, title, init, batch) {
   uninstall(cid);
 };
 
-let init_size = 1_000_000;
+let init_size = 800_000;
 let batch_size = 50;
-output(file, "\n## Map\n\n| |binary_size|generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Map\n\n| |binary_size|generate 800k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(hashmap, "hashmap", init_size, batch_size);
 perf(triemap, "triemap", init_size, batch_size);
-//perf(rbtree, "rbtree", init_size, batch_size);
+perf(rbtree, "rbtree", init_size, batch_size);
 perf(splay, "splay", init_size, batch_size);
 perf(btree, "btree", init_size, batch_size);
 perf(zhenya, "zhenya_hashmap", init_size, batch_size);
@@ -75,7 +75,7 @@ perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
 perf(imrc_hashmap_rs, "imrc_hashmap_rs", init_size, batch_size);
 perf(hashmap_rs, "hashmap_rs", init_size, batch_size);
 
-output(file, "\n## Priority queue\n\n| |binary_size|heapify 1m|max mem|pop_min 50|put 50|pop_min 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n## Priority queue\n\n| |binary_size|heapify 800k|max mem|pop_min 50|put 50|pop_min 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
 perf(heap, "heap", init_size, batch_size);
 perf(heap_rs, "heap_rs", init_size, batch_size);
 
