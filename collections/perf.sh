@@ -1,7 +1,7 @@
 #!ic-repl
 load "../prelude.sh";
 
-let mo_config = record { start_page = 16; page_limit = 4096 };
+let mo_config = record { start_page = 16; page_limit = 2048 };
 let hashmap = wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm", mo_config);
 let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm", mo_config);
 let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", mo_config);
@@ -12,7 +12,7 @@ let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm", mo_confi
 let buffer = wasm_profiling("motoko/.dfx/local/canisters/buffer/buffer.wasm", mo_config);
 let vector = wasm_profiling("motoko/.dfx/local/canisters/vector/vector.wasm", mo_config);
 
-let rs_config = record { start_page = 1; page_limit = 4096 };
+let rs_config = record { start_page = 1; page_limit = 2048 };
 let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm", rs_config);
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm", rs_config);
 let btreemap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", rs_config);
