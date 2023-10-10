@@ -64,7 +64,7 @@ pub fn get_upgrade_memory() -> Memory {
 
 pub fn profiling_init() {
     let memory = MEMORY_MANAGER.with(|m| m.borrow().get(PROFILING));
-    memory.grow(2048);
+    memory.grow(1024);
 }
 
 pub fn save_stable<T: CandidType>(val: &T) {
