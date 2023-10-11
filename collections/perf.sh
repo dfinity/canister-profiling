@@ -8,7 +8,7 @@ let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm",
 let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", mo_config);
 let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm", mo_config);
 let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm", mo_config);
-let btree_stable = wasm_profiling("motoko/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", record { start_page = 16 });
+let btree_stable = wasm_profiling("motoko/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", mo_config);
 let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm", mo_config);
 let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm", mo_config);
 let buffer = wasm_profiling("motoko/.dfx/local/canisters/buffer/buffer.wasm", mo_config);
