@@ -1,6 +1,7 @@
 #!ic-repl
 load "../prelude.sh";
 
+let mo_config = record { start_page = 16; page_limit = 128 };
 let default = wasm_profiling("motoko/default.wasm", concat(mo_config, record { trace_only_funcs = vec{"schedule_copying_gc"} }));
 let copying = wasm_profiling("motoko/copying.wasm", concat(mo_config, record { trace_only_funcs = vec {"copying_gc"} }));
 let compacting = wasm_profiling("motoko/compacting.wasm", concat(mo_config, record { trace_only_funcs = vec{"compacting_gc"} }));
