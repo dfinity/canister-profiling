@@ -7,14 +7,15 @@ on:
 
 jobs:
   perf:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.15.0
-      IC_REPL_VERSION: 0.5.0
+      DFX_VERSION: 0.15.1
+      IC_REPL_VERSION: 0.5.1
       MOC_VERSION: 0.10.0
-      IC_WASM_VERSION: 0.5.1
+      IC_WASM_VERSION: 0.6.0
+      RUSTC_VERSION: 1.73.0
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
@@ -32,7 +33,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: ${{ env.RUSTC_VERSION }}
           override: true
           target: wasm32-unknown-unknown
       - name: Cache cargo build
@@ -58,16 +59,16 @@ jobs:
       - name: Install ic-repl, mops, dfx, and moc
         run: |
           echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
-          wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-linux64
-          cp ./ic-repl-linux64 /usr/local/bin/ic-repl
+          wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-macos
+          cp ./ic-repl-macos /usr/local/bin/ic-repl
           chmod a+x /usr/local/bin/ic-repl
           npm i -g ic-mops
           dfx cache install
           cd $(dfx cache show)
-          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-Linux-x86_64-$MOC_VERSION.tar.gz
-          tar zxvf motoko-Linux-x86_64-$MOC_VERSION.tar.gz
-          wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-linux64
-          cp ./ic-wasm-linux64 /usr/local/bin/ic-wasm
+          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-Darwin-x86_64-$MOC_VERSION.tar.gz
+          tar zxvf motoko-Darwin-x86_64-$MOC_VERSION.tar.gz
+          wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-macos
+          cp ./ic-wasm-macos /usr/local/bin/ic-wasm
           chmod a+x /usr/local/bin/ic-wasm
       - name: Setup system subnet and start dfx
         run: |
@@ -82,7 +83,9 @@ jobs:
           dfx stop
           dfx start --clean --background
       - name: Run perf
-        run: make
+        run: |
+          make
+          make emit_version
       - name: Generate table
         if: github.event_name == 'pull_request'
         env:
