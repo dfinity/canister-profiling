@@ -5,8 +5,8 @@ load "../prelude.sh";
 identity alice;
 identity bob;
 
-let motoko = wasm_profiling("motoko/.dfx/local/canisters/dip721_nft/dip721_nft.wasm", record { start_page = 16 });
-let rust = wasm_profiling("rust/.dfx/local/canisters/dip721_nft/dip721_nft.wasm", record { start_page = 1 });
+let motoko = wasm_profiling("motoko/.dfx/local/canisters/dip721_nft/dip721_nft.wasm", mo_config);
+let rust = wasm_profiling("rust/.dfx/local/canisters/dip721_nft/dip721_nft.wasm", rs_config);
 
 let file = "README.md";
 output(file, "\n## DIP721 NFT\n\n| |binary_size|init|mint_token|transfer_token|upgrade|\n|--|--:|--:|--:|--:|--:|\n");
