@@ -11,12 +11,19 @@ of the replica can affect how we measure this. Typically, a correct flamegraph c
 
 | |binary_size|heartbeat|
 |--:|--:|--:|
-|Motoko|123_509|[3_758](Motoko_heartbeat.svg)|
-|Rust|23_826|[785](Rust_heartbeat.svg)|
+|Motoko|123_696|[7_399](Motoko_heartbeat.svg)|
+|Rust|23_839|[469](Rust_heartbeat.svg)|
 
 ## Timer
 
 | |binary_size|setTimer|cancelTimer|
 |--:|--:|--:|--:|
-|Motoko|129_780|[15_227](Motoko_setTimer.svg)|[1_684](Motoko_cancelTimer.svg)|
-|Rust|441_467|[43_465](Rust_setTimer.svg)|[7_594](Rust_cancelTimer.svg)|
+|Motoko|129_966|[15_227](Motoko_setTimer.svg)|[1_684](Motoko_cancelTimer.svg)|
+|Rust|422_512|[43_471](Rust_setTimer.svg)|[7_569](Rust_cancelTimer.svg)|
+
+> ## Environment
+> * dfx 0.15.1
+> * Motoko compiler 0.10.0 (source a3ywvw0a-p5a03qy6-vscbl9j8-qxszbxa6)
+> * rustc 1.73.0 (cc66ad468 2023-10-03)
+> * ic-repl 0.5.1
+> * ic-wasm 0.6.0
