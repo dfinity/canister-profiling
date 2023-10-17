@@ -43,7 +43,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target
-          key: cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: cargo-${{ env.RUSTC_VERSION }}-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions/setup-python@v4
         if: github.event_name == 'pull_request'
         with:
