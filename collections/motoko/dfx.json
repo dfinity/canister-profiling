@@ -35,6 +35,10 @@
     "vector": {
       "type": "motoko",
       "main": "src/vector.mo"
+    },
+    "btreemap_stable": {
+      "type": "motoko",
+      "main": "src/btreemap_stable.mo"
     }
   },
   "defaults": {
