@@ -14,7 +14,7 @@ jobs:
       DFX_VERSION: 0.15.2-beta.1
       IC_REPL_VERSION: 0.6.0
       MOC_VERSION: 0.10.0
-      IC_WASM_VERSION: 0.6.0
+      IC_WASM_VERSION: 0.7.0
       RUSTC_VERSION: 1.73.0
     steps:
       - uses: actions/checkout@v3
@@ -59,7 +59,9 @@ jobs:
       - name: Install ic-repl, mops, dfx, and moc
         run: |
           echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
-          cargo install --git https://github.com/dfinity/ic-repl.git --branch bump-candid
+          wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-macos
+          cp ./ic-repl-macos /usr/local/bin/ic-repl
+          chmod a+x /usr/local/bin/ic-repl
           npm i -g ic-mops
           dfx cache install
           cd $(dfx cache show)
