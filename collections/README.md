@@ -43,45 +43,45 @@ the same elements, and the queries are exactly the same. Below we explain the me
 
 | |binary_size|generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|--:|
-|hashmap|160_221|6_984_044_999|61_987_852|[288_670](hashmap_get.svg)|[5_536_856_410](hashmap_put.svg)|[310_195](hashmap_remove.svg)|[9_128_784_003](hashmap_upgrade.svg)|
-|triemap|163_474|11_463_655_150|74_216_172|[222_926](triemap_get.svg)|[549_435](triemap_put.svg)|[540_205](triemap_remove.svg)|[13_075_158_546](triemap_upgrade.svg)|
-|rbtree|158_149|5_979_229_900|57_996_060|[88_905](rbtree_get.svg)|[268_573](rbtree_put.svg)|[278_352](rbtree_remove.svg)|[5_771_880_608](rbtree_upgrade.svg)|
-|splay|159_956|11_568_250_103|53_995_996|[552_014](splay_get.svg)|[581_765](splay_put.svg)|[810_321](splay_remove.svg)|[3_722_474_749](splay_upgrade.svg)|
-|btree|187_897|8_224_242_789|31_104_012|[277_542](btree_get.svg)|[384_171](btree_put.svg)|[429_041](btree_remove.svg)|[2_517_941_583](btree_upgrade.svg)|
-|zhenya_hashmap|160_509|2_201_622_562|22_773_100|[48_627](zhenya_hashmap_get.svg)|[61_839](zhenya_hashmap_put.svg)|[70_872](zhenya_hashmap_remove.svg)|[2_695_448_620](zhenya_hashmap_upgrade.svg)|
-|btreemap_rs|478_816|1_651_590_463|27_590_656|[66_862](btreemap_rs_get.svg)|[112_477](btreemap_rs_put.svg)|[76_234](btreemap_rs_remove.svg)|[2_660_975_735](btreemap_rs_upgrade.svg)|
-|imrc_hashmap_rs|482_941|2_392_906_831|244_973_568|[32_763](imrc_hashmap_rs_get.svg)|[163_245](imrc_hashmap_rs_put.svg)|[98_394](imrc_hashmap_rs_remove.svg)|[5_191_575_314](imrc_hashmap_rs_upgrade.svg)|
-|hashmap_rs|469_257|403_296_648|73_138_176|[16_851](hashmap_rs_get.svg)|[21_680](hashmap_rs_put.svg)|[20_263](hashmap_rs_remove.svg)|[1_144_828_112](hashmap_rs_upgrade.svg)|
+|hashmap|160_407|8_550_261_900|61_987_852|[349_808](hashmap_get.svg)|[6_641_222_848](hashmap_put.svg)|[377_790](hashmap_remove.svg)|[11_273_695_870](hashmap_upgrade.svg)|
+|triemap|163_606|15_268_684_428|74_216_172|[301_412](triemap_get.svg)|[737_508](triemap_put.svg)|[722_627](triemap_remove.svg)|[17_302_961_961](triemap_upgrade.svg)|
+|rbtree|158_225|7_665_886_603|57_996_060|[115_637](rbtree_get.svg)|[346_274](rbtree_put.svg)|[370_932](rbtree_remove.svg)|[7_231_296_002](rbtree_upgrade.svg)|
+|splay|160_055|15_388_999_493|53_995_996|[738_550](splay_get.svg)|[777_813](splay_put.svg)|[1_077_553](splay_remove.svg)|[4_832_227_514](splay_upgrade.svg)|
+|btree|188_004|11_040_703_048|31_104_012|[376_209](btree_get.svg)|[519_468](btree_put.svg)|[577_253](btree_remove.svg)|[3_162_844_776](btree_upgrade.svg)|
+|zhenya_hashmap|160_784|2_838_455_412|22_773_100|[66_353](zhenya_hashmap_get.svg)|[84_294](zhenya_hashmap_put.svg)|[96_614](zhenya_hashmap_remove.svg)|[3_353_572_476](zhenya_hashmap_upgrade.svg)|
+|btreemap_rs|478_653|1_797_168_137|27_590_656|[75_573](btreemap_rs_get.svg)|[125_437](btreemap_rs_put.svg)|[86_323](btreemap_rs_remove.svg)|[2_941_065_080](btreemap_rs_upgrade.svg)|
+|imrc_hashmap_rs|482_783|2_584_652_919|244_973_568|[38_439](imrc_hashmap_rs_get.svg)|[179_288](imrc_hashmap_rs_put.svg)|[115_588](imrc_hashmap_rs_remove.svg)|[5_796_576_276](imrc_hashmap_rs_upgrade.svg)|
+|hashmap_rs|469_075|433_765_793|73_138_176|[21_856](hashmap_rs_get.svg)|[26_958](hashmap_rs_put.svg)|[25_223](hashmap_rs_remove.svg)|[1_293_479_144](hashmap_rs_upgrade.svg)|
 
 ## Priority queue
 
 | |binary_size|heapify 1m|max mem|pop_min 50|put 50|pop_min 50|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|--:|
-|heap|147_638|4_684_519_403|29_995_956|[511_505](heap_get.svg)|[186_471](heap_put.svg)|[487_225](heap_remove.svg)|[2_655_609_909](heap_upgrade.svg)|
-|heap_rs|462_981|121_602_221|18_284_544|[51_661](heap_rs_get.svg)|[18_245](heap_rs_put.svg)|[51_802](heap_rs_remove.svg)|[440_739_960](heap_rs_upgrade.svg)|
+|heap|147_908|6_393_606_585|29_995_956|[701_835](heap_get.svg)|[258_841](heap_put.svg)|[668_731](heap_remove.svg)|[3_337_783_210](heap_upgrade.svg)|
+|heap_rs|462_827|138_669_875|18_284_544|[57_564](heap_rs_get.svg)|[23_346](heap_rs_put.svg)|[57_696](heap_rs_remove.svg)|[511_961_256](heap_rs_upgrade.svg)|
 
 ## Growable array
 
 | |binary_size|generate 5k|max mem|batch_get 500|batch_put 500|batch_remove 500|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|--:|
-|buffer|151_004|2_082_623|65_644|[73_092](buffer_get.svg)|[671_517](buffer_put.svg)|[127_592](buffer_remove.svg)|[2_474_639](buffer_upgrade.svg)|
-|vector|152_551|1_588_260|24_580|[105_191](vector_get.svg)|[149_932](vector_put.svg)|[148_094](vector_remove.svg)|[3_844_445](vector_upgrade.svg)|
-|vec_rs|460_777|265_683|1_310_720|[13_014](vec_rs_get.svg)|[25_363](vec_rs_put.svg)|[21_247](vec_rs_remove.svg)|[2_743_803](vec_rs_upgrade.svg)|
+|buffer|151_225|2_811_683|65_644|[109_527](buffer_get.svg)|[884_994](buffer_put.svg)|[178_027](buffer_remove.svg)|[3_206_695](buffer_upgrade.svg)|
+|vector|152_845|2_228_708|24_580|[146_173](vector_get.svg)|[212_398](vector_put.svg)|[203_951](vector_remove.svg)|[4_810_168](vector_upgrade.svg)|
+|vec_rs|460_616|289_093|1_310_720|[17_300](vec_rs_get.svg)|[30_623](vec_rs_put.svg)|[25_759](vec_rs_remove.svg)|[3_171_850](vec_rs_upgrade.svg)|
 
 ## Stable structures
 
 | |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|--:|
-|btreemap_rs|478_816|70_026_986|2_555_904|[57_181](btreemap_rs_get.svg)|[86_494](btreemap_rs_put.svg)|[75_309](btreemap_rs_remove.svg)|[113_837_919](btreemap_rs_upgrade.svg)|
-|btreemap_stable_rs|488_874|4_608_383_725|2_031_616|[2_778_442](btreemap_stable_rs_get.svg)|[5_070_568](btreemap_stable_rs_put.svg)|[8_637_788](btreemap_stable_rs_remove.svg)|[653_330](btreemap_stable_rs_upgrade.svg)|
-|heap_rs|462_981|6_139_838|2_293_760|[44_362](heap_rs_get.svg)|[18_477](heap_rs_put.svg)|[44_345](heap_rs_remove.svg)|[23_149_344](heap_rs_upgrade.svg)|
-|heap_stable_rs|450_949|278_284_330|458_752|[2_329_886](heap_stable_rs_get.svg)|[240_249](heap_stable_rs_put.svg)|[2_312_267](heap_stable_rs_remove.svg)|[653_433](heap_stable_rs_upgrade.svg)|
-|vec_rs|460_777|2_866_886|2_228_224|[13_014](vec_rs_get.svg)|[14_113](vec_rs_put.svg)|[13_710](vec_rs_remove.svg)|[21_249_880](vec_rs_upgrade.svg)|
-|vec_stable_rs|448_899|65_186_207|458_752|[59_189](vec_stable_rs_get.svg)|[77_384](vec_stable_rs_put.svg)|[79_580](vec_stable_rs_remove.svg)|[653_447](vec_stable_rs_upgrade.svg)|
+|btreemap_rs|478_653|76_392_041|2_555_904|[65_131](btreemap_rs_get.svg)|[97_327](btreemap_rs_put.svg)|[85_332](btreemap_rs_remove.svg)|[126_467_483](btreemap_rs_upgrade.svg)|
+|btreemap_stable_rs|488_655|5_255_681_694|2_031_616|[3_167_281](btreemap_stable_rs_get.svg)|[5_784_578](btreemap_stable_rs_put.svg)|[9_888_420](btreemap_stable_rs_remove.svg)|[731_129](btreemap_stable_rs_upgrade.svg)|
+|heap_rs|462_827|7_001_771|2_293_760|[50_073](heap_rs_get.svg)|[23_594](heap_rs_put.svg)|[50_045](heap_rs_remove.svg)|[26_819_762](heap_rs_upgrade.svg)|
+|heap_stable_rs|450_750|319_633_530|458_752|[2_674_744](heap_stable_rs_get.svg)|[278_372](heap_stable_rs_put.svg)|[2_654_546](heap_stable_rs_remove.svg)|[731_276](heap_stable_rs_upgrade.svg)|
+|vec_rs|460_616|3_079_437|2_228_224|[17_300](vec_rs_get.svg)|[18_473](vec_rs_put.svg)|[18_000](vec_rs_remove.svg)|[24_772_373](vec_rs_upgrade.svg)|
+|vec_stable_rs|448_692|75_145_339|458_752|[70_326](vec_stable_rs_get.svg)|[91_522](vec_stable_rs_put.svg)|[93_718](vec_stable_rs_remove.svg)|[731_289](vec_stable_rs_upgrade.svg)|
 
 > ## Environment
-> * dfx 0.15.1
+> * dfx 0.15.2-beta.1
 > * Motoko compiler 0.10.0 (source a3ywvw0a-p5a03qy6-vscbl9j8-qxszbxa6)
 > * rustc 1.73.0 (cc66ad468 2023-10-03)
-> * ic-repl 0.5.1
-> * ic-wasm 0.6.0
+> * ic-repl 0.6.0
+> * ic-wasm 0.7.0

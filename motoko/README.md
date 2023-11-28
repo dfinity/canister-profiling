@@ -19,22 +19,22 @@ Measure various features only available in Motoko.
 
 | |generate 700k|max mem|batch_get 50|batch_put 50|batch_remove 50|
 |--:|--:|--:|--:|--:|--:|
-|default|[886_042_039](default_init.svg)|51_991_392|[50](default_get.svg)|[50](default_put.svg)|[50](default_remove.svg)|
-|copying|[886_041_989](copying_init.svg)|51_991_392|[886_022_376](copying_get.svg)|[886_091_464](copying_put.svg)|[886_024_532](copying_remove.svg)|
-|compacting|[1_465_238_570](compacting_init.svg)|51_991_392|[1_131_731_091](compacting_get.svg)|[1_337_770_735](compacting_put.svg)|[1_364_176_230](compacting_remove.svg)|
-|generational|[2_184_682_993](generational_init.svg)|51_999_856|[855_707_553](generational_get.svg)|[1_057_808](generational_put.svg)|[947_924](generational_remove.svg)|
-|incremental|[28_518_613](incremental_init.svg)|985_885_652|[290_276_212](incremental_get.svg)|[292_998_697](incremental_put.svg)|[292_988_797](incremental_remove.svg)|
+|default|[1_171_382_327](default_init.svg)|51_991_392|[119](default_get.svg)|[119](default_put.svg)|[119](default_remove.svg)|
+|copying|[1_171_382_209](copying_init.svg)|51_991_392|[1_171_104_158](copying_get.svg)|[1_171_195_718](copying_put.svg)|[1_171_106_971](copying_remove.svg)|
+|compacting|[1_672_114_728](compacting_init.svg)|51_991_392|[1_290_052_240](compacting_get.svg)|[1_533_417_914](compacting_put.svg)|[1_564_512_328](compacting_remove.svg)|
+|generational|[2_529_073_463](generational_init.svg)|51_999_856|[999_515_223](generational_get.svg)|[1_232_308](generational_put.svg)|[1_103_421](generational_remove.svg)|
+|incremental|[29_503_121](incremental_init.svg)|985_885_652|[333_756_008](incremental_get.svg)|[336_886_802](incremental_put.svg)|[336_875_628](incremental_remove.svg)|
 
 
 ## Actor class
 
 | |binary size|put new bucket|put existing bucket|get|
 |--|--:|--:|--:|--:|
-|Map|261_665|[654_501](map_put.svg)|[4_459](map_put_existing.svg)|[4_919](map_get.svg)|
+|Map|261_945|[715_767](map_put.svg)|[16_296](map_put_existing.svg)|[16_803](map_get.svg)|
 
 > ## Environment
-> * dfx 0.15.1
+> * dfx 0.15.2-beta.1
 > * Motoko compiler 0.10.0 (source a3ywvw0a-p5a03qy6-vscbl9j8-qxszbxa6)
 > * rustc 1.73.0 (cc66ad468 2023-10-03)
-> * ic-repl 0.5.1
-> * ic-wasm 0.6.0
+> * ic-repl 0.6.0
+> * ic-wasm 0.7.0
