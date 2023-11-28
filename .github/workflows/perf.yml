@@ -13,7 +13,7 @@ jobs:
     env:
       DFX_VERSION: 0.15.2-beta.1
       IC_REPL_VERSION: 0.6.0
-      MOC_VERSION: 0.10.0
+      MOC_VERSION: 0.10.2
       IC_WASM_VERSION: 0.7.0
       RUSTC_VERSION: 1.73.0
     steps:
