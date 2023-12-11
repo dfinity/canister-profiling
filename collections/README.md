@@ -8,11 +8,11 @@ We use the same random number generator with fixed seed to ensure that all colle
 the same elements, and the queries are exactly the same. Below we explain the measurements of each column in the table:
 
 * generate 1m. Insert 1m Nat64 integers into the collection. For Motoko collections, it usually triggers the GC; the rest of the column are not likely to trigger GC.
-* max mem. For Motoko, it reports `rts_max_heap_size` after `generate` call; For Rust, it reports the Wasm's memory page * 32Kb.
+* max mem. For Motoko, it reports `rts_max_heap_size` after `generate` call; For Rust, it reports the Wasm's memory page * 64Kb; For stable benchmarks, it reports the region size of the stable memory storing the map.
 * batch_get 50. Find 50 elements from the collection.
 * batch_put 50. Insert 50 elements to the collection.
 * batch_remove 50. Remove 50 elements from the collection.
-* upgrade. Upgrade the canister with the same Wasm module. For non-stable benchmarks, the map state is persisted by serializing and deserializing states into stable memory. For stable benchmarks, the upgrade takes no cycles, as the state is already in the stable memory.
+* upgrade. Upgrade the canister with the same Wasm module. For non-stable benchmarks, the map state is persisted by serializing and deserializing states into stable memory. For stable benchmarks, the upgrade only needs to initialize the metadata, as the state is already in the stable memory.
 
 ## **💎 Takeaways**
 
@@ -33,6 +33,7 @@ the same elements, and the queries are exactly the same. Below we explain the me
 > * The stable benchmarks are much more expensive than their non-stable counterpart, because the stable memory API is much more expensive. The benefit is that they get fast upgrade. The upgrade still needs to parse the metadata when initializing the upgraded Wasm module.
 > * `hashmap` uses amortized data structure. When the initial capacity is reached, it has to copy the whole array, thus the cost of `batch_put 50` is much higher than other data structures.
 > * `btree` comes from [mops.one/stableheapbtreemap](https://mops.one/stableheapbtreemap).
+> * `btree_stable` comes from [github.com/sardariuss](https://github.com/sardariuss/MotokoStableBTree).
 > * `zhenya_hashmap` comes from [mops.one/map](https://mops.one/map).
 > * `vector` comes from [mops.one/vector](https://mops.one/vector). Compare with `buffer`, `put` has better worst case time and space complexity ($O(\sqrt{n})$ vs $O(n)$); `get` has a slightly larger constant overhead.
 > * `hashmap_rs` uses the `fxhash` crate, which is the same as `std::collections::HashMap`, but with a deterministic hasher. This ensures reproducible result.

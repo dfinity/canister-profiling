@@ -8,6 +8,7 @@ let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm",
 let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", mo_config);
 let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm", mo_config);
 let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm", mo_config);
+let btree_stable = wasm_profiling("motoko/.dfx/local/canisters/btreemap_stable/btreemap_stable.wasm", mo_config);
 let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm", mo_config);
 let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm", mo_config);
 let buffer = wasm_profiling("motoko/.dfx/local/canisters/buffer/buffer.wasm", mo_config);
@@ -90,6 +91,8 @@ perf(vector_rs, "vec_rs", init_size, batch_size);
 let init_size = 50_000;
 let batch_size = 50;
 output(file, "\n## Stable structures\n\n| |binary_size|generate 50k|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
+perf(btree, "btree", init_size, batch_size);
+perf(btree_stable, "btree_stable", init_size, batch_size);
 perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
 perf(btreemap_stable_rs, "btreemap_stable_rs", init_size, batch_size);
 perf(heap_rs, "heap_rs", init_size, batch_size);
