@@ -5,12 +5,12 @@ Measure the cost of inter-canister calls from the [Publisher & Subscriber](https
 
 | |pub_binary_size|sub_binary_size|subscribe_caller|subscribe_callee|publish_caller|publish_callee|
 |--|--:|--:|--:|--:|--:|--:|
-|Motoko|161_257|145_541|[28_593](mo_subscribe.svg)|[11_963](mo_pub_register.svg)|[22_864](mo_publish.svg)|[6_430](mo_sub_update.svg)|
-|Rust|456_613|507_753|[69_189](rs_subscribe.svg)|[42_865](rs_pub_register.svg)|[92_768](rs_publish.svg)|[52_116](rs_sub_update.svg)|
+|Motoko|161_935|146_225|[28_593](mo_subscribe.svg)|[11_963](mo_pub_register.svg)|[22_864](mo_publish.svg)|[6_430](mo_sub_update.svg)|
+|Rust|519_866|570_028|[68_903](rs_subscribe.svg)|[42_634](rs_pub_register.svg)|[92_131](rs_publish.svg)|[51_818](rs_sub_update.svg)|
 
 > ## Environment
-> * dfx 0.15.2-beta.1
-> * Motoko compiler 0.10.2 (source vy3jgjpa-6ywclfhp-r10kgfpz-gkw93wh8)
-> * rustc 1.73.0 (cc66ad468 2023-10-03)
-> * ic-repl 0.6.0
+> * dfx 0.16.1
+> * Motoko compiler 0.10.4 (source js20w7g2-ysgfrqd0-1cmy11nb-3wdy9y1k)
+> * rustc 1.75.0 (82e1608df 2023-12-21)
+> * ic-repl 0.6.2
 > * ic-wasm 0.7.0
