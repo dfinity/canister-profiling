@@ -2,12 +2,12 @@ use fxhash::FxHashMap;
 use std::cell::RefCell;
 
 struct Random {
-    state: u32,
+    state: u64,
     size: Option<u32>,
     ind: u32,
 }
 impl Random {
-    pub fn new(size: Option<u32>, seed: u32) -> Self {
+    pub fn new(size: Option<u32>, seed: u64) -> Self {
         Random {
             state: seed,
             size,
@@ -16,7 +16,7 @@ impl Random {
     }
 }
 impl Iterator for Random {
-    type Item = u32;
+    type Item = u64;
     fn next(&mut self) -> Option<Self::Item> {
         if let Some(size) = self.size {
             self.ind += 1;
@@ -31,14 +31,14 @@ impl Iterator for Random {
 
 thread_local! {
     // FxHashMap uses the same std::collections::HashMap with a deterministic hasher
-    static MAP: RefCell<FxHashMap<u32, String>> = RefCell::default();
+    static MAP: RefCell<FxHashMap<u64, u64>> = RefCell::default();
     static RAND: RefCell<Random> = RefCell::new(Random::new(None, 42));
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn generate(size: u32) {
     let rand = Random::new(Some(size), 1);
-    let iter = rand.map(|x| (x, x.to_string()));
+    let iter = rand.map(|x| (x, x));
     MAP.with(|map| {
         let mut map = map.borrow_mut();
         for (k, v) in iter {
@@ -47,31 +47,16 @@ fn generate(size: u32) {
     });
 }
 
-#[ic_cdk_macros::update]
-fn get(x: u32) -> Option<String> {
-    MAP.with(|map| map.borrow().get(&x).cloned())
-}
-
-#[ic_cdk_macros::update]
-fn put(k: u32, v: String) {
-    MAP.with(|map| map.borrow_mut().insert(k, v));
-}
-
-#[ic_cdk_macros::update]
-fn remove(x: u32) {
-    MAP.with(|map| map.borrow_mut().remove(&x));
-}
-
-#[ic_cdk_macros::query]
+#[ic_cdk::query]
 fn get_mem() -> (u128, u128, u128) {
     let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
     (size, size, size)
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn batch_get(n: u32) {
     MAP.with(|map| {
-        let map = map.borrow();
+        let map = map.borrow_mut(); // mut to ensure get doesn't get inlined by the compiler
         RAND.with(|rand| {
             let mut rand = rand.borrow_mut();
             for _ in 0..n {
@@ -82,7 +67,7 @@ fn batch_get(n: u32) {
     })
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn batch_put(n: u32) {
     MAP.with(|map| {
         let mut map = map.borrow_mut();
@@ -90,22 +75,20 @@ fn batch_put(n: u32) {
             let mut rand = rand.borrow_mut();
             for _ in 0..n {
                 let k = rand.next().unwrap();
-                map.insert(k, k.to_string());
+                map.insert(k, k);
             }
         })
     })
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn batch_remove(n: u32) {
+    let mut rand = Random::new(None, 1);
     MAP.with(|map| {
         let mut map = map.borrow_mut();
-        RAND.with(|rand| {
-            let mut rand = rand.borrow_mut();
-            for _ in 0..n {
-                let k = rand.next().unwrap();
-                map.remove(&k);
-            }
-        })
+        for _ in 0..n {
+            let k = rand.next().unwrap();
+            map.remove(&k);
+        }
     })
 }

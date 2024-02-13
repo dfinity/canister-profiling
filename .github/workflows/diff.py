@@ -1,7 +1,14 @@
+import stats
 import sys
 import pandas as pd
 import markdown
 import re
+
+if len(sys.argv) == 2 and sys.argv[1] == "final":
+    stats.load_stats()
+    print("# Overall Statistics\n")
+    stats.output_stats()
+    sys.exit(0)
 
 if len(sys.argv) < 3:
     print("Usage: python diff.py [current.md] [main.md]")
@@ -46,12 +53,16 @@ def read_tables(file):
         print(f"> **Warning**\n> Skip {file}. File not found.\n")
         sys.exit(0)
 
+
+
 current = read_tables(sys.argv[1])
 main = read_tables(sys.argv[2])
 
 if len(current) != len(main):
     print(f"> **Warning**\n> Skip {sys.argv[1]}, due to the number of tables mismatches from main branch.\n")
     sys.exit(0)
+
+flaky_benchmarks = ["## Heartbeat"]
 
 for i, ((header, current), (header2, main)) in enumerate(zip(current, main)):
     if header == header2 and current.shape == main.shape and all(current.columns == main.columns) and all(current.index == main.index):
@@ -72,8 +83,20 @@ for i, ((header, current), (header2, main)) in enumerate(zip(current, main)):
                     result.loc[idx, col] = f"{x:_} ($\\textcolor{{red}}{{{d:.2f}\\\\%}}$)"
                 else:
                     result.loc[idx, col] = f"{x:_}"
+                if header in flaky_benchmarks:
+                    continue
+                if col.endswith("binary_size"):
+                    stats.data["binary_size"].append(d)
+                elif col.endswith("max mem"):
+                    stats.data["max_mem"].append(d)
+                else:
+                    stats.data["cycles"].append(d)
         print(result.to_markdown())
         print(f"\n")
     else:
         print(f"> **Warning**\n> Skip table {i} {header} from {sys.argv[1]}, due to table shape mismatches from main branch.\n")
 
+print(f"## Statistics\n\n")
+stats.output_stats()
+
+stats.save_stats()

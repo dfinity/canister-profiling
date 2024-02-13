@@ -33,7 +33,7 @@ fn val_from_string(s: String) -> Value_ {
     Value::from_literal(&Literal::Text(s)).unwrap().share()
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn generate(size: u32) {
     CORE.with(|core| {
         let mut core = core.borrow_mut();
@@ -53,13 +53,13 @@ fn generate(size: u32) {
     })
 }
 
-#[ic_cdk_macros::query]
+#[ic_cdk::query]
 fn get_mem() -> (u128, u128, u128) {
     let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
     (size, size, size)
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn get(x: u32) -> Option<String> {
     let _r = CORE
         .with(|core| {
@@ -74,7 +74,7 @@ fn get(x: u32) -> Option<String> {
     None
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn put(k: u32, v: String) {
     CORE.with(|core| {
         let mut core = core.borrow_mut();
@@ -92,7 +92,7 @@ fn put(k: u32, v: String) {
     .unwrap();
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn remove(x: u32) {
     CORE.with(|core| {
         (core.borrow_mut()).continue_(&Limits::none()).unwrap();
@@ -109,7 +109,7 @@ fn remove(x: u32) {
     .unwrap();
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn batch_get(n: u32) {
     CORE.with(|core| {
         (core.borrow_mut()).continue_(&Limits::none()).unwrap();
@@ -128,7 +128,7 @@ fn batch_get(n: u32) {
     .unwrap();
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn batch_put(n: u32) {
     CORE.with(|core| {
         (core.borrow_mut()).continue_(&Limits::none()).unwrap();
@@ -149,7 +149,7 @@ fn batch_put(n: u32) {
     .unwrap();
 }
 
-#[ic_cdk_macros::update]
+#[ic_cdk::update]
 fn batch_remove(n: u32) {
     CORE.with(|core| {
         (core.borrow_mut()).continue_(&Limits::none()).unwrap();

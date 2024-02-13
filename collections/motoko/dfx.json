@@ -4,15 +4,15 @@
       "type": "motoko",
       "main": "src/hashmap.mo"
     },
-    "triemap" : {
+    "triemap": {
       "type": "motoko",
       "main": "src/triemap.mo"
     },
-    "rbtree" : {
+    "rbtree": {
       "type": "motoko",
       "main": "src/rbtree.mo"
     },
-    "splay" : {
+    "splay": {
       "type": "motoko",
       "main": "src/splay.mo"
     },
@@ -27,11 +27,19 @@
     "zhenya_hashmap": {
       "type": "motoko",
       "main": "src/ZhenyaHashmap.mo"
+    },
+    "buffer": {
+      "type": "motoko",
+      "main": "src/buffer.mo"
+    },
+    "vector": {
+      "type": "motoko",
+      "main": "src/vector.mo"
     }
   },
   "defaults": {
     "build": {
-      "packtool": "vessel sources",
+      "packtool": "mops sources",
       "args": ""
     }
   }

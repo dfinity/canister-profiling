@@ -1,7 +1,7 @@
 #!ic-repl
 load "../prelude.sh";
 
-import fake = "2vxsx-fae" as "motoko/.dfx/local/canisters/dip721_nft/dip721_nft.did";
+import fake = "2vxsx-fae" as "motoko/.dfx/local/canisters/dip721_nft/constructor.did";
 
 // Setup initial account
 identity alice;

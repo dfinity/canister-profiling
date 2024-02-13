@@ -65,7 +65,8 @@ output(file, stringify("[", __cost__, "](", svg, ")|\n"));
 flamegraph(DAO, "DAO.vote", svg);
 };
 
-import init = "2vxsx-fae" as "motoko/.dfx/local/canisters/basic_dao/basic_dao.did";
+import init = "2vxsx-fae" as "motoko/.dfx/local/canisters/basic_dao/constructor.did";
 perf(motoko, "Motoko", init);
-import init = "2vxsx-fae" as "rust/.dfx/local/canisters/basic_dao/basic_dao.did";
+import init = "2vxsx-fae" as "rust/.dfx/local/canisters/basic_dao/constructor.did";
 perf(rust, "Rust", init);
+

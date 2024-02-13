@@ -11,18 +11,25 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.13.1
-      VESSEL_VERSION: v0.6.4
-      IC_REPL_VERSION: 0.3.18
-      MOC_ARTIFACT: 676558399
+      DFX_VERSION: 0.14.3
+      IC_REPL_VERSION: 0.4.1
+      MOC_VERSION: 0.9.7
+      IC_WASM_VERSION: 0.4.0
+      MOC_ARTIFACT: 1242499691
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'build_base')
         uses: actions/checkout@v3
         with:
           ref: gh-pages
           path: main/_out
+      - name: Checkout out base branch
+        if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'build_base')
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          path: main/
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -45,24 +52,37 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           python -m pip install --upgrade pip
-          pip install pandas markdown lxml html5lib bs4 tabulate
-      - name: Install dfx
+          pip install pandas markdown lxml html5lib bs4 tabulate scipy
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install ic-repl, mops, dfx, and moc
         run: |
           echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
           wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-linux64
           cp ./ic-repl-linux64 /usr/local/bin/ic-repl
           chmod a+x /usr/local/bin/ic-repl
-          wget https://github.com/dfinity/vessel/releases/download/$VESSEL_VERSION/vessel-linux64
-          cp ./vessel-linux64 /usr/local/bin/vessel
-          chmod a+x /usr/local/bin/vessel
+          npm i -g ic-mops
           dfx cache install
           wget https://nightly.link/dfinity/motoko/actions/artifacts/$MOC_ARTIFACT.zip
           unzip $MOC_ARTIFACT.zip
           chmod a+x bin/moc
           cp -rf bin/moc $(dfx cache show)
-      - name: Start dfx
+          wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-linux64
+          cp ./ic-wasm-linux64 /usr/local/bin/ic-wasm
+          chmod a+x /usr/local/bin/ic-wasm
+      - name: Setup system subnet and start dfx
         run: |
+          mkdir -p $HOME/.config/dfx
+          cp networks.json $HOME/.config/dfx/
           dfx start --background
+      - name: Run perf for base branch
+        if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'build_base')
+        run: |
+          cd main
+          make
+          dfx stop
+          dfx start --clean --background
       - name: Run perf
         run: make
       - name: Generate table
@@ -103,6 +123,7 @@ jobs:
               fi
             fi
           done
+          python .github/workflows/diff.py final >> DIFF.md
       - name: Read table
         if: github.event_name == 'pull_request'
         id: perf
@@ -117,7 +138,7 @@ jobs:
           path: ./DIFF.md
       - name: Find diff comment
         if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v2 
+        uses: peter-evans/find-comment@v2
         id: fc_diff
         with:
           issue-number: ${{ github.event.pull_request.number }}
@@ -134,8 +155,8 @@ jobs:
           edit-mode: replace
       - name: Find performance comment
         if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v2 
-        id: fc                            
+        uses: peter-evans/find-comment@v2
+        id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
