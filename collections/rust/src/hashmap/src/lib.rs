@@ -1,38 +1,25 @@
 use fxhash::FxHashMap;
 use std::cell::RefCell;
-
-struct Random {
-    state: u64,
-    size: Option<u32>,
-    ind: u32,
-}
-impl Random {
-    pub fn new(size: Option<u32>, seed: u64) -> Self {
-        Random {
-            state: seed,
-            size,
-            ind: 0,
-        }
-    }
-}
-impl Iterator for Random {
-    type Item = u64;
-    fn next(&mut self) -> Option<Self::Item> {
-        if let Some(size) = self.size {
-            self.ind += 1;
-            if self.ind > size {
-                return None;
-            }
-        }
-        self.state = self.state * 48271 % 0x7fffffff;
-        Some(self.state)
-    }
-}
+use utils::Random;
 
 thread_local! {
     // FxHashMap uses the same std::collections::HashMap with a deterministic hasher
     static MAP: RefCell<FxHashMap<u64, u64>> = RefCell::default();
     static RAND: RefCell<Random> = RefCell::new(Random::new(None, 42));
+}
+
+#[ic_cdk::init]
+fn init() {
+    utils::profiling_init();
+}
+#[ic_cdk::pre_upgrade]
+fn pre_upgrade() {
+    MAP.with(|map| utils::save_stable(&map));
+}
+#[ic_cdk::post_upgrade]
+fn post_upgrade() {
+    let value: FxHashMap<u64, u64> = utils::restore_stable();
+    MAP.with(|cell| *cell.borrow_mut() = value);
 }
 
 #[ic_cdk::update]
@@ -49,8 +36,7 @@ fn generate(size: u32) {
 
 #[ic_cdk::query]
 fn get_mem() -> (u128, u128, u128) {
-    let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
-    (size, size, size)
+    utils::get_mem()
 }
 
 #[ic_cdk::update]

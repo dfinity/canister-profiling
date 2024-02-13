@@ -4,6 +4,20 @@ thread_local! {
     static MAP: RefCell<Vec<u64>> = RefCell::default();
 }
 
+#[ic_cdk::init]
+fn init() {
+    utils::profiling_init();
+}
+#[ic_cdk::pre_upgrade]
+fn pre_upgrade() {
+    MAP.with(|map| utils::save_stable(&map));
+}
+#[ic_cdk::post_upgrade]
+fn post_upgrade() {
+    let value: Vec<u64> = utils::restore_stable();
+    MAP.with(|cell| *cell.borrow_mut() = value);
+}
+
 #[ic_cdk::update]
 fn generate(size: u32) {
     MAP.with(|map| {
@@ -17,8 +31,7 @@ fn generate(size: u32) {
 
 #[ic_cdk::query]
 fn get_mem() -> (u128, u128, u128) {
-    let size = core::arch::wasm32::memory_size(0) as u128 * 32768;
-    (size, size, size)
+    utils::get_mem()
 }
 
 #[ic_cdk::update]

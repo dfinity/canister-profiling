@@ -4,11 +4,14 @@ import Hash "mo:base/Hash";
 import Iter "mo:base/Iter";
 import Option "mo:base/Option";
 import Random "random";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
+    stable let profiling = Profiling.init();
+    
     func f_hash(x : Nat64) : Nat32 = Hash.hash(Nat64.toNat x);
-    let hash : HashMap.HashUtils<Nat64> = (f_hash, Nat64.equal, func() = 0);
-    stable var map = HashMap.new<Nat64, Nat64>(hash);
+    let hash : HashMap.HashUtils<Nat64> = (f_hash, Nat64.equal);
+    stable var map = HashMap.new<Nat64, Nat64>();
     let rand = Random.new(null, 42);
 
     public func generate(size : Nat32) : async () {

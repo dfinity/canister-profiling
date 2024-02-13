@@ -12,6 +12,7 @@ crate-type = ["cdylib"]
 candid.workspace = true
 ic-cdk.workspace = true
 ic-certified-map = "0.4"
+utils = { path = "../../../../utils/rust" }
 serde_bytes = "0.11"
 serde_cbor = "0.11"
 serde = "1"

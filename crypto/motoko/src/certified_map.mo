@@ -3,10 +3,13 @@ import Blob "mo:base/Blob";
 import { tabulate } "mo:base/Array";
 import { range } "mo:base/Iter";
 import Utils "utils";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
+    stable let profiling = Profiling.init();
+
     var counter : Nat8 = 0;
-    let cert_store : CertTree.Store = CertTree.newStore();
+    stable let cert_store : CertTree.Store = CertTree.newStore();
     let tree = CertTree.Ops(cert_store);
 
     public func generate(size : Nat) : async () {

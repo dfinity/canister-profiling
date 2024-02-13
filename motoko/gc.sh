@@ -1,14 +1,15 @@
 #!ic-repl
 load "../prelude.sh";
 
-let default = wasm_profiling("default.wasm", vec{"schedule_copying_gc"});
-let copying = wasm_profiling("copying.wasm", vec {"copying_gc"});
-let compacting = wasm_profiling("compacting.wasm", vec{"compacting_gc"});
-let generational = wasm_profiling("generational.wasm", vec{"generational_gc"});
-let incremental = wasm_profiling("incremental.wasm", vec{"incremental_gc"});
+let mo_config = record { start_page = 16; page_limit = 128 };
+let default = wasm_profiling("motoko/default.wasm", concat(mo_config, record { trace_only_funcs = vec{"schedule_copying_gc"} }));
+let copying = wasm_profiling("motoko/copying.wasm", concat(mo_config, record { trace_only_funcs = vec {"copying_gc"} }));
+let compacting = wasm_profiling("motoko/compacting.wasm", concat(mo_config, record { trace_only_funcs = vec{"compacting_gc"} }));
+let generational = wasm_profiling("motoko/generational.wasm", concat(mo_config, record { trace_only_funcs = vec{"generational_gc"} }));
+let incremental = wasm_profiling("motoko/incremental.wasm", concat(mo_config, record { trace_only_funcs = vec{"incremental_gc"} }));
 
 let file = "README.md";
-output(file, "\n\n## Garbage Collection\n\n| |generate 800k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
+output(file, "\n\n## Garbage Collection\n\n| |generate 700k|max mem|batch_get 50|batch_put 50|batch_remove 50|\n|--:|--:|--:|--:|--:|--:|\n");
 
 function perf_mo(wasm, title, init) {
   let cid = install(wasm, encode (), null);
@@ -40,7 +41,7 @@ function perf_mo(wasm, title, init) {
   uninstall(cid);
 };
 
-let init_size = 800_000;
+let init_size = 700_000;
 perf_mo(default, "default", init_size);
 perf_mo(copying, "copying", init_size);
 perf_mo(compacting, "compacting", init_size);

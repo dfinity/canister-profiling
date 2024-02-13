@@ -76,7 +76,10 @@ for i, ((header, current), (header2, main)) in enumerate(zip(current, main)):
             for col in current.columns:
                 x = row[col]
                 base = main.loc[idx, col]
-                d = (x - base) / base * 100
+                if base == 0:
+                    d = 0
+                else:
+                    d = (x - base) / base * 100
                 if d < 0:
                     result.loc[idx, col] = f"{x:_} ($\\textcolor{{green}}{{{d:.2f}\\\\%}}$)"
                 elif d > 0:

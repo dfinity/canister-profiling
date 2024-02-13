@@ -4,11 +4,22 @@ import Iter "mo:base/Iter";
 import Option "mo:base/Option";
 import Random "random";
 import O "mo:base/Order";
+import Profiling "../../../utils/motoko/Profiling";
 
 actor {
+    stable let profiling = Profiling.init();
+    
     func compare(x: (Nat64, Nat64), y: (Nat64, Nat64)) : O.Order = Nat64.compare(x.0, y.0);
     var map = Splay.Splay<(Nat64, Nat64)>(compare);
+    stable var stableMap : [(Nat64, Nat64)] = [];
     let rand = Random.new(null, 42);
+
+    system func preupgrade() {
+        stableMap := Iter.toArray(map.entries());
+    };
+    system func postupgrade() {
+        map.fromArray(stableMap);
+    };
     
     public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);

@@ -6,5 +6,11 @@
     "basic_dao": {
       "main": "basic_dao/Main.mo"
     }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "mops sources",
+      "args": ""
+    }
   }
 }

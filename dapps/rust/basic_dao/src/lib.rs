@@ -1,16 +1,53 @@
 mod env;
 mod heartbeat;
-mod init;
 mod service;
 mod types;
 
-use crate::service::BasicDaoService;
+use crate::env::CanisterEnvironment;
+use crate::service::{BasicDaoService, StableState};
 use crate::types::*;
-use ic_cdk::{query, update};
+use ic_cdk::{init, post_upgrade, pre_upgrade, query, update};
 use std::cell::RefCell;
 
 thread_local! {
     static SERVICE: RefCell<BasicDaoService> = RefCell::default();
+}
+
+#[init]
+fn init(init_state: BasicDaoStableStorage) {
+    ic_cdk::setup();
+    utils::profiling_init();
+    let mut init_service = BasicDaoService::from(init_state);
+    init_service.env = Box::new(CanisterEnvironment {});
+
+    SERVICE.with(|service| *service.borrow_mut() = init_service);
+}
+
+#[pre_upgrade]
+fn pre_upgrade() {
+    SERVICE.with(|serv| {
+        let serv = serv.borrow();
+        let v = StableState {
+            accounts: serv.accounts.clone(),
+            proposals: serv.proposals.clone(),
+            next_proposal_id: serv.next_proposal_id,
+            system_params: serv.system_params.clone(),
+        };
+        utils::save_stable(&v);
+    });
+}
+#[post_upgrade]
+fn post_upgrade() {
+    let v: StableState = utils::restore_stable();
+    SERVICE.with(|cell| {
+        *cell.borrow_mut() = BasicDaoService {
+            env: Box::new(CanisterEnvironment {}),
+            accounts: v.accounts,
+            proposals: v.proposals,
+            next_proposal_id: v.next_proposal_id,
+            system_params: v.system_params,
+        }
+    });
 }
 
 #[query]

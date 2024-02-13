@@ -5,14 +5,13 @@ use std::cell::RefCell;
 use std::collections::{HashMap, HashSet};
 use std::convert::TryFrom;
 use std::iter::FromIterator;
-use std::mem;
 use std::num::TryFromIntError;
 use std::result::Result as StdResult;
 
 use candid::{CandidType, Deserialize, Encode, Principal};
 use ic_cdk::{
     api::{self, call},
-    init, post_upgrade, pre_upgrade, query, storage, update,
+    init, post_upgrade, pre_upgrade, query, update,
 };
 
 const MGMT: Principal = Principal::from_slice(&[]);
@@ -21,21 +20,16 @@ thread_local! {
     static STATE: RefCell<State> = RefCell::default();
 }
 
-#[derive(CandidType, Deserialize)]
-struct StableState {
-    state: State,
-}
-
 #[pre_upgrade]
 fn pre_upgrade() {
-    let state = STATE.with(|state| mem::take(&mut *state.borrow_mut()));
-    let stable_state = StableState { state };
-    storage::stable_save((stable_state,)).unwrap();
+    STATE.with(|state| {
+        utils::save_stable(&state);
+    });
 }
 #[post_upgrade]
 fn post_upgrade() {
-    let (StableState { state },) = storage::stable_restore().unwrap();
-    STATE.with(|state0| *state0.borrow_mut() = state);
+    let value: State = utils::restore_stable();
+    STATE.with(|cell| *cell.borrow_mut() = value);
 }
 
 #[derive(CandidType, Deserialize)]
@@ -48,6 +42,7 @@ struct InitArgs {
 
 #[init]
 fn init(args: InitArgs) {
+    utils::profiling_init();
     STATE.with(|state| {
         let mut state = state.borrow_mut();
         state.custodians = args
@@ -247,7 +242,7 @@ fn transfer_from_notify(from: Principal, to: Principal, token_id: u64, data: Vec
         // That means the original transfer must reply before that happens, or the caller will be
         // convinced that the transfer failed when it actually succeeded. So we don't await the call,
         // so that we'll reply immediately regardless of how long the notification call takes.
-        let _ = api::call::call_raw(to, "onDIP721Received", &arg, 0);
+        std::mem::drop(api::call::call_raw(to, "onDIP721Received", &arg, 0));
     }
     Ok(res)
 }

@@ -12,3 +12,4 @@ crate-type = ["cdylib"]
 ic-cdk.workspace = true
 serde.workspace = true
 candid.workspace = true
+utils = { path = "../../../utils/rust" }

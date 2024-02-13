@@ -8,11 +8,11 @@ const ACCOUNT_SEPERATOR: &[u8] = b"\x0Aaccount-id";
 
 #[ic_cdk::update]
 fn sha256(blob: ByteBuf) -> ByteBuf {
-    ByteBuf::from(&mut sha2::Sha256::digest(&blob)[..])
+    ByteBuf::from(&mut sha2::Sha256::digest(blob)[..])
 }
 #[ic_cdk::update]
 fn sha512(blob: ByteBuf) -> ByteBuf {
-    ByteBuf::from(&mut sha2::Sha512::digest(&blob)[..])
+    ByteBuf::from(&mut sha2::Sha512::digest(blob)[..])
 }
 #[ic_cdk::update]
 fn principalToAccount(id: Principal) -> ByteBuf {
@@ -25,9 +25,9 @@ fn principalToAccount(id: Principal) -> ByteBuf {
 #[ic_cdk::update]
 fn principalToNeuron(id: Principal, nonce: u64) -> ByteBuf {
     let mut data = Sha256::new();
-    data.update(&[0x0c]);
+    data.update([0x0c]);
     data.update(b"neuron-stake");
     data.update(id.as_slice());
-    data.update(&nonce.to_be_bytes());
+    data.update(nonce.to_be_bytes());
     ByteBuf::from(&mut data.finalize()[..])
 }
