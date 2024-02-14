@@ -19,7 +19,7 @@ module {
                };
           };
           state := state * 48271 % modulus;
-          ?(state>>4);
+          ?(state >> 4);
       };
     };
     public func get_memory(): (Nat,Nat,Nat) {
