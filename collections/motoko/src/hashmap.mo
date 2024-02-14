@@ -9,7 +9,7 @@ import Profiling "../../../utils/motoko/Profiling";
 
 actor {
     stable let profiling = Profiling.init();
-    
+
     func hash(x: Nat64) : Nat32 = Hash.hash(Nat64.toNat x);
     var map = HashMap.HashMap<Nat64, Nat64>(0, Nat64.equal, hash);
     stable var stableMap: [(Nat64, Nat64)] = [];
