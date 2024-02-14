@@ -4,7 +4,7 @@ import Prim "mo:⛔";
 
 module {
     public class new(size: ?Nat32, seed: Nat64) {
-      let modulus : Nat64 = 0xfffffff; //0x7fffffff;
+      let modulus : Nat64 = 0x7fffffff;
       var state : Nat64 = seed;
       var ind : Nat32 = 0;
 
@@ -19,7 +19,7 @@ module {
                };
           };
           state := state * 48271 % modulus;
-          ?state;
+          ?(state>>4);
       };
     };
     public func get_memory(): (Nat,Nat,Nat) {
