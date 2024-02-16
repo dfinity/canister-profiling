@@ -9,7 +9,7 @@ import Prim "mo:prim";
 actor {
     stable let profiling = Profiling.init();
 
-    let hash : HashMap.HashUtils<Nat64> = Map.n64hash;
+    let hash : HashMap.HashUtils<Nat64> = HashMap.n64hash;
     stable var map = HashMap.new<Nat64, Nat64>();
     let rand = Random.new(null, 42);
 
