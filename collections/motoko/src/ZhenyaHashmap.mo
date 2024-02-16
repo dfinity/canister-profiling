@@ -9,7 +9,7 @@ import Prim "mo:prim";
 actor {
     stable let profiling = Profiling.init();
 
-    let public func hashNat64(key: Nat64): Nat32 {
+    hashNat64(key: Nat64): Nat32 {
       Prim.nat64ToNat32(key & 0x0fff_ffff);
     };
 
