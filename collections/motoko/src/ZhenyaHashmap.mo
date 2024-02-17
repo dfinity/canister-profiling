@@ -9,7 +9,6 @@ import Prim "mo:prim";
 actor {
     stable let profiling = Profiling.init();
 
-
     // avoid boxed hashes
     func hashNat64(key: Nat64) : Nat32 {
       Prim.nat64ToNat32(key & 0x7ff_ffff); // Nat32 is 27-bit
