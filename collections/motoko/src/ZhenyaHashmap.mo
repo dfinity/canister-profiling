@@ -9,8 +9,9 @@ import Prim "mo:prim";
 actor {
     stable let profiling = Profiling.init();
 
+    // avoid boxed hashes
     let public func hashNat64(key: Nat64): Nat32 {
-      Prim.nat64ToNat32(key & 0x0fff_ffff);
+      Prim.nat64ToNat32(key & 0x7ff_ffff); // Nat32 is 27-bit
     };
 
     let hash : HashMap.HashUtils<Nat64> = (hashNat64, func (x,y) = x == y);
