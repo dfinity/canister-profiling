@@ -16,6 +16,7 @@ jobs:
       MOC_VERSION: 0.10.4
       IC_WASM_VERSION: 0.7.0
       RUSTC_VERSION: 1.75.0
+      MOC_ARTIFACT: 1254959535
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
@@ -64,9 +65,10 @@ jobs:
           chmod a+x /usr/local/bin/ic-repl
           npm i -g ic-mops
           dfx cache install
-          cd $(dfx cache show)
-          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-Darwin-x86_64-$MOC_VERSION.tar.gz
-          tar zxvf motoko-Darwin-x86_64-$MOC_VERSION.tar.gz
+          wget https://nightly.link/dfinity/motoko/actions/artifacts/$MOC_ARTIFACT.zip
+          unzip $MOC_ARTIFACT.zip
+          chmod a+x bin/moc
+          cp -rf bin/moc $(dfx cache show)
           wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-macos
           cp ./ic-wasm-macos /usr/local/bin/ic-wasm
           chmod a+x /usr/local/bin/ic-wasm
