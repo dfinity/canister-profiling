@@ -16,7 +16,7 @@ jobs:
       MOC_VERSION: 0.10.4
       IC_WASM_VERSION: 0.7.0
       RUSTC_VERSION: 1.75.0
-      MOC_ARTIFACT: 1254717873
+      MOC_ARTIFACT: 1254821742
     steps:
       - uses: actions/checkout@v3
       - name: Checkout out gh-pages report
