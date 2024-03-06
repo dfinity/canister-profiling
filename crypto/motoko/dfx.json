@@ -12,7 +12,7 @@
   "defaults": {
     "build": {
       "packtool": "mops sources",
-      "args": ""
+      "args": "--experimental-rtti"
     }
   }
 }
