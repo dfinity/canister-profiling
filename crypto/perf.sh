@@ -69,7 +69,7 @@ function perf_map(wasm, title, init_size) {
   witness;
 };
 
-//let res1 = perf_sha(sha_mo, "Motoko");
+let res1 = perf_sha(sha_mo, "Motoko");
 
 // let res2 = perf_sha(sha_rs, "Rust");
 // assert res1 == res2;
