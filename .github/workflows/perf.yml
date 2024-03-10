@@ -11,13 +11,14 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.16.1
+      DFX_VERSION: 0.18.0-beta.3
       IC_REPL_VERSION: 0.6.2
-      MOC_VERSION: 0.10.4
+      MOC_VERSION: 0.11.0
       IC_WASM_VERSION: 0.7.0
-      RUSTC_VERSION: 1.75.0
+      RUSTC_VERSION: 1.76.0
+      MOC_ARTIFACT: 1313046367
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Checkout out gh-pages report
         if: github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'build_base')
         uses: actions/checkout@v3
@@ -26,7 +27,7 @@ jobs:
           path: main/_out
       - name: Checkout out base branch
         if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'build_base')
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.base_ref }}
           path: main/
@@ -37,14 +38,14 @@ jobs:
           override: true
           target: wasm32-unknown-unknown
       - name: Cache cargo build
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             target
           key: cargo-${{ env.RUSTC_VERSION }}-${{ hashFiles('**/Cargo.lock') }}
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         if: github.event_name == 'pull_request'
         with:
           python-version: "3.10"
@@ -53,20 +54,24 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pandas markdown lxml html5lib bs4 tabulate scipy
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: Install ic-repl, mops, dfx, and moc
+      - name: Install dfx
+        uses: dfinity/setup-dfx@main
+        with:
+          dfx-version: ${{ env.DFX_VERSION }}
+      - name: Install ic-repl, mops and moc
         run: |
-          echo y | DFX_VERSION=$DFX_VERSION bash -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
           wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-macos
           cp ./ic-repl-macos /usr/local/bin/ic-repl
           chmod a+x /usr/local/bin/ic-repl
           npm i -g ic-mops
           dfx cache install
-          cd $(dfx cache show)
-          wget https://github.com/dfinity/motoko/releases/download/$MOC_VERSION/motoko-Darwin-x86_64-$MOC_VERSION.tar.gz
-          tar zxvf motoko-Darwin-x86_64-$MOC_VERSION.tar.gz
+          wget https://nightly.link/dfinity/motoko/actions/artifacts/$MOC_ARTIFACT.zip
+          unzip $MOC_ARTIFACT.zip
+          chmod a+x bin/moc
+          cp -rf bin/moc $(dfx cache show)
           wget https://github.com/dfinity/ic-wasm/releases/download/$IC_WASM_VERSION/ic-wasm-macos
           cp ./ic-wasm-macos /usr/local/bin/ic-wasm
           chmod a+x /usr/local/bin/ic-wasm
@@ -173,7 +178,7 @@ jobs:
           edit-mode: replace
       - name: Save tables as artifact for forked PR
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: |
