@@ -19,22 +19,22 @@ Measure various features only available in Motoko.
 
 | |generate 700k|max mem|batch_get 50|batch_put 50|batch_remove 50|
 |--:|--:|--:|--:|--:|--:|
-|default|[1_171_395_786](default_init.svg)|51_991_392|[119](default_get.svg)|[119](default_put.svg)|[119](default_remove.svg)|
-|copying|[1_171_395_668](copying_init.svg)|51_991_392|[1_171_104_136](copying_get.svg)|[1_171_195_696](copying_put.svg)|[1_171_106_949](copying_remove.svg)|
-|compacting|[1_672_114_659](compacting_init.svg)|51_991_392|[1_290_052_154](compacting_get.svg)|[1_533_417_828](compacting_put.svg)|[1_564_512_242](compacting_remove.svg)|
-|generational|[2_529_073_372](generational_init.svg)|51_999_856|[999_515_201](generational_get.svg)|[1_232_756](generational_put.svg)|[1_103_869](generational_remove.svg)|
-|incremental|[29_503_170](incremental_init.svg)|985_890_644|[477_971_911](incremental_get.svg)|[493_638_503](incremental_put.svg)|[1_092_284_316](incremental_remove.svg)|
+|default|[1_068_192_695](default_init.svg)|47_793_792|[119](default_get.svg)|[119](default_put.svg)|[119](default_remove.svg)|
+|copying|[1_068_192_577](copying_init.svg)|47_793_792|[1_067_924_316](copying_get.svg)|[1_068_004_203](copying_put.svg)|[1_067_925_853](copying_remove.svg)|
+|compacting|[1_545_586_176](compacting_init.svg)|47_793_792|[1_192_139_528](compacting_get.svg)|[1_415_425_189](compacting_put.svg)|[1_439_317_325](compacting_remove.svg)|
+|generational|[2_304_140_531](generational_init.svg)|47_802_256|[882_208_645](generational_get.svg)|[1_211_144](generational_put.svg)|[1_103_549](generational_remove.svg)|
+|incremental|[29_503_170](incremental_init.svg)|976_097_188|[471_911_803](incremental_get.svg)|[497_465_467](incremental_put.svg)|[1_221_308_722](incremental_remove.svg)|
 
 
 ## Actor class
 
 | |binary size|put new bucket|put existing bucket|get|
 |--|--:|--:|--:|--:|
-|Map|300_186|[816_032](map_put.svg)|[16_099](map_put_existing.svg)|[16_644](map_get.svg)|
+|Map|299_217|[813_521](map_put.svg)|[16_115](map_put_existing.svg)|[16_660](map_get.svg)|
 
 > ## Environment
-> * dfx 0.16.1
-> * Motoko compiler 0.10.4 (source js20w7g2-ysgfrqd0-1cmy11nb-3wdy9y1k)
-> * rustc 1.75.0 (82e1608df 2023-12-21)
-> * ic-repl 0.6.2
+> * dfx 0.18.0
+> * Motoko compiler 0.11.0 (source lndfxrzc-zr7pf1k6-nr3nr3d7-jfla8nbn)
+> * rustc 1.76.0 (07dca489a 2024-02-04)
+> * ic-repl 0.7.0
 > * ic-wasm 0.7.0

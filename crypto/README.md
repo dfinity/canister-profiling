@@ -17,19 +17,19 @@ Measure different cryptographic libraries written in both Motoko and Rust.
 
 | |binary_size|SHA-256|SHA-512|account_id|neuron_id|
 |--:|--:|--:|--:|--:|--:|
-|Motoko|196_492|[273_037_090](Motoko_sha256.svg)|[259_835_230](Motoko_sha512.svg)|[34_373](Motoko_to_account.svg)|[24_897](Motoko_to_neuron.svg)|
-|Rust|537_397|[82_787_911](Rust_sha256.svg)|[56_792_991](Rust_sha512.svg)|[47_914](Rust_to_account.svg)|[50_388](Rust_to_neuron.svg)|
+|Motoko|193_686|[267_743_355](Motoko_sha256.svg)|[247_834_501](Motoko_sha512.svg)|[33_636](Motoko_to_account.svg)|[24_532](Motoko_to_neuron.svg)|
+|Rust|538_677|[82_788_763](Rust_sha256.svg)|[56_793_160](Rust_sha512.svg)|[47_956](Rust_to_account.svg)|[50_870](Rust_to_neuron.svg)|
 
 ## Certified map
 
 | |binary_size|generate 10k|max mem|inc|witness|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|
-|Motoko|245_183|4_763_349_709|3_430_044|[565_117](Motoko_inc.svg)|[402_073](Motoko_witness.svg)|[274_276_383](Motoko_upgrade.svg)|
-|Rust|565_792|6_409_147_805|2_228_224|[1_019_959](Rust_inc.svg)|[303_897](Rust_witness.svg)|[6_019_483_730](Rust_upgrade.svg)|
+|Motoko|243_641|4_666_119_661|3_430_044|[553_629](Motoko_inc.svg)|[407_936](Motoko_witness.svg)|[274_434_719](Motoko_upgrade.svg)|
+|Rust|579_504|6_409_378_412|2_228_224|[1_020_591](Rust_inc.svg)|[304_778](Rust_witness.svg)|[6_025_902_205](Rust_upgrade.svg)|
 
 > ## Environment
-> * dfx 0.16.1
-> * Motoko compiler 0.10.4 (source js20w7g2-ysgfrqd0-1cmy11nb-3wdy9y1k)
-> * rustc 1.75.0 (82e1608df 2023-12-21)
-> * ic-repl 0.6.2
+> * dfx 0.18.0
+> * Motoko compiler 0.11.0 (source lndfxrzc-zr7pf1k6-nr3nr3d7-jfla8nbn)
+> * rustc 1.76.0 (07dca489a 2024-02-04)
+> * ic-repl 0.7.0
 > * ic-wasm 0.7.0
