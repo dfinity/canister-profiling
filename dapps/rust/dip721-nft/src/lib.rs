@@ -185,7 +185,7 @@ fn total_supply() -> u64 {
 fn get_metadata(/* token_id: u64 */) /* -> Result<&'static MetadataDesc> */
 {
     ic_cdk::setup();
-    let token_id = call::arg_data::<(u64,)>().0;
+    let token_id = call::arg_data::<(u64,)>(call::ArgDecoderConfig::default()).0;
     let res: Result<()> = STATE.with(|state| {
         let state = state.borrow();
         let metadata = &state
@@ -211,7 +211,7 @@ struct ExtendedMetadataResult<'a> {
 fn get_metadata_for_user(/* user: Principal */) /* -> Vec<ExtendedMetadataResult> */
 {
     ic_cdk::setup();
-    let user = call::arg_data::<(Principal,)>().0;
+    let user = call::arg_data::<(Principal,)>(call::ArgDecoderConfig::default()).0;
     STATE.with(|state| {
         let state = state.borrow();
         let metadata: Vec<_> = state
