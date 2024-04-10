@@ -99,7 +99,7 @@ checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
 [[package]]
 name = "candid"
 version = "0.10.6"
-source = "git+https://github.com/dfinity/candid.git?branch=perf-ser#c6948eeed21bc867f8d709f4db40f459816dccec"
+source = "git+https://github.com/dfinity/candid.git?branch=perf-ser#bd2174344effc6be12ce357e4fe74e1309a10e5b"
 dependencies = [
  "anyhow",
  "binread",
@@ -121,7 +121,7 @@ dependencies = [
 [[package]]
 name = "candid_derive"
 version = "0.6.6"
-source = "git+https://github.com/dfinity/candid.git?branch=perf-ser#c6948eeed21bc867f8d709f4db40f459816dccec"
+source = "git+https://github.com/dfinity/candid.git?branch=perf-ser#bd2174344effc6be12ce357e4fe74e1309a10e5b"
 dependencies = [
  "lazy_static",
  "proc-macro2",
@@ -442,7 +442,7 @@ checksum = "a54b5297861c651551676e8c43df805dad175cc33bc97dbd992edbbb85dcbcdf"
 [[package]]
 name = "ic_principal"
 version = "0.1.1"
-source = "git+https://github.com/dfinity/candid.git?branch=perf-ser#c6948eeed21bc867f8d709f4db40f459816dccec"
+source = "git+https://github.com/dfinity/candid.git?branch=perf-ser#bd2174344effc6be12ce357e4fe74e1309a10e5b"
 dependencies = [
  "crc32fast",
  "data-encoding",
