@@ -6,7 +6,7 @@ Measure the cost of inter-canister calls from the [Publisher & Subscriber](https
 | |pub_binary_size|sub_binary_size|subscribe_caller|subscribe_callee|publish_caller|publish_callee|
 |--|--:|--:|--:|--:|--:|--:|
 |Motoko|161_290|145_741|[28_593](mo_subscribe.svg)|[11_963](mo_pub_register.svg)|[22_854](mo_publish.svg)|[6_446](mo_sub_update.svg)|
-|Rust|534_397|572_921|[69_856](rs_subscribe.svg)|[43_803](rs_pub_register.svg)|[94_183](rs_publish.svg)|[53_351](rs_sub_update.svg)|
+|Rust|535_946|573_818|[57_488](rs_subscribe.svg)|[37_798](rs_pub_register.svg)|[71_349](rs_publish.svg)|[42_449](rs_sub_update.svg)|
 
 > ## Environment
 > * dfx 0.18.0
