@@ -62,9 +62,10 @@ jobs:
           dfx-version: ${{ env.DFX_VERSION }}
       - name: Install ic-repl, mops and moc
         run: |
-          wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-macos
-          cp ./ic-repl-macos /usr/local/bin/ic-repl
-          chmod a+x /usr/local/bin/ic-repl
+          #wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-macos
+          #cp ./ic-repl-macos /usr/local/bin/ic-repl
+          #chmod a+x /usr/local/bin/ic-repl
+          cargo install ic-repl --git https://github.com/dfinity/ic-repl.git --branch fix-id
           npm i -g ic-mops
           dfx cache install
           cd $(dfx cache show)
