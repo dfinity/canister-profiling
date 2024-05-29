@@ -13,7 +13,7 @@ jobs:
     env:
       DFX_VERSION: 0.20.2-beta.0
       IC_REPL_VERSION: 0.7.4
-      MOC_VERSION: 0.11.1
+      MOC_VERSION: 0.11.0
       IC_WASM_VERSION: 0.7.1
       RUSTC_VERSION: 1.76.0
     steps:
@@ -78,14 +78,14 @@ jobs:
         run: |
           mkdir -p $HOME/.config/dfx
           cp networks.json $HOME/.config/dfx/
-          dfx start --background --pocketic
+          dfx start --background #--pocketic
       - name: Run perf for base branch
         if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'build_base')
         run: |
           cd main
           make
           dfx stop
-          dfx start --clean --background --pocketic
+          dfx start --clean --background #--pocketic
       - name: Run perf
         run: |
           make
