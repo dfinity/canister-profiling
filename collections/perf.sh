@@ -6,7 +6,7 @@ let mo_config = record { start_page = 16; page_limit = 128 };
 let hashmap = wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm", mo_config);
 let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm", mo_config);
 let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", mo_config);
-let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm", mo_config);
+//let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm", mo_config);
 let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm", mo_config);
 let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm", mo_config);
 let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm", mo_config);
@@ -69,7 +69,7 @@ output(file, "\n## Map\n\n| |binary_size|generate 1m|max mem|batch_get 50|batch_
 perf(hashmap, "hashmap", init_size, batch_size);
 perf(triemap, "triemap", init_size, batch_size);
 perf(rbtree, "rbtree", init_size, batch_size);
-perf(splay, "splay", init_size, batch_size);
+//perf(splay, "splay", init_size, batch_size);
 perf(btree, "btree", init_size, batch_size);
 perf(zhenya, "zhenya_hashmap", init_size, batch_size);
 perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
