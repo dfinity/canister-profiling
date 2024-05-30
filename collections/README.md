@@ -29,7 +29,7 @@ the same elements, and the queries are exactly the same. Below we explain the me
 > * Different library has different ways for persisting data during upgrades, there are mainly three categories:
 >   + Use stable variable directly in Motoko: `zhenya_hashmap`, `btree`, `vector`
 >   + Expose and serialize external state (`share/unshare` in Motoko, `candid::Encode` in Rust): `rbtree`, `heap`, `btreemap_rs`, `hashmap_rs`, `heap_rs`, `vector_rs`
->   + Use pre/post-upgrade hooks to convert data into an array: `hashmap`, `splay`, `triemap`, `buffer`, `imrc_hashmap_rs`
+>   + Use pre/post-upgrade hooks to convert data into an array: `hashmap`, `triemap`, `buffer`, `imrc_hashmap_rs`
 > * The stable benchmarks are much more expensive than their non-stable counterpart, because the stable memory API is much more expensive. The benefit is that they get fast upgrade. The upgrade still needs to parse the metadata when initializing the upgraded Wasm module.
 > * `hashmap` uses amortized data structure. When the initial capacity is reached, it has to copy the whole array, thus the cost of `batch_put 50` is much higher than other data structures.
 > * `btree` comes from [mops.one/stableheapbtreemap](https://mops.one/stableheapbtreemap).

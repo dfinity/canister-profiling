@@ -11,11 +11,11 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      DFX_VERSION: 0.18.0
-      IC_REPL_VERSION: 0.7.0
-      MOC_VERSION: 0.11.0
-      IC_WASM_VERSION: 0.7.0
-      RUSTC_VERSION: 1.76.0
+      DFX_VERSION: 0.20.2-beta.0
+      IC_REPL_VERSION: 0.7.4
+      MOC_VERSION: 0.11.1
+      IC_WASM_VERSION: 0.7.1
+      RUSTC_VERSION: 1.78.0
     steps:
       - uses: actions/checkout@v4
       - name: Checkout out gh-pages report
@@ -62,9 +62,10 @@ jobs:
           dfx-version: ${{ env.DFX_VERSION }}
       - name: Install ic-repl, mops and moc
         run: |
-          wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-macos
-          cp ./ic-repl-macos /usr/local/bin/ic-repl
-          chmod a+x /usr/local/bin/ic-repl
+          #wget https://github.com/chenyan2002/ic-repl/releases/download/$IC_REPL_VERSION/ic-repl-macos
+          #cp ./ic-repl-macos /usr/local/bin/ic-repl
+          #chmod a+x /usr/local/bin/ic-repl
+          cargo install ic-repl --git https://github.com/dfinity/ic-repl.git --branch fix-id
           npm i -g ic-mops
           dfx cache install
           cd $(dfx cache show)

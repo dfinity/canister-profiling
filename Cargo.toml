@@ -26,8 +26,8 @@ lto = true
 opt-level = 2
 
 [workspace.dependencies]
-ic-cdk = "0.13.1"
-ic-cdk-timers = "0.7"
+ic-cdk = "0.14.0"
+ic-cdk-timers = "0.8"
 candid = "0.10.4"
 serde = "1"
 ic-stable-structures = "0.6"
