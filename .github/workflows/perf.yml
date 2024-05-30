@@ -78,14 +78,14 @@ jobs:
         run: |
           mkdir -p $HOME/.config/dfx
           cp networks.json $HOME/.config/dfx/
-          dfx start --background --pocketic
+          dfx start --background
       - name: Run perf for base branch
         if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'build_base')
         run: |
           cd main
           make
           dfx stop
-          dfx start --clean --background --pocketic
+          dfx start --clean --background
       - name: Run perf
         run: |
           make
