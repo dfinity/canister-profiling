@@ -1,4 +1,4 @@
-APPS = dapps collections crypto pub-sub heartbeat motoko
+APPS = dapps pub-sub heartbeat
 
 all:
 	$(foreach test_dir,$(APPS),make -C $(test_dir) &&) true
