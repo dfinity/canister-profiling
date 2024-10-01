@@ -3,9 +3,9 @@ load "../prelude.sh";
 
 // use smaller page_limit to speed things up, since the whole trace is too large even with 256M.
 let mo_config = record { start_page = 16; page_limit = 128 };
-//let hashmap = wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm", mo_config);
-//let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm", mo_config);
-//let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", mo_config);
+let hashmap = wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm", mo_config);
+let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm", mo_config);
+let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", mo_config);
 let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm", mo_config);
 //let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm", mo_config);
 //let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm", mo_config);
@@ -64,11 +64,10 @@ function perf(wasm, title, init, batch) {
 let init_size = 1_000_000;
 let batch_size = 50;
 output(file, "\n## Map\n\n| |binary_size|generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|--:|\n");
-/*
+
 perf(hashmap, "hashmap", init_size, batch_size);
 perf(triemap, "triemap", init_size, batch_size);
 perf(rbtree, "rbtree", init_size, batch_size);
-*/
 perf(splay, "splay", init_size, batch_size);
 /*
 perf(btree, "btree", init_size, batch_size);
