@@ -7,12 +7,12 @@ let hashmap = wasm_profiling("motoko/.dfx/local/canisters/hashmap/hashmap.wasm",
 let triemap = wasm_profiling("motoko/.dfx/local/canisters/triemap/triemap.wasm", mo_config);
 let rbtree = wasm_profiling("motoko/.dfx/local/canisters/rbtree/rbtree.wasm", mo_config);
 let splay = wasm_profiling("motoko/.dfx/local/canisters/splay/splay.wasm", mo_config);
-//let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm", mo_config);
-//let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm", mo_config);
-//let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm", mo_config);
-//let buffer = wasm_profiling("motoko/.dfx/local/canisters/buffer/buffer.wasm", mo_config);
-//let vector = wasm_profiling("motoko/.dfx/local/canisters/vector/vector.wasm", mo_config);
-/*
+let btree = wasm_profiling("motoko/.dfx/local/canisters/btreemap/btreemap.wasm", mo_config);
+let zhenya = wasm_profiling("motoko/.dfx/local/canisters/zhenya_hashmap/zhenya_hashmap.wasm", mo_config);
+let heap = wasm_profiling("motoko/.dfx/local/canisters/heap/heap.wasm", mo_config);
+let buffer = wasm_profiling("motoko/.dfx/local/canisters/buffer/buffer.wasm", mo_config);
+let vector = wasm_profiling("motoko/.dfx/local/canisters/vector/vector.wasm", mo_config);
+
 let rs_config = record { start_page = 1; page_limit = 128 };
 let hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/hashmap/hashmap.wasm", rs_config);
 let btreemap_rs = wasm_profiling("rust/.dfx/local/canisters/btreemap/btreemap.wasm", rs_config);
@@ -22,7 +22,6 @@ let heap_stable_rs = wasm_profiling("rust/.dfx/local/canisters/heap_stable/heap_
 let imrc_hashmap_rs = wasm_profiling("rust/.dfx/local/canisters/imrc_hashmap/imrc_hashmap.wasm", rs_config);
 let vector_rs = wasm_profiling("rust/.dfx/local/canisters/vector/vector.wasm", rs_config);
 let vector_stable_rs = wasm_profiling("rust/.dfx/local/canisters/vector_stable/vector_stable.wasm", rs_config);
-*/
 
 let file = "README.md";
 
@@ -69,7 +68,6 @@ perf(hashmap, "hashmap", init_size, batch_size);
 perf(triemap, "triemap", init_size, batch_size);
 perf(rbtree, "rbtree", init_size, batch_size);
 perf(splay, "splay", init_size, batch_size);
-/*
 perf(btree, "btree", init_size, batch_size);
 perf(zhenya, "zhenya_hashmap", init_size, batch_size);
 perf(btreemap_rs, "btreemap_rs", init_size, batch_size);
@@ -96,5 +94,3 @@ perf(heap_rs, "heap_rs", init_size, batch_size);
 perf(heap_stable_rs, "heap_stable_rs", init_size, batch_size);
 perf(vector_rs, "vec_rs", init_size, batch_size);
 perf(vector_stable_rs, "vec_stable_rs", init_size, batch_size);
-*/
-
