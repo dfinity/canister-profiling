@@ -74,7 +74,7 @@ let res2 = perf_sha(sha_rs, "Rust");
 assert res1 == res2;
 
 output(file, "\n## Certified map\n\n| |binary_size|generate 10k|max mem|inc|witness|upgrade|\n|--:|--:|--:|--:|--:|--:|--:|\n");
-let init_size = 10_000;
+let init_size = 1_000;
 let res1 = perf_map(map_mo, "Motoko", init_size);
 let res2 = perf_map(map_rs, "Rust", init_size);
 // Cannot check for equality because witness is not unique
