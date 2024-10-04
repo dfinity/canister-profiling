@@ -35,14 +35,14 @@ endef
 define perf
 	set -e; \
 	$(call prepare_perf,$(1)); \
-	ic-repl ../../$(1)/$(2); \
+	ic-repl -v ../../$(1)/$(2); \
 	du -h ../../_out
 endef
 
 define perf_two
 	set -e; \
 	$(call prepare_perf,$(1)); \
-	ic-repl ../../$(1)/$(2); \
-	ic-repl ../../$(1)/$(3); \
+	ic-repl -v ../../$(1)/$(2); \
+	ic-repl -v ../../$(1)/$(3); \
 	du -h ../../_out
 endef
