@@ -11,19 +11,19 @@ of the replica can affect how we measure this. Typically, a correct flamegraph c
 
 | |binary_size|heartbeat|
 |--:|--:|--:|
-|Motoko|137_183|[19_507](Motoko_heartbeat.svg)|
-|Rust|23_657|[480](Rust_heartbeat.svg)|
+|Motoko|141_883|[27_494](Motoko_heartbeat.svg)|
+|Rust|26_684|[1_201](Rust_heartbeat.svg)|
 
 ## Timer
 
 | |binary_size|setTimer|cancelTimer|
 |--:|--:|--:|--:|
-|Motoko|145_619|[51_778](Motoko_setTimer.svg)|[4_626](Motoko_cancelTimer.svg)|
-|Rust|502_754|[63_379](Rust_setTimer.svg)|[11_676](Rust_cancelTimer.svg)|
+|Motoko|149_709|[56_158](Motoko_setTimer.svg)|[4_695](Motoko_cancelTimer.svg)|
+|Rust|554_248|[64_790](Rust_setTimer.svg)|[12_216](Rust_cancelTimer.svg)|
 
 > ## Environment
-> * dfx 0.18.0
-> * Motoko compiler 0.11.0 (source lndfxrzc-zr7pf1k6-nr3nr3d7-jfla8nbn)
-> * rustc 1.76.0 (07dca489a 2024-02-04)
-> * ic-repl 0.7.0
-> * ic-wasm 0.7.0
+> * dfx 0.24.0
+> * Motoko compiler 0.13.0 (source dq4zmqc9-34xf70ip-6lrc3v7p-z1m6aq95)
+> * rustc 1.81.0 (eeb90cda1 2024-09-04)
+> * ic-repl 0.7.6
+> * ic-wasm 0.9.0
