@@ -43,12 +43,13 @@ the same elements, and the queries are exactly the same. Below we explain the me
 
 | |binary_size|generate 1m|max mem|batch_get 50|batch_put 50|batch_remove 50|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|--:|
-|hashmap|193_766|8_193_819_060|56_000_256|[342_788](hashmap_get.svg)|[6_469_781_020](hashmap_put.svg)|[368_431](hashmap_remove.svg)|[10_766_389_355](hashmap_upgrade.svg)|
-|triemap|199_308|13_670_187_584|68_228_576|[252_704](triemap_get.svg)|[657_887](triemap_put.svg)|[648_184](triemap_remove.svg)|[15_537_338_013](triemap_upgrade.svg)|
-|rbtree|189_827|6_993_676_959|52_000_464|[116_417](rbtree_get.svg)|[317_299](rbtree_put.svg)|[330_296](rbtree_remove.svg)|[6_988_883_198](rbtree_upgrade.svg)|
-|splay|194_386|13_052_525_320|48_000_400|[625_852](splay_get.svg)|[657_023](splay_put.svg)|[920_272](splay_remove.svg)|[4_321_903_638](splay_upgrade.svg)|
-|btree|234_067|10_220_059_976|25_108_416|[357_581](btree_get.svg)|[485_463](btree_put.svg)|[539_509](btree_remove.svg)|[2_906_462_018](btree_upgrade.svg)|
-|zhenya_hashmap|192_598|2_361_649_032|16_777_504|[58_299](zhenya_hashmap_get.svg)|[66_594](zhenya_hashmap_put.svg)|[79_776](zhenya_hashmap_remove.svg)|[3_084_235_946](zhenya_hashmap_upgrade.svg)|
+|hashmap|194_129|8_193_819_060|56_000_256|[342_788](hashmap_get.svg)|[6_469_781_020](hashmap_put.svg)|[368_431](hashmap_remove.svg)|[10_766_389_949](hashmap_upgrade.svg)|
+|triemap|199_671|13_670_187_584|68_228_576|[252_704](triemap_get.svg)|[657_887](triemap_put.svg)|[648_184](triemap_remove.svg)|[15_537_338_607](triemap_upgrade.svg)|
+|orderedmap|198_472|5_918_271_186|36_000_524|[120_106](orderedmap_get.svg)|[287_536](orderedmap_put.svg)|[326_469](orderedmap_remove.svg)|[4_583_353_795](orderedmap_upgrade.svg)|
+|rbtree|190_190|6_993_676_959|52_000_464|[116_417](rbtree_get.svg)|[317_299](rbtree_put.svg)|[330_296](rbtree_remove.svg)|[6_988_883_792](rbtree_upgrade.svg)|
+|splay|194_749|13_052_525_320|48_000_400|[625_852](splay_get.svg)|[657_023](splay_put.svg)|[920_272](splay_remove.svg)|[4_321_904_232](splay_upgrade.svg)|
+|btree|234_430|10_220_059_976|25_108_416|[357_581](btree_get.svg)|[485_463](btree_put.svg)|[539_509](btree_remove.svg)|[2_906_462_612](btree_upgrade.svg)|
+|zhenya_hashmap|192_961|2_361_649_032|16_777_504|[58_299](zhenya_hashmap_get.svg)|[66_594](zhenya_hashmap_put.svg)|[79_776](zhenya_hashmap_remove.svg)|[3_084_236_540](zhenya_hashmap_upgrade.svg)|
 |btreemap_rs|611_851|1_809_789_841|27_590_656|[74_098](btreemap_rs_get.svg)|[124_626](btreemap_rs_put.svg)|[85_214](btreemap_rs_remove.svg)|[3_208_130_200](btreemap_rs_upgrade.svg)|
 |imrc_hashmap_rs|613_202|2_634_915_707|244_908_032|[35_894](imrc_hashmap_rs_get.svg)|[198_252](imrc_hashmap_rs_put.svg)|[96_520](imrc_hashmap_rs_remove.svg)|[6_383_840_797](imrc_hashmap_rs_upgrade.svg)|
 |hashmap_rs|601_477|438_103_157|73_138_176|[20_788](hashmap_rs_get.svg)|[25_678](hashmap_rs_put.svg)|[23_645](hashmap_rs_remove.svg)|[1_545_701_419](hashmap_rs_upgrade.svg)|
@@ -57,15 +58,15 @@ the same elements, and the queries are exactly the same. Below we explain the me
 
 | |binary_size|heapify 1m|max mem|pop_min 50|put 50|pop_min 50|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|--:|
-|heap|170_697|5_557_564_409|24_000_360|[621_758](heap_get.svg)|[227_293](heap_put.svg)|[592_698](heap_remove.svg)|[3_240_817_053](heap_upgrade.svg)|
+|heap|171_060|5_557_564_409|24_000_360|[621_758](heap_get.svg)|[227_293](heap_put.svg)|[592_698](heap_remove.svg)|[3_240_817_647](heap_upgrade.svg)|
 |heap_rs|596_953|143_262_451|18_284_544|[58_563](heap_rs_get.svg)|[21_622](heap_rs_put.svg)|[58_466](heap_rs_remove.svg)|[647_923_463](heap_rs_upgrade.svg)|
 
 ## Growable array
 
 | |binary_size|generate 5k|max mem|batch_get 500|batch_put 500|batch_remove 500|upgrade|
 |--:|--:|--:|--:|--:|--:|--:|--:|
-|buffer|177_754|2_601_290|65_652|[95_575](buffer_get.svg)|[803_545](buffer_put.svg)|[173_575](buffer_remove.svg)|[3_146_134](buffer_upgrade.svg)|
-|vector|175_556|1_952_750|24_588|[126_199](vector_get.svg)|[186_554](vector_put.svg)|[176_192](vector_remove.svg)|[4_779_726](vector_upgrade.svg)|
+|buffer|178_117|2_601_290|65_652|[95_575](buffer_get.svg)|[803_545](buffer_put.svg)|[173_575](buffer_remove.svg)|[3_146_728](buffer_upgrade.svg)|
+|vector|175_919|1_952_750|24_588|[126_199](vector_get.svg)|[186_554](vector_put.svg)|[176_192](vector_remove.svg)|[4_780_320](vector_upgrade.svg)|
 |vec_rs|588_969|287_516|1_376_256|[16_494](vec_rs_get.svg)|[30_089](vec_rs_put.svg)|[22_346](vec_rs_remove.svg)|[3_806_788](vec_rs_upgrade.svg)|
 
 ## Stable structures
@@ -81,7 +82,7 @@ the same elements, and the queries are exactly the same. Below we explain the me
 
 > ## Environment
 > * dfx 0.24.0
-> * Motoko compiler 0.13.0 (source dq4zmqc9-34xf70ip-6lrc3v7p-z1m6aq95)
+> * Motoko compiler 0.13.3 (source ff4il9yc-sfakbpl1-8z4dm2d6-ybdjncj7)
 > * rustc 1.81.0 (eeb90cda1 2024-09-04)
 > * ic-repl 0.7.6
 > * ic-wasm 0.9.0

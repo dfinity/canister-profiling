@@ -30,11 +30,11 @@ Measure various features only available in Motoko.
 
 | |binary size|put new bucket|put existing bucket|get|
 |--|--:|--:|--:|--:|
-|Map|420_662|[757_684](map_put.svg)|[16_349](map_put_existing.svg)|[16_917](map_get.svg)|
+|Map|421_426|[758_787](map_put.svg)|[16_349](map_put_existing.svg)|[16_917](map_get.svg)|
 
 > ## Environment
 > * dfx 0.24.0
-> * Motoko compiler 0.13.0 (source dq4zmqc9-34xf70ip-6lrc3v7p-z1m6aq95)
+> * Motoko compiler 0.13.3 (source ff4il9yc-sfakbpl1-8z4dm2d6-ybdjncj7)
 > * rustc 1.81.0 (eeb90cda1 2024-09-04)
 > * ic-repl 0.7.6
 > * ic-wasm 0.9.0
