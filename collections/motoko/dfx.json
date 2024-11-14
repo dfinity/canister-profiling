@@ -12,6 +12,10 @@
       "type": "motoko",
       "main": "src/rbtree.mo"
     },
+    "orderedmap": {
+      "type": "motoko",
+      "main": "src/orderedmap.mo"
+    },
     "splay": {
       "type": "motoko",
       "main": "src/splay.mo"
