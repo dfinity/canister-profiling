@@ -7,11 +7,11 @@ import Profiling "../../../utils/motoko/Profiling";
 
 actor {
     stable let profiling = Profiling.init();
-    
+
     var Ops = RBTree.Make<Nat64>(Nat64.compare);
     stable var map : RBTree.Map<Nat64, Nat64> = Ops.empty<Nat64>();
     let rand = Random.new(null, 42);
-    
+
     public func generate(size: Nat32) : async () {
         let rand = Random.new(?size, 1);
         let iter = Iter.map<Nat64, (Nat64, Nat64)>(rand, func x = (x, x));
